@@ -1,9 +1,8 @@
 # vethcon: veth devices for containers (for chaining)
 
 # Build
-	git clone 
     go get
-	go build
+    go build
 
 # Usage
 
