@@ -5,18 +5,13 @@ import (
 	"fmt"
 	"net"
 	"strings"
-	"github.com/vishvananda/netlink"
-
-	"github.com/docker/docker/client"
-        "github.com/containernetworking/cni/pkg/ns"
-
 	"github.com/mattn/go-getopt"
 
-//	"github.com/containernetworking/cni/pkg/ip"
-//	"github.com/docker/docker/api/types"
-//	"github.com/docker/docker/api/types/container"
-	"golang.org/x/net/context"
+	"github.com/vishvananda/netlink"
+        "github.com/containernetworking/cni/pkg/ns"
 
+	"github.com/docker/docker/client"
+	"golang.org/x/net/context"
 )
 
 
@@ -83,6 +78,7 @@ func getContainerNS(containerId string) (namespace string, err error) {
 type vEth struct {
 	nsName string
 	linkName string
+	withIPAddr bool
 	ipAddr net.IPNet
 }
 
@@ -108,10 +104,12 @@ func (veth *vEth) setVethLink (link netlink.Link) (err error) {
                         return fmt.Errorf("failed to set %q up: %v", veth.linkName, err)
                 }
 
-		addr := &netlink.Addr{IPNet: &veth.ipAddr, Label:""}
-                if err = netlink.AddrAdd(link, addr); err != nil {
-                        return fmt.Errorf("failed to add IP addr %v to %q: %v", addr, veth.linkName, err)
-                }
+		if veth.withIPAddr {
+			addr := &netlink.Addr{IPNet: &veth.ipAddr, Label:""}
+			if err = netlink.AddrAdd(link, addr); err != nil {
+				return fmt.Errorf("failed to add IP addr %v to %q: %v", addr, veth.linkName, err)
+			}
+		}
 
                 return nil
 	})
@@ -135,7 +133,7 @@ func makeVeth (veth1 vEth, veth2 vEth) {
 
 func parseDOption (s string) (veth vEth, err error) {
 	n := strings.Split(s, ":")
-	if len(n) != 3 {
+	if len(n) != 3 && len(n) != 2 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
@@ -147,22 +145,26 @@ func parseDOption (s string) (veth vEth, err error) {
 
 	veth.linkName = n[1]
 
-	ip, mask, err := net.ParseCIDR(n[2])
-	if err != nil {
-		err = fmt.Errorf("failed to parse IP addr %s", n[2])
-		return
+	if len(n) == 3 {
+		ip, mask, err2 := net.ParseCIDR(n[2])
+		if err2 != nil {
+			err = fmt.Errorf("failed to parse IP addr %s", n[2])
+			return
+		}
+		veth.ipAddr.IP = ip
+		veth.ipAddr.Mask = mask.Mask
+		veth.withIPAddr = true
+	} else {
+		veth.withIPAddr = false
 	}
-	veth.ipAddr.IP = ip
-	veth.ipAddr.Mask = mask.Mask
 
-	//fmt.Printf("%v\n", veth)
 	return
 }
 
-
 /*
- ./vethcon -d centos1:link1:192.168.1.1/24 -d centos2:link2:192.168.1.2/24
-
+ Usage:
+ ./vethcon -d centos1:link1:192.168.1.1/24 -d centos2:link2:192.168.1.2/24 #with IP addr
+ ./vethcon -d centos1:link1 -d centos2:link2  #without IP addr
 */
 func main() {
 
