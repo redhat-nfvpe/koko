@@ -1,5 +1,7 @@
 # vethcon: veth devices for containers (for chaining)
 
+[![Build Status](https://travis-ci.org/s1061123/vethcon.svg?branch=master)](https://travis-ci.org/s1061123/vethcon)
+
 # Build
     go get
     go build
