@@ -53,7 +53,7 @@ func getVethPair(name1 string, name2 string) (link1 netlink.Link, link2 netlink.
 	return
 }
 
-func getContainerNS(containerId string) (namespace string, err error) {
+func getDockerContainerNS(containerId string) (namespace string, err error) {
 	ctx := context.Background()
 	cli, err := client.NewEnvClient()
 	if err != nil {
@@ -114,7 +114,7 @@ func (veth *vEth) setVethLink (link netlink.Link) (err error) {
                 return nil
 	})
 
-	return 
+	return
 }
 
 
@@ -131,14 +131,14 @@ func makeVeth (veth1 vEth, veth2 vEth) {
 }
 
 
-func parseDOption (s string) (veth vEth, err error) {
+func parseNOption (s string) (veth vEth, err error) {
 	n := strings.Split(s, ":")
 	if len(n) != 3 && len(n) != 2 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
-	
-	veth.nsName, err = getContainerNS(n[0])
+
+	veth.nsName = fmt.Sprintf("/var/run/netns/%s", n[0])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v", err)
 	}
@@ -148,7 +148,39 @@ func parseDOption (s string) (veth vEth, err error) {
 	if len(n) == 3 {
 		ip, mask, err2 := net.ParseCIDR(n[2])
 		if err2 != nil {
-			err = fmt.Errorf("failed to parse IP addr %s", n[2])
+			err = fmt.Errorf("failed to parse IP addr %s: %v",
+			                 n[2], err2)
+			return
+		}
+		veth.ipAddr.IP = ip
+		veth.ipAddr.Mask = mask.Mask
+		veth.withIPAddr = true
+	} else {
+		veth.withIPAddr = false
+	}
+
+	return
+}
+
+func parseDOption (s string) (veth vEth, err error) {
+	n := strings.Split(s, ":")
+	if len(n) != 3 && len(n) != 2 {
+		err = fmt.Errorf("failed to parse %s", s)
+		return
+	}
+
+	veth.nsName, err = getDockerContainerNS(n[0])
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v", err)
+	}
+
+	veth.linkName = n[1]
+
+	if len(n) == 3 {
+		ip, mask, err2 := net.ParseCIDR(n[2])
+		if err2 != nil {
+			err = fmt.Errorf("failed to parse IP addr %s: %v",
+			                 n[2], err2)
 			return
 		}
 		veth.ipAddr.IP = ip
@@ -165,6 +197,7 @@ func parseDOption (s string) (veth vEth, err error) {
  Usage:
  ./vethcon -d centos1:link1:192.168.1.1/24 -d centos2:link2:192.168.1.2/24 #with IP addr
  ./vethcon -d centos1:link1 -d centos2:link2  #without IP addr
+ ./vethcon -n /var/run/netns/test1:link1:192.168.1.1/24 <other>
 */
 func main() {
 
@@ -179,7 +212,7 @@ func main() {
 	veth2 := vEth{}
 
 	for {
-		if c = getopt.Getopt("d:"); c == getopt.EOF {
+		if c = getopt.Getopt("d:n:"); c == getopt.EOF {
 			break
 		}
 		switch c {
@@ -187,18 +220,37 @@ func main() {
 			if cnt == 0 {
 				veth1, err = parseDOption(getopt.OptArg)
 				if err != nil {
-					fmt.Fprintf(os.Stderr, "Parse failed %s!", getopt.OptArg)
-					os.Exit(1)				
+					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					os.Exit(1)
 				}
 			} else if cnt == 1 {
 				veth2, err = parseDOption(getopt.OptArg)
 				if err != nil {
-					fmt.Fprintf(os.Stderr, "Parse failed %s!", getopt.OptArg)
-					os.Exit(1)				
+					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					os.Exit(1)
 				}
 			} else {
 				fmt.Fprintf(os.Stderr, "Too many config!")
-				os.Exit(1)				
+				os.Exit(1)
+			}
+			cnt++
+
+		case 'n':
+			if cnt == 0 {
+				veth1, err = parseNOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					os.Exit(1)
+				}
+			} else if cnt == 1 {
+				veth2, err = parseNOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					os.Exit(1)
+				}
+			} else {
+				fmt.Fprintf(os.Stderr, "Too many config!")
+				os.Exit(1)
 			}
 			cnt++
 		}
