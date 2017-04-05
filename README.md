@@ -2,6 +2,10 @@
 
 [![Build Status](https://travis-ci.org/s1061123/vethcon.svg?branch=master)](https://travis-ci.org/s1061123/vethcon)
 
+# What is 'vethcon'?
+`vethcon` is a simple tool which connects between containers with veth devices of linux kernel.
+Using `vethcon`, you can simply make point-to-point connection for containers without linux bridges.
+
 # Build
     go get
     go build
