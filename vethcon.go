@@ -1,14 +1,17 @@
+/**
+ * vethcon: create veth for containers.
+ */
 package main
 
 import (
-	"os"
 	"fmt"
-	"net"
-	"strings"
 	"github.com/mattn/go-getopt"
+	"net"
+	"os"
+	"strings"
 
-	"github.com/vishvananda/netlink"
 	"github.com/containernetworking/cni/pkg/ns"
+	"github.com/vishvananda/netlink"
 
 	"github.com/docker/docker/client"
 	"golang.org/x/net/context"
@@ -16,21 +19,20 @@ import (
 	"github.com/MakeNowJust/heredoc"
 )
 
-
 func makeVethPair(name, peer string, mtu int) (netlink.Link, error) {
-        veth := &netlink.Veth{
-                LinkAttrs: netlink.LinkAttrs{
-                        Name:  name,
-                        Flags: net.FlagUp,
-                        MTU:   mtu,
-                },
-                PeerName: peer,
-        }
+	veth := &netlink.Veth{
+		LinkAttrs: netlink.LinkAttrs{
+			Name:  name,
+			Flags: net.FlagUp,
+			MTU:   mtu,
+		},
+		PeerName: peer,
+	}
 
-        if err := netlink.LinkAdd(veth); err != nil {
-                return nil, err
-        }
-        return veth, nil
+	if err := netlink.LinkAdd(veth); err != nil {
+		return nil, err
+	}
+	return veth, nil
 }
 
 func getVethPair(name1 string, name2 string) (link1 netlink.Link, link2 netlink.Link, err error) {
@@ -39,10 +41,10 @@ func getVethPair(name1 string, name2 string) (link1 netlink.Link, link2 netlink.
 	if err != nil {
 		switch {
 		case os.IsExist(err):
-			err = fmt.Errorf("container veth name provided (%v) already exists\n", name1)
+			err = fmt.Errorf("container veth name provided (%v) already exists", name1)
 			return
 		default:
-			err = fmt.Errorf("failed to make veth pair: %v\n", err)
+			err = fmt.Errorf("failed to make veth pair: %v", err)
 			return
 		}
 	}
@@ -55,16 +57,9 @@ func getVethPair(name1 string, name2 string) (link1 netlink.Link, link2 netlink.
 	return
 }
 
-// ---------------------------------------------------------------- -
-// ------------------------------ get docker container namespace - -
-// -------------------------------------------------------------- -
-// uses docker client to get container's namespace
-// input: container identifier (string)
-// returns: namespace (string), and error
-// -------------------------------------------------------------- -
-
-
-func getDockerContainerNS(containerId string) (namespace string, err error) {
+// getDockerContainerNS retrieves container's network namespace from
+// docker container id, given as containerID.
+func getDockerContainerNS(containerID string) (namespace string, err error) {
 	ctx := context.Background()
 	cli, err := client.NewEnvClient()
 	if err != nil {
@@ -73,45 +68,30 @@ func getDockerContainerNS(containerId string) (namespace string, err error) {
 
 	cli.UpdateClientVersion("1.24")
 
-	json, err := cli.ContainerInspect(ctx, containerId)
+	json, err := cli.ContainerInspect(ctx, containerID)
 	if err != nil {
-		err = fmt.Errorf("failed to get container info: %v\n", err)
+		err = fmt.Errorf("failed to get container info: %v", err)
 		return
 	}
 	if json.NetworkSettings == nil {
-		err = fmt.Errorf("failed to get container info: %v\n", err)
+		err = fmt.Errorf("failed to get container info: %v", err)
 		return
 	}
 	namespace = json.NetworkSettings.NetworkSettingsBase.SandboxKey
 	return
 }
 
-// ---------------------------------------------------- -
-// ------------------------------ veth data object.  - -
-// -------------------------------------------------- -
-// -- defines a data object to describe interfaces
-// -------------------------------------------------- -
-
+// vEth is a structure to descrive veth interfaces.
 type vEth struct {
-	// What's the network namespace?
-	nsName string
-	// And what will we call the link.
-	linkName string
-	// Is there an ip address?
-	withIPAddr bool
-	// What is that ip address.
-	ipAddr net.IPNet
+	nsName     string    // What's the network namespace?
+	linkName   string    // And what will we call the link.
+	withIPAddr bool      // Is there an ip address?
+	ipAddr     net.IPNet // What is that ip address.
 }
 
-// ---------------------------------------------------------------------------------- -
-// Low-level handler to set IP address onveth links given a single vEth data object. 
-// ...primarily used privately by makeVeth()
-// Input: vEth data object
-// Returns: netlink.Link object (currently unused)
-// ---------------------------------------------------------------------------------- -
-
-
-func (veth *vEth) setVethLink (link netlink.Link) (err error) {
+// setVethLink is low-level handler to set IP address onveth links given a single vEth data object.
+// ...primarily used privately by makeVeth().
+func (veth *vEth) setVethLink(link netlink.Link) (err error) {
 	vethNs, err := ns.GetNS(veth.nsName)
 
 	if err != nil {
@@ -123,38 +103,32 @@ func (veth *vEth) setVethLink (link netlink.Link) (err error) {
 		fmt.Fprintf(os.Stderr, "%v", err)
 	}
 
-        err = vethNs.Do(func(_ ns.NetNS) error {
-                link, err := netlink.LinkByName(veth.linkName)
-                if err != nil {
-                        return fmt.Errorf("failed to lookup %q in %q: %v", veth.linkName, vethNs.Path(), err)
-                }
+	err = vethNs.Do(func(_ ns.NetNS) error {
+		link, err := netlink.LinkByName(veth.linkName)
+		if err != nil {
+			return fmt.Errorf("failed to lookup %q in %q: %v", veth.linkName, vethNs.Path(), err)
+		}
 
-                if err = netlink.LinkSetUp(link); err != nil {
-                        return fmt.Errorf("failed to set %q up: %v", veth.linkName, err)
-                }
+		if err = netlink.LinkSetUp(link); err != nil {
+			return fmt.Errorf("failed to set %q up: %v", veth.linkName, err)
+		}
 
-    // Conditionally set the IP address.
+		// Conditionally set the IP address.
 		if veth.withIPAddr {
-			addr := &netlink.Addr{IPNet: &veth.ipAddr, Label:""}
+			addr := &netlink.Addr{IPNet: &veth.ipAddr, Label: ""}
 			if err = netlink.AddrAdd(link, addr); err != nil {
 				return fmt.Errorf("failed to add IP addr %v to %q: %v", addr, veth.linkName, err)
 			}
 		}
 
-                return nil
+		return nil
 	})
 
 	return
 }
 
-
-// -------------------------------------------------------------------------- -
-// High-level handler to create veth links given two vEth data objects. 
-// Input: vEth data objects (veth1, veth2)
-// Returns: (nothing)
-// -------------------------------------------------------------------------- -
-
-func makeVeth (veth1 vEth, veth2 vEth) {
+// makeVeth is top-level handler to create veth links given two vEth data objects: veth1 and veth2.
+func makeVeth(veth1 vEth, veth2 vEth) {
 
 	link1, link2, err := getVethPair(veth1.linkName, veth2.linkName)
 	if err != nil {
@@ -165,13 +139,8 @@ func makeVeth (veth1 vEth, veth2 vEth) {
 	veth2.setVethLink(link2)
 }
 
-// -------------------------------------------------------------------- -
-// parseNOption: parse command line parametered passed in with -n
-// input: command line options as a string
-// returns: vEth object, error.
-// -------------------------------------------------------------------- -
-
-func parseNOption (s string) (veth vEth, err error) {
+// parseNOption parses '-n' option and put this information in veth object.
+func parseNOption(s string) (veth vEth, err error) {
 	n := strings.Split(s, ":")
 	if len(n) != 3 && len(n) != 2 {
 		err = fmt.Errorf("failed to parse %s", s)
@@ -189,7 +158,7 @@ func parseNOption (s string) (veth vEth, err error) {
 		ip, mask, err2 := net.ParseCIDR(n[2])
 		if err2 != nil {
 			err = fmt.Errorf("failed to parse IP addr %s: %v",
-			                 n[2], err2)
+				n[2], err2)
 			return
 		}
 		veth.ipAddr.IP = ip
@@ -202,15 +171,8 @@ func parseNOption (s string) (veth vEth, err error) {
 	return
 }
 
-// -------------------------------------------------------------------- -
-// parseDOption: parse command line parametered passed in with -d
-// -------------------------------------------------------------------- -
-// Parse the command line options, which are delimited with colons ":"
-// input: command line options as a string
-// returns: vEth object, error.
-// -------------------------------------------------------------------- -
-
-func parseDOption (s string) (veth vEth, err error) {
+// parseNOption parses '-n' option and put this information in veth object.
+func parseDOption(s string) (veth vEth, err error) {
 	n := strings.Split(s, ":")
 	if len(n) != 3 && len(n) != 2 {
 		err = fmt.Errorf("failed to parse %s", s)
@@ -228,7 +190,7 @@ func parseDOption (s string) (veth vEth, err error) {
 		ip, mask, err2 := net.ParseCIDR(n[2])
 		if err2 != nil {
 			err = fmt.Errorf("failed to parse IP addr %s: %v",
-			                 n[2], err2)
+				n[2], err2)
 			return
 		}
 		veth.ipAddr.IP = ip
@@ -241,11 +203,8 @@ func parseDOption (s string) (veth vEth, err error) {
 	return
 }
 
-// ----------------------------------- -
-// ------ Print usage instructions.
-// ----------------------------------- -
-
-func usage () {
+// usage shows usage when user invokes it with '-h' option.
+func usage() {
 	doc := heredoc.Doc(`
 		
 		Usage:
@@ -258,25 +217,19 @@ func usage () {
 
 }
 
-/*
- Usage:
- ./vethcon -d centos1:link1:192.168.1.1/24 -d centos2:link2:192.168.1.2/24 #with IP addr
- ./vethcon -d centos1:link1 -d centos2:link2  #without IP addr
- ./vethcon -n /var/run/netns/test1:link1:192.168.1.1/24 <other>
+/**
+Usage:
+./vethcon -d centos1:link1:192.168.1.1/24 -d centos2:link2:192.168.1.2/24 #with IP addr
+./vethcon -d centos1:link1 -d centos2:link2  #without IP addr
+./vethcon -n /var/run/netns/test1:link1:192.168.1.1/24 <other>
 */
 func main() {
 
-	// command line parameters.
-	var c int
+	var c int     // command line parameters.
+	var err error // if we encounter an error, it's marked here.
 
-	// if we encounter an error, it's marked here.
-	var err error
-
-	// Count of command line parameters.
-	cnt := 0
-
-	// Any errors with peeling apart the command line options.
-	getopt.OptErr = 0
+	cnt := 0          // Count of command line parameters.
+	getopt.OptErr = 0 // Any errors with peeling apart the command line options.
 
 	// Create some empty vEth data objects.
 	veth1 := vEth{}
@@ -348,4 +301,3 @@ func main() {
 		fmt.Printf("done\n")
 	}
 }
-
