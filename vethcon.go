@@ -8,10 +8,12 @@ import (
 	"github.com/mattn/go-getopt"
 
 	"github.com/vishvananda/netlink"
-        "github.com/containernetworking/cni/pkg/ns"
+	"github.com/containernetworking/cni/pkg/ns"
 
 	"github.com/docker/docker/client"
 	"golang.org/x/net/context"
+
+	"github.com/MakeNowJust/heredoc"
 )
 
 
@@ -53,6 +55,15 @@ func getVethPair(name1 string, name2 string) (link1 netlink.Link, link2 netlink.
 	return
 }
 
+// ---------------------------------------------------------------- -
+// ------------------------------ get docker container namespace - -
+// -------------------------------------------------------------- -
+// uses docker client to get container's namespace
+// input: container identifier (string)
+// returns: namespace (string), and error
+// -------------------------------------------------------------- -
+
+
 func getDockerContainerNS(containerId string) (namespace string, err error) {
 	ctx := context.Background()
 	cli, err := client.NewEnvClient()
@@ -75,12 +86,30 @@ func getDockerContainerNS(containerId string) (namespace string, err error) {
 	return
 }
 
+// ---------------------------------------------------- -
+// ------------------------------ veth data object.  - -
+// -------------------------------------------------- -
+// -- defines a data object to describe interfaces
+// -------------------------------------------------- -
+
 type vEth struct {
+	// What's the network namespace?
 	nsName string
+	// And what will we call the link.
 	linkName string
+	// Is there an ip address?
 	withIPAddr bool
+	// What is that ip address.
 	ipAddr net.IPNet
 }
+
+// ---------------------------------------------------------------------------------- -
+// Low-level handler to set IP address onveth links given a single vEth data object. 
+// ...primarily used privately by makeVeth()
+// Input: vEth data object
+// Returns: netlink.Link object (currently unused)
+// ---------------------------------------------------------------------------------- -
+
 
 func (veth *vEth) setVethLink (link netlink.Link) (err error) {
 	vethNs, err := ns.GetNS(veth.nsName)
@@ -104,6 +133,7 @@ func (veth *vEth) setVethLink (link netlink.Link) (err error) {
                         return fmt.Errorf("failed to set %q up: %v", veth.linkName, err)
                 }
 
+    // Conditionally set the IP address.
 		if veth.withIPAddr {
 			addr := &netlink.Addr{IPNet: &veth.ipAddr, Label:""}
 			if err = netlink.AddrAdd(link, addr); err != nil {
@@ -118,6 +148,11 @@ func (veth *vEth) setVethLink (link netlink.Link) (err error) {
 }
 
 
+// -------------------------------------------------------------------------- -
+// High-level handler to create veth links given two vEth data objects. 
+// Input: vEth data objects (veth1, veth2)
+// Returns: (nothing)
+// -------------------------------------------------------------------------- -
 
 func makeVeth (veth1 vEth, veth2 vEth) {
 
@@ -130,6 +165,11 @@ func makeVeth (veth1 vEth, veth2 vEth) {
 	veth2.setVethLink(link2)
 }
 
+// -------------------------------------------------------------------- -
+// parseNOption: parse command line parametered passed in with -n
+// input: command line options as a string
+// returns: vEth object, error.
+// -------------------------------------------------------------------- -
 
 func parseNOption (s string) (veth vEth, err error) {
 	n := strings.Split(s, ":")
@@ -162,6 +202,14 @@ func parseNOption (s string) (veth vEth, err error) {
 	return
 }
 
+// -------------------------------------------------------------------- -
+// parseDOption: parse command line parametered passed in with -d
+// -------------------------------------------------------------------- -
+// Parse the command line options, which are delimited with colons ":"
+// input: command line options as a string
+// returns: vEth object, error.
+// -------------------------------------------------------------------- -
+
 func parseDOption (s string) (veth vEth, err error) {
 	n := strings.Split(s, ":")
 	if len(n) != 3 && len(n) != 2 {
@@ -193,6 +241,23 @@ func parseDOption (s string) (veth vEth, err error) {
 	return
 }
 
+// ----------------------------------- -
+// ------ Print usage instructions.
+// ----------------------------------- -
+
+func usage () {
+	doc := heredoc.Doc(`
+		
+		Usage:
+		./vethcon -d centos1:link1:192.168.1.1/24 -d centos2:link2:192.168.1.2/24 #with IP addr
+		./vethcon -d centos1:link1 -d centos2:link2  #without IP addr
+		./vethcon -n /var/run/netns/test1:link1:192.168.1.1/24 <other>	
+	`)
+
+	fmt.Print(doc)
+
+}
+
 /*
  Usage:
  ./vethcon -d centos1:link1:192.168.1.1/24 -d centos2:link2:192.168.1.2/24 #with IP addr
@@ -201,18 +266,25 @@ func parseDOption (s string) (veth vEth, err error) {
 */
 func main() {
 
+	// command line parameters.
 	var c int
+
+	// if we encounter an error, it's marked here.
 	var err error
 
+	// Count of command line parameters.
 	cnt := 0
+
+	// Any errors with peeling apart the command line options.
 	getopt.OptErr = 0
 
-
+	// Create some empty vEth data objects.
 	veth1 := vEth{}
 	veth2 := vEth{}
 
+	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("d:n:"); c == getopt.EOF {
+		if c = getopt.Getopt("d:n:h"); c == getopt.EOF {
 			break
 		}
 		switch c {
@@ -221,16 +293,19 @@ func main() {
 				veth1, err = parseDOption(getopt.OptArg)
 				if err != nil {
 					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					usage()
 					os.Exit(1)
 				}
 			} else if cnt == 1 {
 				veth2, err = parseDOption(getopt.OptArg)
 				if err != nil {
 					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					usage()
 					os.Exit(1)
 				}
 			} else {
 				fmt.Fprintf(os.Stderr, "Too many config!")
+				usage()
 				os.Exit(1)
 			}
 			cnt++
@@ -240,22 +315,33 @@ func main() {
 				veth1, err = parseNOption(getopt.OptArg)
 				if err != nil {
 					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					usage()
 					os.Exit(1)
 				}
 			} else if cnt == 1 {
 				veth2, err = parseNOption(getopt.OptArg)
 				if err != nil {
 					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					usage()
 					os.Exit(1)
 				}
 			} else {
 				fmt.Fprintf(os.Stderr, "Too many config!")
+				usage()
 				os.Exit(1)
 			}
 			cnt++
+
+		case 'h':
+			usage()
+			os.Exit(0)
+
 		}
+
 	}
 
+	// Assuming everything else above has worked out -- we'll continue on and make the vth pair.
+	// You'll node at this point we've created vEth data objects and pass them along to the makeVeth method.
 	if cnt == 2 {
 		fmt.Printf("Create veth...")
 		makeVeth(veth1, veth2)
