@@ -21,12 +21,8 @@ Using `vethcon`, you can simply make point-to-point connection for containers wi
                -d <container>:<linkname>:<IPv4 addr>/<prefixlen> |
                -n <netns name>:<linkname> |
                -n <netns name>:<linkname>:<IPv4 addr>/<prefixlen> ]
-              [-h]
 
 # Usage
-
-    # Print usage instruction
-    ./vethcon -h
 
     # Config veth without IPv4 addr
     ./vethcon -d <container>:<linkname> -d <container>:<linkname>
