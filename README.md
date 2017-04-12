@@ -1,6 +1,6 @@
 # koko: Container connector (for chaining)
 
-[![Build Status](https://travis-ci.org/s1061123/vethcon.svg?branch=master)](https://travis-ci.org/s1061123/vethcon)
+[![Build Status](https://travis-ci.org/redhat-nfvpe/koko.svg?branch=master)](https://travis-ci.org/redhat-nfvpe/koko)
 
 # What is 'koko'?
 
