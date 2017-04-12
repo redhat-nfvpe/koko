@@ -9,12 +9,15 @@ of linux kernel. Using `koko`, you can simply make point-to-point connection for
 
 # Build
 
-    go get
+`koko` is written in go, so following commands makes `koko` single binary. Build and put it in your container host.
+
+    go getdevice
     go build
 
 # Syntax
 
 `koko` takes two arguments: two endpoints of container and `koko` connects both.
+`koko` supports veth for two containers in one host and vxlan for two containers in separate host.
 
 ## Connecting containers in container host using veth
 
