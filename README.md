@@ -9,6 +9,18 @@ of linux kernel. Using `koko`, you can simply make point-to-point connection for
 
 ![Koko's abstruct design](https://raw.githubusercontent.com/wiki/redhat-nfvpe/koko/images/koko.png)
 
+# Support Container Type and Interfaces
+
+`koko` supports following container:
+
+- Docker
+- Linux netns namespace (i.e. 'ip netns' or see 'man ip-netns' for its detail)
+
+`koko` supports following linux interface to connect above:
+
+- veth: Virtual Ethernet Interface
+- vxlan: Virtual eXtensible Local Area Network
+
 # Build
 
 `koko` is written in go, so following commands makes `koko` single binary. Build and put it in your container host.
