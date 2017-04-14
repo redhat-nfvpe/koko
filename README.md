@@ -25,7 +25,9 @@ of linux kernel. Using `koko`, you can simply make point-to-point connection for
 
 `koko` is written in go, so following commands makes `koko` single binary. Build and put it in your container host.
 
-    go getdevice
+    git clone https://github.com/redhat-nfvpe/koko.git
+    cd koko
+    go get
     go build
 
 # Syntax
