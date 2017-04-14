@@ -7,6 +7,8 @@
 `koko` is a simple tool which connects between Docker containers/linux netns processes with veth devices/vxlan
 of linux kernel. Using `koko`, you can simply make point-to-point connection for containers without linux bridges.
 
+![Koko's abstruct design](https://raw.githubusercontent.com/wiki/redhat-nfvpe/koko/images/koko.png)
+
 # Build
 
 `koko` is written in go, so following commands makes `koko` single binary. Build and put it in your container host.
