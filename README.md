@@ -40,7 +40,7 @@ and put this interface into given container with/without IP address.
     ./koko -h
 
 # Usage
-    Please see [Examples](https://github.com/redhat-nfvpe/koko/wiki/Examples) in Wiki.
+Please see [Examples](https://github.com/redhat-nfvpe/koko/wiki/Examples) in Wiki.
 
 ## Example
 
