@@ -13,7 +13,6 @@ import (
 
 	"github.com/containernetworking/cni/pkg/ns"
 	"github.com/vishvananda/netlink"
-	//"github.com/s1061123/netlink"
 
 	"github.com/docker/docker/client"
 	"golang.org/x/net/context"
@@ -69,7 +68,8 @@ func addVxLanInterface(vxlan vxLan, devName string) error {
 
 	vxlanconf := netlink.Vxlan{
 		LinkAttrs: netlink.LinkAttrs{
-				Name: devName,
+				Name:		devName,
+				TxQLen:		1000,
 		},
 		VxlanId:	vxlan.id,
 		VtepDevIndex:	parentIF.Attrs().Index,
@@ -188,7 +188,10 @@ func makeVxLan(veth1 vEth, vxlan vxLan) {
 	if err2 != nil {
 		fmt.Fprintf(os.Stderr, "Cannot get %s: %v", veth1.linkName, err)
 	}
-	veth1.setVethLink(link)
+	err = veth1.setVethLink(link)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Cannot add IPaddr/netns failed: %v", err)
+	}
 }
 
 // parseNOption parses '-n' option and put this information in veth object.
