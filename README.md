@@ -21,75 +21,26 @@ of linux kernel. Using `koko`, you can simply make point-to-point connection for
 
 ## Connecting containers in container host using veth
 
-    ./koko [-d <container>:<linkname> |
-            -d <container>:<linkname>:<IPv4 addr>/<prefixlen> |
-            -n <netns name>:<linkname> |
-            -n <netns name>:<linkname>:<IPv4 addr>/<prefixlen> ]
-           [-d <container>:<linkname> |
-            -d <container>:<linkname>:<IPv4 addr>/<prefixlen> |
-            -n <netns name>:<linkname> |
-            -n <netns name>:<linkname>:<IPv4 addr>/<prefixlen> ]
+    ./koko {-d <container>:<linkname>[:<IPv4 addr>/<prefixlen>] |
+            -n <netns name>:<linkname>[:<IPv4 addr>/<prefixlen>] }
+           {-d <container>:<linkname>[:<IPv4 addr>/<prefixlen>] |
+            -n <netns name>:<linkname>[:<IPv4 addr>/<prefixlen>] }
 
 ## Connecting containers using vxlan (interconnecting container hosts)
 
 Connecting containers which are in separate hosts with vxlan. Following command makes vxlan interface 
 and put this interface into given container with/without IP address.
 
-    ./koko [-d <container>:<linkname> |
-            -d <container>:<linkname>:<IPv4 addr>/<prefixlen> |
-            -n <netns name>:<linkname> |
-            -n <netns name>:<linkname>:<IPv4 addr>/<prefixlen> ]
-           [-x <parent interface>:<remote endpoint IP addr>:<vxlan id> ]
+    ./koko {-d <container>:<linkname>[:<IPv4 addr>/<prefixlen>] |
+            -n <netns name>:<linkname>[:<IPv4 addr>/<prefixlen>] }
+            -x <parent interface>:<remote endpoint IP addr>:<vxlan id> 
 
 ## Printing help
 
     ./koko -h
 
 # Usage
-
-    # Print usage instruction
-    ./koko -h
-
-    # Config veth without IPv4 addr for Docker container
-    ./koko -d <container>:<linkname> -d <container>:<linkname>
-    <container>: Docker's container identifier (CONTAINER ID or name)
-    <linkname>: veth link name
-
-    # Config veth with IPv4 addr for Docker container
-    ./koko -d <container>:<linkname>:<ipaddr/mask> -d <container>:<linkname>:<ipaddr>/<prefixlen>
-    <container>: Docker's container identifier (CONTAINER ID or name)
-    <linkname>: veth link name
-    <ipaddr>/<prefixlen>: IPv4 address with netmask (e.g. 192.168.1.1/24)
-
-    # Config vxlan with IPv4 addr for Docker container
-    ./koko -d <container>:<linkname>:<ipaddr/mask> -x <parent IF>:<remote IP>:<vxlan id>
-    <container>: Docker's container identifier (CONTAINER ID or name)
-    <linkname>: veth link name
-    <ipaddr>/<prefixlen>: IPv4 address with netmask (e.g. 192.168.1.1/24)
-    <parent IF>: Egress IF name for vxlan (e.g. eth0)
-    <remote IP>: Unicast destination IP address for endpoint
-    <vxlan id>: vxlan id
-
-    # Config veth without IPv4 addr for netns
-    ./koko -n <netns name>:<linkname> -n <netns name>:<linkname>
-    <netns name>: netns name that is given by 'ip netns' command
-    <linkname>: veth link name
-    <ipaddr>/<prefixlen>: IPv4 address with netmask (e.g. 192.168.1.1/24)
-
-    # Config veth with IPv4 addr for netns
-    ./koko -n <netns name>:<linkname>:<ipaddr/mask> -n <netns name>:<linkname>:<ipaddr>/<prefixlen>
-    <netns name>: netns name that is given by 'ip netns' command
-    <linkname>: veth link name
-    <ipaddr>/<prefixlen>: IPv4 address with netmask (e.g. 192.168.1.1/24)
-
-    # Config vxlan with IPv4 addr for netns
-    ./koko -n <netns name>:<linkname>:<ipaddr/mask> -x <parent IF>:<remote IP>:<vxlan id>
-    <netns name>: netns name that is given by 'ip netns' command
-    <linkname>: veth link name
-    <ipaddr>/<prefixlen>: IPv4 address with netmask (e.g. 192.168.1.1/24)
-    <parent IF>: Egress IF name for vxlan (e.g. eth0)
-    <remote IP>: Unicast destination IP address for endpoint
-    <vxlan id>: vxlan id
+    Please see [Examples](https://github.com/redhat-nfvpe/koko/wiki/Examples) in Wiki.
 
 ## Example
 
