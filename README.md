@@ -51,6 +51,13 @@ and put this interface into given container with/without IP address.
             -n <netns name>:<linkname>[:<IPv4 addr>/<prefixlen>] }
             -x <parent interface>:<remote endpoint IP addr>:<vxlan id> 
 
+## Delete link in containers
+
+`koko -D` and `koko -N` deletes veth interface or vxlan interface. In case of veth, peering interface is also
+removed in this command.
+
+    ./koko {-D <container>:<linkname> | -N <netns name>:<linkname> }
+
 ## Printing help
 
     ./koko -h
