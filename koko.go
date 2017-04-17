@@ -164,6 +164,32 @@ func (veth *vEth) setVethLink(link netlink.Link) (err error) {
 	return
 }
 
+// removeVethLink is low-level handler to get interface handle in container/netns namespace and remove it.
+func (veth *vEth) removeVethLink() (err error) {
+	vethNs, err := ns.GetNS(veth.nsName)
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v", err)
+	}
+	defer vethNs.Close()
+
+	err = vethNs.Do(func(_ ns.NetNS) error {
+		link, err := netlink.LinkByName(veth.linkName)
+		if err != nil {
+			return fmt.Errorf("failed to lookup %q in %q: %v", veth.linkName, vethNs.Path(), err)
+		}
+
+		err = netlink.LinkDel(link)
+		if err != nil {
+			return fmt.Errorf("failed to remove link %q in %q: %v", veth.linkName, vethNs.Path(), err)
+		}
+		return nil
+	})
+
+	return
+}
+
+
 // makeVeth is top-level handler to create veth links given two vEth data objects: veth1 and veth2.
 func makeVeth(veth1 vEth, veth2 vEth) {
 
@@ -305,12 +331,22 @@ Usage:
 ./koko -n /var/run/netns/test1:link1:192.168.1.1/24 -d centos2:link2:192.168.1.2/24
 * case5: connect docker/linux ns container to vxlan interface
 ./koko -d centos1:link1:192.168.1.1/24 -x eth1:1.1.1.1:10
+
+* case6: delete docker interface
+./koko -D centos1:link1
+* case7: delete linux ns interface
+./koko -N /var/run/netns/test1:link1
 */
 func main() {
 
 	var c int		// command line parameters.
 	var err error		// if we encounter an error, it's marked here.
-	var toVxlan bool	// endpoint is to VxLan?
+	const (
+		MODE_UNSPEC = iota
+		MODE_ADD_VETH
+		MODE_ADD_VXLAN
+		MODE_DELETE_LINK
+	)
 
 	cnt := 0          // Count of command line parameters.
 	getopt.OptErr = 0 // Any errors with peeling apart the command line options.
@@ -319,11 +355,11 @@ func main() {
 	veth1 := vEth{}
 	veth2 := vEth{}
 	vxlan := vxLan{}
-	toVxlan = false
+	mode := MODE_UNSPEC
 
 	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("d:n:x:h"); c == getopt.EOF {
+		if c = getopt.Getopt("d:n:x:hD:"); c == getopt.EOF {
 			break
 		}
 		switch c {
@@ -349,6 +385,22 @@ func main() {
 			}
 			cnt++
 
+		case 'D':
+			if cnt == 0 {
+				veth1, err = parseDOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					usage()
+					os.Exit(1)
+				}
+			} else {
+				fmt.Fprintf(os.Stderr, "Too many config!")
+				usage()
+				os.Exit(1)
+			}
+			cnt++
+			mode = MODE_DELETE_LINK
+
 		case 'n':
 			if cnt == 0 {
 				veth1, err = parseNOption(getopt.OptArg)
@@ -371,9 +423,25 @@ func main() {
 			}
 			cnt++
 
+		case 'N':
+			if cnt == 0 {
+				veth1, err = parseNOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					usage()
+					os.Exit(1)
+				}
+			} else {
+				fmt.Fprintf(os.Stderr, "Too many config!")
+				usage()
+				os.Exit(1)
+			}
+			cnt++
+			mode = MODE_DELETE_LINK
+
 		case 'x':
 			vxlan, err = parseXOption(getopt.OptArg)
-			toVxlan = true
+			mode = MODE_ADD_VXLAN
 
 		case 'h':
 			usage()
@@ -385,15 +453,18 @@ func main() {
 
 	// Assuming everything else above has worked out -- we'll continue on and make the vth pair.
 	// You'll node at this point we've created vEth data objects and pass them along to the makeVeth method.
-	if toVxlan == false && cnt == 2 {
+	if mode != MODE_ADD_VXLAN && cnt == 2 {
 		// case 1: two container endpoint.
 		fmt.Printf("Create veth...")
 		makeVeth(veth1, veth2)
 		fmt.Printf("done\n")
-	} else if toVxlan == true && cnt == 1 {
+	} else if mode == MODE_ADD_VXLAN && cnt == 1 {
 		// case 2: one endpoint with vxlan
 		fmt.Printf("Create vxlan %s\n", veth1.linkName)
 		makeVxLan(veth1, vxlan)
+	} else if mode == MODE_DELETE_LINK && cnt == 1 {
+		fmt.Printf("Delete link %s\n", veth1.linkName)
+		veth1.removeVethLink()
 	}
 
 }
