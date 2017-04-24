@@ -1,0 +1,1361 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.0 r"
+   sodipodi:docname="koko_logo.svg">
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="40.581191,161.54143"
+       up_right_point="78.309218,161.33413"
+       down_left_point="40.373895,200.54062"
+       down_right_point="78.516515,206.75952"
+       id="path-effect5579"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="93.386456,146.86185"
+       up_right_point="123.93313,144.84152"
+       down_left_point="45.615454,157.98515"
+       down_right_point="81.733312,157.26914"
+       id="path-effect5556"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="6.3924731,70.047135"
+       up_right_point="31.806532,68.697142"
+       down_left_point="-37.478631,80.212592"
+       down_right_point="-5.1781516,79.410784"
+       id="path-effect5534"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="84.864961,159.58192"
+       up_right_point="128.02467,145.85072"
+       down_left_point="84.864961,203.31337"
+       down_right_point="128.23745,170.43766"
+       id="path-effect5512"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="125.89099,241.76955"
+       up_right_point="165.23881,229.25116"
+       down_left_point="125.89099,281.63858"
+       down_right_point="165.4328,251.6665"
+       id="path-effect5524"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="91.3541,255.11539"
+       up_right_point="130.70192,242.597"
+       down_left_point="91.3541,294.98442"
+       down_right_point="130.89591,265.01234"
+       id="path-effect5546"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="-574.51846,-308.64447"
+       up_right_point="-535.17065,-321.16286"
+       down_left_point="-574.51846,-268.77544"
+       down_right_point="-534.97666,-298.74752"
+       id="path-effect5659"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="-652.80017,-437.23685"
+       up_right_point="-627.38611,-438.58685"
+       down_left_point="-696.67127,-427.0714"
+       down_right_point="-664.3708,-427.8732"
+       id="path-effect5663"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="-566.74956,-320.24105"
+       up_right_point="-538.90082,-322.08292"
+       down_left_point="-610.3014,-310.10021"
+       down_right_point="-577.37353,-310.75298"
+       id="path-effect5667"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="-614.89103,-306.85802"
+       up_right_point="-580.4952,-307.04702"
+       down_left_point="-615.08002,-271.30331"
+       down_right_point="-580.30621,-265.63367"
+       id="path-effect5671"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="140.9402,159.88118"
+       up_right_point="160.05352,146.56457"
+       down_left_point="140.63446,208.74475"
+       down_right_point="160.2535,168.60716"
+       id="path-effect5885"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="133.8052,144.9305"
+       up_right_point="158.26877,145.0356"
+       down_left_point="99.959356,157.15316"
+       down_right_point="137.98277,157.09676"
+       id="path-effect5889"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="95.716226,160.92132"
+       up_right_point="136.37587,160.42086"
+       down_left_point="95.423066,209.39797"
+       down_right_point="136.57885,214.27249"
+       id="path-effect5893"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="206.63219,300.2695"
+       up_right_point="245.98001,287.75111"
+       down_left_point="206.63219,340.13854"
+       down_right_point="246.174,310.16645"
+       id="path-effect6081"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="214.40109,288.67293"
+       up_right_point="242.24984,286.83105"
+       down_left_point="170.84925,298.81376"
+       down_right_point="203.77712,298.16099"
+       id="path-effect6085"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="166.25962,302.05595"
+       up_right_point="200.65545,301.86696"
+       down_left_point="166.07063,337.61068"
+       down_right_point="200.84444,343.28032"
+       id="path-effect6089"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="257.75483,300.54233"
+       up_right_point="275.18002,288.40191"
+       down_left_point="257.47608,345.09021"
+       down_right_point="275.36234,308.49762"
+       id="path-effect6098"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="251.24999,286.91217"
+       up_right_point="273.55291,287.00799"
+       down_left_point="220.39346,298.05526"
+       down_right_point="255.0586,298.00384"
+       id="path-effect6102"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="216.52509,301.49061"
+       up_right_point="253.59362,301.03435"
+       down_left_point="216.25782,345.68574"
+       down_right_point="253.77868,350.12974"
+       id="path-effect6106"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="224.65983,116.80145"
+       up_right_point="264.00765,104.28306"
+       down_left_point="224.65983,156.67048"
+       down_right_point="264.20164,126.6984"
+       id="path-effect6259"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="232.42873,105.20488"
+       up_right_point="260.27748,103.363"
+       down_left_point="188.87689,115.34571"
+       down_right_point="221.80477,114.69294"
+       id="path-effect6263"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="184.28726,118.5879"
+       up_right_point="218.68309,118.39891"
+       down_left_point="184.09827,154.14262"
+       down_right_point="218.87208,159.81226"
+       id="path-effect6267"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="275.78247,117.07428"
+       up_right_point="293.20767,104.93386"
+       down_left_point="275.50373,161.62215"
+       down_right_point="293.38999,125.02957"
+       id="path-effect6276"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="269.27764,103.44412"
+       up_right_point="291.58055,103.53994"
+       down_left_point="238.4211,114.58721"
+       down_right_point="273.08624,114.53579"
+       id="path-effect6280"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="234.55274,118.02256"
+       up_right_point="271.62126,117.5663"
+       down_left_point="234.28546,162.21768"
+       down_right_point="271.80632,166.66168"
+       id="path-effect6284"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="129.40983,272.52764"
+       up_right_point="168.75765,260.00925"
+       down_left_point="129.40983,312.39667"
+       down_right_point="168.95164,282.42459"
+       id="path-effect6432"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="137.17873,260.93107"
+       up_right_point="165.02748,259.08919"
+       down_left_point="93.626889,271.0719"
+       down_right_point="126.55477,270.41913"
+       id="path-effect6436"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="89.03726,274.31409"
+       up_right_point="123.43309,274.1251"
+       down_left_point="88.848273,309.86881"
+       down_right_point="123.62208,315.53845"
+       id="path-effect6440"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="180.53247,272.80047"
+       up_right_point="197.95767,260.66005"
+       down_left_point="180.25373,317.34834"
+       down_right_point="198.13999,280.75576"
+       id="path-effect6449"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="174.02764,259.17031"
+       up_right_point="196.33055,259.26613"
+       down_left_point="143.1711,270.3134"
+       down_right_point="177.83624,270.26198"
+       id="path-effect6453"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="139.30274,273.74875"
+       up_right_point="176.37126,273.29249"
+       down_left_point="139.03546,317.94387"
+       down_right_point="176.55632,322.38787"
+       id="path-effect6457"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="164.4122,283.50061"
+       up_right_point="203.76001,270.98222"
+       down_left_point="164.4122,323.36964"
+       down_right_point="203.954,293.39757"
+       id="path-effect6602"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="172.1811,271.90404"
+       up_right_point="200.02985,270.06216"
+       down_left_point="128.62926,282.04487"
+       down_right_point="161.55713,281.3921"
+       id="path-effect6606"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="124.03963,285.28706"
+       up_right_point="158.43546,285.09807"
+       down_left_point="123.85064,320.84178"
+       down_right_point="158.62445,326.51142"
+       id="path-effect6610"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="215.53483,283.77344"
+       up_right_point="232.96003,271.63303"
+       down_left_point="215.25609,328.32131"
+       down_right_point="233.14235,291.72873"
+       id="path-effect6619"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="209.03,270.14328"
+       up_right_point="231.33291,270.2391"
+       down_left_point="178.17347,281.28637"
+       down_right_point="212.8386,281.23496"
+       id="path-effect6623"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="174.3051,284.72172"
+       up_right_point="211.37362,284.26546"
+       down_left_point="174.03783,328.91685"
+       down_right_point="211.55868,333.36085"
+       id="path-effect6627"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="218.10689,270.7782"
+       up_right_point="257.45471,258.25981"
+       down_left_point="218.10689,310.64723"
+       down_right_point="257.6487,280.67515"
+       id="path-effect7033"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="225.87579,259.18163"
+       up_right_point="253.72454,257.33975"
+       down_left_point="182.32395,269.32246"
+       down_right_point="215.25182,268.66969"
+       id="path-effect7037"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="177.73432,272.56465"
+       up_right_point="212.13015,272.37566"
+       down_left_point="177.54533,308.11937"
+       down_right_point="212.31914,313.78901"
+       id="path-effect7041"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="269.22953,271.05103"
+       up_right_point="286.65473,258.91061"
+       down_left_point="268.95079,315.5989"
+       down_right_point="286.83705,279.00632"
+       id="path-effect7050"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="262.7247,257.42087"
+       up_right_point="285.02761,257.51669"
+       down_left_point="231.86816,268.56396"
+       down_right_point="266.5333,268.51254"
+       id="path-effect7054"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="227.99979,271.99931"
+       up_right_point="265.06832,271.54305"
+       down_left_point="227.73252,316.19443"
+       down_right_point="265.25338,320.63843"
+       id="path-effect7058"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="225.94583,252.71132"
+       up_right_point="265.29365,240.19293"
+       down_left_point="225.94583,292.58035"
+       down_right_point="265.48764,262.60827"
+       id="path-effect8168"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="233.71474,241.11475"
+       up_right_point="261.56348,239.27287"
+       down_left_point="190.16289,251.25558"
+       down_right_point="223.09077,250.60281"
+       id="path-effect8172"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="185.57326,254.49777"
+       up_right_point="219.96909,254.30878"
+       down_left_point="185.38427,290.05249"
+       down_right_point="220.15808,295.72213"
+       id="path-effect8176"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="277.06847,252.98415"
+       up_right_point="294.49367,240.84373"
+       down_left_point="276.78973,297.53202"
+       down_right_point="294.67599,260.93944"
+       id="path-effect8185"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="270.56364,239.35399"
+       up_right_point="292.86655,239.44981"
+       down_left_point="239.70711,250.49708"
+       down_right_point="274.37224,250.44566"
+       id="path-effect8189"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="235.83874,253.93243"
+       up_right_point="272.90726,253.47617"
+       down_left_point="235.57147,298.12755"
+       down_right_point="273.09232,302.57155"
+       id="path-effect8193"
+       is_visible="true"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="false"
+       overflow_perspective="false" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="441.94199"
+     inkscape:cy="511.40322"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="956"
+     inkscape:window-height="1041"
+     inkscape:window-x="1920"
+     inkscape:window-y="18"
+     inkscape:window-maximized="0"
+     objecttolerance="10"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-97)">
+    <g
+       transform="matrix(0.41314404,0,0,0.41314404,-30.398153,86.057655)"
+       id="g7274-6"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999">
+      <ellipse
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         ry="7.6171813"
+         rx="8.15172"
+         cy="85.719681"
+         cx="164.93996"
+         id="path4516-0-98"
+         style="fill:#98401a;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         ry="0.53453904"
+         rx="1.0022607"
+         cy="80.879112"
+         cx="164.70485"
+         id="path6408-13"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         ry="0.53453904"
+         rx="0.86862594"
+         cy="80.996552"
+         cx="167.76895"
+         id="path6410-3"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         ry="0.33408689"
+         rx="0.60135639"
+         cy="79.628372"
+         cx="166.49747"
+         id="path6412-37"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.22263753px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 30.822976,108.34777 c -3.603314,13.12115 -7.475249,14.55841 -12.051535,32.87838 -0.09319,-9.09419 -3.114223,-17.82828 12.051535,-32.87838 z"
+       id="path5969-6-83-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:transform-center-x="5.03862"
+       inkscape:transform-center-y="11.683649"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.11347303px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 49.212993,110.7549 c -6.756383,-2.39711 -11.602138,-2.78495 -18.970448,-2.40713 4.015327,2.12133 8.636504,3.89645 18.970448,2.40713 z"
+       id="path5969-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 62.897585,193.59452 38.271976,193.0082 C 14.394838,168.03904 36.198539,143.94317 31.260478,108.59958 l 2.498883,0.34324 c 5.382086,39.06944 -22.098161,79.18008 29.138224,84.6517 z"
+       id="path5967"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#98c9c8;fill-opacity:1;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 37.440697,159.22067 -0.01473,43.30464 43.867599,6.6335 0.586326,-50.71703 z"
+       id="path4489-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#404d4c;fill-opacity:1;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 81.879891,158.44178 47.492199,-14.66403 0.005,27.28179 -48.084411,38.09927 z"
+       id="path4491-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#d1e0dd;fill-opacity:1;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 37.440697,159.22067 56.019039,-13.09173 35.912354,-2.35119 -47.492199,14.66403 z"
+       id="path4493-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       id="path4734-2-9-7-5"
+       style="fill:none;stroke:#000000;stroke-width:0.31234276px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 128.02794,146.22871 c 0,0 0.20951,24.20895 0.20951,24.20895 m -1.28333,-23.86008 c 0,0 0.20822,24.675 0.20822,24.675 m -1.31772,-24.37417 c 0,0 0.20666,25.15589 0.20666,25.15589 m -1.33433,-24.79067 c 0,0 0.20488,25.6456 0.20488,25.6456 m -1.61755,-25.21316 c 0,0 0.20232,26.259 0.20232,26.259 m -1.466,-25.85026 c 0,0 0.19974,26.80822 0.19974,26.80822 m -1.50957,-26.44939 c 0,0 0.19678,27.3768 0.19678,27.3768 m -1.53263,-26.94608 c 0,0 0.19346,27.95781 0.19346,27.95781 m -1.63024,-27.46071 c 0,0 0.18954,28.58347 0.18954,28.58347 m -1.68718,-28.09982 c 0,0 0.18507,29.23543 0.18507,29.23543 m -1.74305,-28.80307 c 0,0 0.18001,29.91292 0.18001,29.91292 m -1.77512,-29.39941 c 0,0 0.17439,30.60792 0.17439,30.60792 m -1.95466,-30.09406 c 0,0 0.1676,31.38311 0.1676,31.38311 m -1.9736,-30.80318 c 0,0 0.16015,32.17078 0.16015,32.17078 m -2.04716,-31.64283 c 0,0 0.15175,32.99307 0.15175,32.99307 m -2.09287,-32.37174 c 0,0 0.14248,33.84059 0.14248,33.84059 m -2.60699,-33.08496 c 0,0 0.12976,34.91682 0.12976,34.91682 M 101.192,154.51465 c 0,0 0.11731,35.89461 0.11731,35.89461 M 98.842103,155.1787 c 0,0 0.103284,36.9213 0.103284,36.9213 m -2.535024,-36.14641 c 0,0 0.08776,37.9859 0.08776,37.9859 m -2.743461,-37.09347 c 0,0 0.06963,39.15018 0.06963,39.15018 m -2.882552,-38.25238 c 0,0 0.04909,40.38363 0.04909,40.38363 M 87.96629,158.59524 c 0,0 0.02586,41.68781 0.02586,41.68781 m -3.127187,-40.70113 c 0,0 0,43.05006 0,43.05006"
+       inkscape:connector-curvature="0"
+       inkscape:path-effect="#path-effect5512"
+       inkscape:original-d="m 212.24071,159.13176 v 43.97431 m -5.4235,-43.97431 v 43.97431 m -5.39206,-44.07878 v 43.9743 m -5.27692,-43.9743 v 43.9743 m -6.33441,-44.0164 v 43.9743 m -5.4235,-43.9743 v 43.9743 m -5.39207,-44.07878 v 43.9743 m -5.27691,-43.9743 v 43.9743 m -5.43922,-43.92207 v 43.97431 m -5.4235,-43.97431 v 43.97431 m -5.39207,-44.07878 v 43.9743 m -5.27691,-43.9743 v 43.9743 m -5.61524,-44.05769 v 43.9743 m -5.4235,-43.9743 v 43.9743 m -5.39206,-44.07878 v 43.97431 m -5.27692,-43.97431 v 43.97431 m -6.33441,-44.0164 v 43.9743 m -5.4235,-43.9743 v 43.9743 m -5.39207,-44.07878 v 43.9743 m -5.27691,-43.9743 v 43.9743 m -5.43924,-43.92207 v 43.9743 m -5.423524,-43.9743 v 43.9743 m -5.392054,-44.07878 v 43.97431 m -5.27688,-43.97431 v 43.97431"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       id="path4734-2-9-7-5-5"
+       style="fill:none;stroke:#000000;stroke-width:0.31234276px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 93.683087,146.84223 c 0,0 30.250043,-2.00071 30.250043,-2.00071 m -32.520149,2.53029 c 0,0 30.624839,-1.97213 30.624839,-1.97213 m -33.038539,2.52422 c 0,0 30.981759,-1.93805 30.981759,-1.93805 m -33.376229,2.49642 c 0,0 31.353289,-1.90113 31.353289,-1.90113 m -34.06309,2.52389 c 0,0 31.73468,-1.85505 31.73468,-1.85505 m -34.416162,2.48015 c 0,0 32.120932,-1.80514 32.120932,-1.80514 m -34.97232,2.4579 c 0,0 32.48308,-1.74734 32.48308,-1.74734 m -35.331389,2.41106 c 0,0 32.858749,-1.68444 32.858749,-1.68444 m -36.476929,2.52251 c 0,0 33.297379,-1.59731 33.297379,-1.59731 m -36.532245,2.35099 c 0,0 33.676855,-1.51215 33.676855,-1.51215 m -37.119497,2.30109 c 0,0 34.021338,-1.41495 34.021338,-1.41495 m -37.487475,2.22219 c 0,0 34.374813,-1.30846 34.374813,-1.30846 m -38.095431,2.18186 c 0,0 34.741207,-1.18451 34.741207,-1.18451 m -38.684635,2.10309 c 0,0 35.076425,-1.04349 35.076425,-1.04349 m -39.280253,2.00817 c 0,0 35.357746,-0.88339 35.357746,-0.88339 m -39.626424,1.87734 c 0,0 35.636222,-0.70646 35.636222,-0.70646"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccccc"
+       inkscape:path-effect="#path-effect5556"
+       inkscape:original-d="m 38.983071,74.044484 h 43.974302 m -43.974302,5.423498 h 43.974302 m -44.07878,5.392061 h 43.974302 m -43.974302,5.276911 h 43.974302 m -44.057686,5.615233 h 43.974302 m -43.974302,5.423503 h 43.974302 m -44.07878,5.39206 h 43.974302 m -43.974302,5.27691 h 43.974302 m -44.0164,6.33441 h 43.974302 m -43.974302,5.4235 h 43.974302 m -44.07878,5.39206 h 43.974302 m -43.974302,5.27691 h 43.974302 m -43.922068,5.43924 h 43.974302 m -43.974302,5.42351 h 43.974302 m -44.07878,5.3921 h 43.974302 m -43.974302,5.27693 h 43.974302"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       id="path5568"
+       style="fill:none;stroke:#000000;stroke-width:0.31234276px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 40.581191,161.54143 c 0,0 -0.207296,38.99919 -0.207296,38.99919 m 11.15531,-39.05934 c 0,0 -0.100064,40.86182 -0.100064,40.86182 m 4.630994,-40.88672 c 0,0 -0.05256,41.63321 -0.05256,41.63321 m 4.118551,-41.65555 c 0,0 -0.0084,42.32568 -0.0084,42.32568 m 4.649368,-42.35118 c 0,0 0.04387,43.11639 0.04387,43.11639 m 13.49823,-43.1908 c 0,0 0.207297,45.42539 0.207297,45.42539"
+       inkscape:path-effect="#path-effect5579"
+       inkscape:original-d="m 40.788487,161.54143 v 43.9743 m 12.023217,-43.9743 v 43.9743 m 4.664179,-43.9743 v 43.9743 m 4.042289,-43.9743 v 43.9743 m 4.456882,-43.9743 v 43.9743 m 12.126865,-43.9743 v 43.9743"
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 58.755382,186.63193 12.532677,0.73291"
+       id="path5581"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 45.734534,184.14004 11.591686,0.58634"
+       id="path5581-4"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#98c9c8;fill-opacity:1;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 93.308626,158.45397 -0.1613,52.979 46.000874,4.61692 -0.22772,-57.78848 z"
+       id="path4489-6-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#688179;fill-opacity:1;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 138.92048,158.26141 22.13373,-13.78455 0.005,24.78991 -21.91149,46.78312 z"
+       id="path4491-2-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#d1e0dd;fill-opacity:1;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 93.308626,158.45397 40.334934,-14.26438 27.41065,0.28727 -22.13373,13.78455 z"
+       id="path4493-9-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       id="path4734-2-9-7-5-9"
+       style="fill:none;stroke:#000000;stroke-width:0.31234276px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 160.05656,146.89924 c 0,0 0.19694,21.70792 0.19694,21.70792 m -0.58982,-21.42625 c 0,0 0.19465,22.23472 0.19465,22.23472 M 159.2538,147.4213 c 0,0 0.19189,22.78245 0.19189,22.78245 m -0.61208,-22.48247 c 0,0 0.18869,23.34727 0.18869,23.34727 m -0.72081,-22.99012 c 0,0 0.18412,24.06252 0.18412,24.06252 m -0.6654,-23.71953 c 0,0 0.17947,24.71145 0.17947,24.71145 m -0.684,-24.4113 c 0,0 0.17405,25.38983 0.17405,25.38983 m -0.69416,-25.02076 c 0,0 0.16791,26.09329 0.16791,26.09329 m -0.73389,-25.66032 c 0,0 0.16058,26.86174 0.16058,26.86174 m -0.75813,-26.4368 c 0,0 0.15209,27.67292 0.15209,27.67292 M 155.002,150.33009 c 0,0 0.14229,28.52639 0.14229,28.52639 m -0.79608,-28.06346 c 0,0 0.13124,29.41736 0.13124,29.41736 m -0.87188,-28.94942 c 0,0 0.1176,30.42586 0.1176,30.42586 m -0.88083,-29.88732 c 0,0 0.10232,31.47067 0.10232,31.47067 m -0.91305,-30.97418 c 0,0 0.0847,32.57904 0.0847,32.57904 m -0.93305,-31.98304 c 0,0 0.0648,33.74619 0.0648,33.74619 m -1.16355,-33.00708 c 0,0 0.0366,35.26067 0.0366,35.26067 m -1.05541,-34.54615 c 0,0 0.008,36.67137 0.008,36.67137 m -1.10138,-35.99265 c 0,0 -0.0249,38.18489 -0.0249,38.18489 m -1.13209,-37.37699 c 0,0 -0.0628,39.79786 -0.0628,39.79786 m -1.23175,-38.84619 c 0,0 -0.10866,41.61268 -0.10866,41.61268 m -1.29881,-40.62776 c 0,0 -0.16271,43.5912 -0.16271,43.5912 m -1.36799,-42.62455 c 0,0 -0.22648,45.74603 -0.22648,45.74603 m -1.41794,-44.60033 c 0,0 -0.30084,48.07979 -0.30084,48.07979"
+       inkscape:connector-curvature="0"
+       inkscape:path-effect="#path-effect5885"
+       inkscape:original-d="M 268.1087,161.29669 V 205.271 m -5.4235,-43.97431 V 205.271 m -5.39206,-44.07878 v 43.9743 m -5.27692,-43.9743 v 43.9743 m -6.33441,-44.0164 v 43.9743 m -5.4235,-43.9743 v 43.9743 m -5.39207,-44.07878 v 43.9743 m -5.27691,-43.9743 v 43.9743 m -5.43922,-43.92207 v 43.97431 m -5.4235,-43.97431 v 43.97431 m -5.39207,-44.07878 v 43.9743 m -5.27691,-43.9743 v 43.9743 m -5.61524,-44.05769 v 43.9743 m -5.4235,-43.9743 v 43.9743 m -5.39207,-44.07878 v 43.97431 m -5.27691,-43.97431 v 43.97431 m -6.33441,-44.0164 v 43.9743 m -5.42351,-43.9743 v 43.9743 m -5.39206,-44.07878 v 43.9743 m -5.27691,-43.9743 v 43.9743 m -5.43925,-43.92207 v 43.9743 m -5.42351,-43.9743 v 43.9743 m -5.39206,-44.07878 v 43.97431 m -5.27692,-43.97431 v 43.97431"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       id="path4734-2-9-7-5-5-4"
+       style="fill:none;stroke:#000000;stroke-width:0.31234276px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 134.07856,144.93167 c 0,0 24.19021,0.10393 24.19021,0.10393 m -25.67679,0.4353 c 0,0 24.77641,0.10003 24.77641,0.10003 m -26.38725,0.46188 c 0,0 25.38952,0.0957 25.38952,0.0957 m -26.98221,0.4815 c 0,0 26.01813,0.0908 26.01813,0.0908 m -27.85145,0.55477 c 0,0 26.72341,0.085 26.72341,0.085 m -28.53807,0.57206 c 0,0 27.44054,0.0787 27.44054,0.0787 m -29.40973,0.60958 c 0,0 28.1945,0.0717 28.1945,0.0717 m -30.15858,0.6389 c 0,0 28.97168,0.0638 28.97168,0.0638 m -31.50314,0.8414 c 0,0 29.96392,0.0531 29.96392,0.0531 m -32.24435,0.77153 c 0,0 30.8683,0.0427 30.8683,0.0427 m -33.34972,0.82683 c 0,0 31.82548,0.031 31.82548,0.031 m -34.32623,0.87255 c 0,0 32.81906,0.018 32.81906,0.018 m -35.5205,0.97285 c 0,0 33.90892,0.003 33.90892,0.003 m -36.82499,1.05129 c 0,0 35.07148,-0.0145 35.07148,-0.0145 m -38.25827,1.13475 c 0,0 36.31198,-0.034 36.31198,-0.034 m -39.561464,1.20748 c 0,0 37.610794,-0.0558 37.610794,-0.0558"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccccc"
+       inkscape:path-effect="#path-effect5889"
+       inkscape:original-d="M 94.353036,72.626177 H 138.32734 M 94.353036,78.049675 H 138.32734 M 94.248556,83.441736 H 138.22286 M 94.248556,88.718648 H 138.22286 M 94.165176,94.333883 H 138.13948 M 94.165176,99.757381 H 138.13948 M 94.060696,105.14944 H 138.035 m -43.974304,5.27691 H 138.035 m -44.016404,6.33442 H 137.9929 m -43.974304,5.42349 H 137.9929 m -44.078784,5.39206 h 43.974304 m -43.974304,5.27692 h 43.974304 m -43.922064,5.43923 h 43.974304 m -43.974304,5.42351 h 43.974304 m -44.078784,5.39209 h 43.974304 m -43.974304,5.27695 h 43.974304"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       id="path5568-8"
+       style="fill:none;stroke:#000000;stroke-width:0.31234276px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 95.716226,160.92132 c 0,0 -0.29316,48.47665 -0.29316,48.47665 m 12.488764,-48.62676 c 0,0 -0.15543,50.08753 -0.15543,50.08753 m 5.10511,-50.14845 c 0,0 -0.0968,50.74163 -0.0968,50.74163 m 4.49115,-50.79572 c 0,0 -0.0435,51.32251 -0.0435,51.32251 m 5.00528,-51.38358 c 0,0 0.0182,51.97856 0.0182,51.97856 m 14.14003,-52.15283 c 0,0 0.20298,53.85163 0.20298,53.85163"
+       inkscape:path-effect="#path-effect5893"
+       inkscape:original-d="m 96.363256,167.81062 v 43.97431 m 12.023224,-43.97431 v 43.97431 m 4.66418,-43.97431 v 43.97431 m 4.04229,-43.97431 v 43.97431 m 4.45688,-43.97431 v 43.97431 m 12.12687,-43.97431 v 43.97431"
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 115.35622,192.16822 12.53268,0.73291"
+       id="path5581-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 101.60248,188.06393 11.59168,0.58634"
+       id="path5581-4-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#d1e0dd;fill-opacity:1;stroke:#000000;stroke-width:0.29021555px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 38.338491,110.7549 c 7.675164,0 36.098448,0 44.127722,39.77149 24.967607,-67.772188 43.281087,-40.23742 54.234927,-0.29317 3.30436,-13.801 13.57199,-29.35257 25.21192,-29.60938 0.2902,1.28612 0.0509,2.57223 1.62039,3.85834 -8.50433,-0.37897 -17.90591,3.55829 -26.93595,26.83936 C 118.05104,86.273796 95.101636,115.57226 82.428216,151.92323 77.633522,126.46957 58.772529,110.0612 39.040239,118.72259 Z"
+       id="path4518-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.22263753px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 30.822976,108.34777 c -4.703215,13.25622 -5.464149,22.76373 -4.722855,37.22058 4.162097,-7.87819 7.644942,-16.94508 4.722855,-37.22058 z"
+       id="path5969"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.22263753px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 30.242545,108.34777 c 6.107121,12.47526 14.554451,19.11619 19.794877,31.87226 -1.298091,-9.00155 -2.506733,-19.31735 -19.794877,-31.87226 z"
+       id="path5969-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:transform-center-x="-6.6147797"
+       inkscape:transform-center-y="10.799406"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.22263753px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 30.242545,108.34777 c 13.650935,4.79838 13.207758,8.38312 24.505933,15.87706 -4.60462,-7.18928 -4.2393,-12.89395 -24.505933,-15.87706 z"
+       id="path5969-6-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:transform-center-x="-11.554822"
+       inkscape:transform-center-y="5.1834912"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       inkscape:transform-center-y="9.5845952"
+       inkscape:transform-center-x="8.2775601"
+       sodipodi:nodetypes="ccc"
+       inkscape:connector-curvature="0"
+       id="path6016"
+       d="m 30.822976,108.34777 c -8.874002,10.85519 -9.301381,11.71725 -15.489577,24.75267 1.131326,-8.46217 -1.612775,-13.47682 15.489577,-24.75267 z"
+       style="fill:#000000;stroke:#000000;stroke-width:0.22263753px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.22263753px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 30.242545,108.34777 c 1.236853,13.5506 4.795249,15.64712 6.074547,34.48663 1.692893,-8.93573 6.204506,-17.00149 -6.074547,-34.48663 z"
+       id="path5969-6-83-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:transform-center-x="-3.8623096"
+       inkscape:transform-center-y="12.361421"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.11347303px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 21.623112,138.07803 c 3.013233,-7.4859 7.001596,-17.2414 8.335715,-24.49777 -2.991337,3.41684 -7.398127,14.09926 -8.335715,24.49777 z"
+       id="path5969-3-4"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <g
+       id="g7274"
+       transform="matrix(1.0968778,0,0,1.0968778,-8.012257,25.280783)"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999">
+      <ellipse
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         ry="7.6171813"
+         rx="8.15172"
+         cy="85.719681"
+         cx="164.93996"
+         id="path4516-0"
+         style="fill:#98401a;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         ry="0.53453904"
+         rx="1.0022607"
+         cy="80.879112"
+         cx="164.70485"
+         id="path6408"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         ry="0.53453904"
+         rx="0.86862594"
+         cy="80.996552"
+         cx="167.76895"
+         id="path6410"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         ry="0.33408689"
+         rx="0.60135639"
+         cy="79.628372"
+         cx="166.49747"
+         id="path6412"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.22263753px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 30.242545,108.34777 c 8.594568,10.54903 12.717169,10.30052 24.30104,25.21285 -3.586793,-8.3575 -4.34963,-17.56778 -24.30104,-25.21285 z"
+       id="path5969-6-83"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:transform-center-x="-9.187776"
+       inkscape:transform-center-y="8.71592"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <g
+       id="g7363"
+       transform="matrix(0.05493681,0,0,0.05493681,62.00121,149.13976)"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999">
+      <path
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         d="m 123.47943,269.66333 h 11.16045 l -15.11105,-28.26669 15.11105,-20.76054 h -10.86416 l -14.02464,19.87165 h -0.19753 V 220.6361 H 98.689391 v 49.02723 h 10.864159 v -15.41366 l 3.35801,-6.32097 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:61.72818756px;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.46912766px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path6774-9"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccccccccc" />
+      <path
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         d="m 202.76156,269.66333 h 11.16046 l -15.11106,-28.26669 15.11106,-20.76054 h -10.86416 l -14.02464,19.87165 h -0.19753 V 220.6361 h -10.86416 v 49.02723 h 10.86416 v -15.41366 l 3.35801,-6.32097 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:61.72818756px;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.46912766px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path6778-8"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccccccccc" />
+      <g
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         transform="matrix(2.1949474,0,0,2.4081676,-11.416689,-411.01946)"
+         id="g6861-6">
+        <ellipse
+           style="fill:#98401a;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path4516-0-9-7"
+           cx="75.637276"
+           cy="272.14392"
+           rx="8.15172"
+           ry="7.6171813" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6408-7-0"
+           cx="75.402168"
+           cy="267.30334"
+           rx="1.0022607"
+           ry="0.53453904" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6410-8-4"
+           cx="78.46627"
+           cy="267.42078"
+           rx="0.86862594"
+           ry="0.53453904" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6412-5-8"
+           cx="77.194786"
+           cy="266.05258"
+           rx="0.60135639"
+           ry="0.33408689" />
+      </g>
+      <g
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         transform="matrix(2.1949474,0,0,2.4081676,66.20195,-410.15946)"
+         id="g6861-9-4">
+        <ellipse
+           style="fill:#98401a;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path4516-0-9-3-8"
+           cx="75.637276"
+           cy="272.14392"
+           rx="8.15172"
+           ry="7.6171813" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6408-7-7-1"
+           cx="75.402168"
+           cy="267.30334"
+           rx="1.0022607"
+           ry="0.53453904" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6410-8-8-6"
+           cx="78.46627"
+           cy="267.42078"
+           rx="0.86862594"
+           ry="0.53453904" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6412-5-7-8"
+           cx="77.194786"
+           cy="266.05258"
+           rx="0.60135639"
+           ry="0.33408689" />
+      </g>
+    </g>
+    <g
+       id="g7363-5"
+       transform="matrix(0.05493681,0,0,0.05493681,120.35578,148.53103)"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999">
+      <path
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         d="m 123.47943,269.66333 h 11.16045 l -15.11105,-28.26669 15.11105,-20.76054 h -10.86416 l -14.02464,19.87165 h -0.19753 V 220.6361 H 98.689391 v 49.02723 h 10.864159 v -15.41366 l 3.35801,-6.32097 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:61.72818756px;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.46912766px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path6774-9-2"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccccccccc" />
+      <path
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         d="m 202.76156,269.66333 h 11.16046 l -15.11106,-28.26669 15.11106,-20.76054 h -10.86416 l -14.02464,19.87165 h -0.19753 V 220.6361 h -10.86416 v 49.02723 h 10.86416 v -15.41366 l 3.35801,-6.32097 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:61.72818756px;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.46912766px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path6778-8-1"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccccccccc" />
+      <g
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         transform="matrix(2.1949474,0,0,2.4081676,-11.416689,-411.01946)"
+         id="g6861-6-9">
+        <ellipse
+           style="fill:#98401a;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path4516-0-9-7-9"
+           cx="75.637276"
+           cy="272.14392"
+           rx="8.15172"
+           ry="7.6171813" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6408-7-0-6"
+           cx="75.402168"
+           cy="267.30334"
+           rx="1.0022607"
+           ry="0.53453904" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6410-8-4-0"
+           cx="78.46627"
+           cy="267.42078"
+           rx="0.86862594"
+           ry="0.53453904" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6412-5-8-6"
+           cx="77.194786"
+           cy="266.05258"
+           rx="0.60135639"
+           ry="0.33408689" />
+      </g>
+      <g
+         inkscape:export-filename="/home/doug/Downloads/koko_preview.png"
+         inkscape:export-ydpi="100.17"
+         inkscape:export-xdpi="100.17"
+         transform="matrix(2.1949474,0,0,2.4081676,66.20195,-410.15946)"
+         id="g6861-9-4-4">
+        <ellipse
+           style="fill:#98401a;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path4516-0-9-3-8-9"
+           cx="75.637276"
+           cy="272.14392"
+           rx="8.15172"
+           ry="7.6171813" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6408-7-7-1-9"
+           cx="75.402168"
+           cy="267.30334"
+           rx="1.0022607"
+           ry="0.53453904" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6410-8-8-6-0"
+           cx="78.46627"
+           cy="267.42078"
+           rx="0.86862594"
+           ry="0.53453904" />
+        <ellipse
+           style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path6412-5-7-8-8"
+           cx="77.194786"
+           cy="266.05258"
+           rx="0.60135639"
+           ry="0.33408689" />
+      </g>
+    </g>
+    <path
+       sodipodi:nodetypes="cccccccccccccc"
+       inkscape:connector-curvature="0"
+       id="path6774"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:61.72818756px;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.70833135px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 44.39614,265.61583 H 56.637795 L 40.062811,234.61073 56.637795,211.83895 H 44.721139 L 29.337821,233.63573 H 29.121154 V 211.83895 H 17.204498 v 53.77688 h 11.916656 v -16.9069 l 3.68333,-6.93333 z"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <path
+       sodipodi:nodetypes="cccccccccccccc"
+       inkscape:connector-curvature="0"
+       id="path6778"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:61.72818756px;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.70833135px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 131.35891,265.61583 h 12.24166 l -16.57499,-31.0051 16.57499,-22.77178 h -11.91665 l -15.38332,21.79678 h -0.21667 v -21.79678 h -11.91665 v 53.77688 h 11.91665 v -16.9069 l 3.68333,-6.93333 z"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png" />
+    <g
+       id="g6861"
+       transform="matrix(2.407589,0,0,2.6414655,-104.72927,-480.42956)"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png">
+      <ellipse
+         ry="7.6171813"
+         rx="8.15172"
+         cy="272.14392"
+         cx="75.637276"
+         id="path4516-0-9"
+         style="fill:#98401a;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         ry="0.53453904"
+         rx="1.0022607"
+         cy="267.30334"
+         cx="75.402168"
+         id="path6408-7"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         ry="0.53453904"
+         rx="0.86862594"
+         cy="267.42078"
+         cx="78.46627"
+         id="path6410-8"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         ry="0.33408689"
+         rx="0.60135639"
+         cy="266.05258"
+         cx="77.194786"
+         id="path6412-5"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       id="g6861-9"
+       transform="matrix(2.407589,0,0,2.6414655,-18.430249,-480.06668)"
+       inkscape:export-xdpi="391.92999"
+       inkscape:export-ydpi="391.92999"
+       inkscape:export-filename="/home/doug/Pictures/koko_sticker.png">
+      <ellipse
+         ry="7.6171813"
+         rx="8.15172"
+         cy="272.14392"
+         cx="75.637276"
+         id="path4516-0-9-3"
+         style="fill:#98401a;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         ry="0.53453904"
+         rx="1.0022607"
+         cy="267.30334"
+         cx="75.402168"
+         id="path6408-7-7"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         ry="0.53453904"
+         rx="0.86862594"
+         cy="267.42078"
+         cx="78.46627"
+         id="path6410-8-8"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+      <ellipse
+         ry="0.33408689"
+         rx="0.60135639"
+         cy="266.05258"
+         cx="77.194786"
+         id="path6412-5-7"
+         style="fill:#733014;fill-opacity:1;stroke:#000000;stroke-width:0.228;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       aria-label="container connector"
+       style="font-style:normal;font-weight:normal;font-size:14.06528759px;line-height:8.79080391px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.35163218px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="text6940">
+      <path
+         d="m 20.481531,278.65443 v 1.40653 c 0,0.70326 -0.309437,0.95644 -0.801722,0.95644 -0.492285,0 -0.801721,-0.25318 -0.801721,-0.95644 v -5.31668 c 0,-0.70326 0.309436,-0.9705 0.801721,-0.9705 0.492285,0 0.801722,0.26724 0.801722,0.9705 v 1.0549 h 1.462789 v -0.95644 c 0,-1.57532 -0.787656,-2.47549 -2.306707,-2.47549 -1.519051,0 -2.306707,0.90017 -2.306707,2.47549 v 5.11976 c 0,1.57531 0.787656,2.47549 2.306707,2.47549 1.519051,0 2.306707,-0.90018 2.306707,-2.47549 v -1.30807 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8724" />
+      <path
+         d="m 28.113418,274.74428 c 0,-0.70326 0.309437,-0.9705 0.801722,-0.9705 0.492285,0 0.801721,0.26724 0.801721,0.9705 v 5.31668 c 0,0.70326 -0.309436,0.9705 -0.801721,0.9705 -0.492285,0 -0.801722,-0.26724 -0.801722,-0.9705 z m -1.547181,5.21822 c 0,1.57531 0.829852,2.47549 2.348903,2.47549 1.519051,0 2.348903,-0.90018 2.348903,-2.47549 v -5.11976 c 0,-1.57532 -0.829852,-2.47549 -2.348903,-2.47549 -1.519051,0 -2.348903,0.90017 -2.348903,2.47549 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8726" />
+      <path
+         d="m 39.370853,282.32547 h 1.589378 v -9.8457 h -1.378398 v 5.89335 h -0.02813 l -1.561247,-5.89335 h -1.94101 v 9.8457 h 1.392464 v -7.1311 h 0.02813 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8728" />
+      <path
+         d="m 45.427649,273.8863 h 1.617508 v 8.43917 h 1.547181 v -8.43917 h 1.617509 v -1.40653 h -4.782198 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8730" />
+      <path
+         d="m 57.583504,272.47977 h -2.264511 l -1.575312,9.8457 h 1.420594 l 0.26724,-1.78629 h 1.898814 l 0.267241,1.78629 h 1.561246 z m -1.22368,1.74409 h 0.02813 l 0.731395,4.97912 h -1.490921 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8732" />
+      <path
+         d="M 63.661618,282.32547 H 65.2088 v -9.8457 h -1.547182 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8734" />
+      <path
+         d="m 73.427692,282.32547 h 1.589378 v -9.8457 h -1.378398 v 5.89335 h -0.02813 l -1.561247,-5.89335 h -1.94101 v 9.8457 h 1.392464 v -7.1311 h 0.02813 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8736" />
+      <path
+         d="m 81.481757,273.8863 h 2.672404 v -1.40653 h -4.219586 v 9.8457 h 4.219586 v -1.40653 h -2.672404 v -2.88338 h 2.123858 v -1.40653 h -2.123858 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8738" />
+      <path
+         d="m 93.70552,282.32547 c -0.154718,-0.3657 -0.168783,-0.71733 -0.168783,-1.19555 v -1.51905 c 0,-1.02677 -0.253175,-1.75816 -1.026766,-2.08166 v -0.0281 c 0.689199,-0.32351 1.012701,-0.97051 1.012701,-1.98321 v -0.77359 c 0,-1.51905 -0.689199,-2.26451 -2.292642,-2.26451 h -2.334838 v 9.8457 h 1.547182 v -4.00861 h 0.534481 c 0.703264,0 1.0127,0.33757 1.0127,1.25181 v 1.54719 c 0,0.80172 0.05626,0.95643 0.140653,1.20961 z m -2.517686,-8.43917 c 0.548546,0 0.787656,0.30943 0.787656,1.0127 v 0.9705 c 0,0.78766 -0.351632,1.04083 -0.928309,1.04083 h -0.604807 v -3.02403 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8740" />
+      <path
+         d="m 107.34058,278.65443 v 1.40653 c 0,0.70326 -0.30944,0.95644 -0.80172,0.95644 -0.49229,0 -0.80173,-0.25318 -0.80173,-0.95644 v -5.31668 c 0,-0.70326 0.30944,-0.9705 0.80173,-0.9705 0.49228,0 0.80172,0.26724 0.80172,0.9705 v 1.0549 h 1.46279 v -0.95644 c 0,-1.57532 -0.78766,-2.47549 -2.30671,-2.47549 -1.51905,0 -2.30671,0.90017 -2.30671,2.47549 v 5.11976 c 0,1.57531 0.78766,2.47549 2.30671,2.47549 1.51905,0 2.30671,-0.90018 2.30671,-2.47549 v -1.30807 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8742" />
+      <path
+         d="m 114.97247,274.74428 c 0,-0.70326 0.30944,-0.9705 0.80172,-0.9705 0.49229,0 0.80172,0.26724 0.80172,0.9705 v 5.31668 c 0,0.70326 -0.30943,0.9705 -0.80172,0.9705 -0.49228,0 -0.80172,-0.26724 -0.80172,-0.9705 z m -1.54718,5.21822 c 0,1.57531 0.82985,2.47549 2.3489,2.47549 1.51905,0 2.34891,-0.90018 2.34891,-2.47549 v -5.11976 c 0,-1.57532 -0.82986,-2.47549 -2.34891,-2.47549 -1.51905,0 -2.3489,0.90017 -2.3489,2.47549 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8744" />
+      <path
+         d="m 126.2299,282.32547 h 1.58938 v -9.8457 h -1.3784 v 5.89335 h -0.0281 l -1.56125,-5.89335 h -1.94101 v 9.8457 h 1.39247 v -7.1311 h 0.0281 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8746" />
+      <path
+         d="m 136.04213,282.32547 h 1.58938 v -9.8457 h -1.3784 v 5.89335 h -0.0281 l -1.56125,-5.89335 h -1.941 v 9.8457 h 1.39246 v -7.1311 h 0.0281 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8748" />
+      <path
+         d="m 144.0962,273.8863 h 2.6724 v -1.40653 h -4.21958 v 9.8457 h 4.21958 v -1.40653 h -2.6724 v -2.88338 h 2.12386 v -1.40653 h -2.12386 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8750" />
+      <path
+         d="m 154.53367,278.65443 v 1.40653 c 0,0.70326 -0.30944,0.95644 -0.80172,0.95644 -0.49229,0 -0.80172,-0.25318 -0.80172,-0.95644 v -5.31668 c 0,-0.70326 0.30943,-0.9705 0.80172,-0.9705 0.49228,0 0.80172,0.26724 0.80172,0.9705 v 1.0549 h 1.46279 v -0.95644 c 0,-1.57532 -0.78766,-2.47549 -2.30671,-2.47549 -1.51905,0 -2.3067,0.90017 -2.3067,2.47549 v 5.11976 c 0,1.57531 0.78765,2.47549 2.3067,2.47549 1.51905,0 2.30671,-0.90018 2.30671,-2.47549 v -1.30807 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8752" />
+      <path
+         d="m 160.29488,273.8863 h 1.61751 v 8.43917 h 1.54718 v -8.43917 h 1.61751 v -1.40653 h -4.7822 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8754" />
+      <path
+         d="m 170.96134,274.74428 c 0,-0.70326 0.30944,-0.9705 0.80172,-0.9705 0.49229,0 0.80172,0.26724 0.80172,0.9705 v 5.31668 c 0,0.70326 -0.30943,0.9705 -0.80172,0.9705 -0.49228,0 -0.80172,-0.26724 -0.80172,-0.9705 z m -1.54718,5.21822 c 0,1.57531 0.82985,2.47549 2.3489,2.47549 1.51905,0 2.3489,-0.90018 2.3489,-2.47549 v -5.11976 c 0,-1.57532 -0.82985,-2.47549 -2.3489,-2.47549 -1.51905,0 -2.3489,0.90017 -2.3489,2.47549 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8756" />
+      <path
+         d="m 183.72377,282.32547 c -0.15472,-0.3657 -0.16878,-0.71733 -0.16878,-1.19555 v -1.51905 c 0,-1.02677 -0.25318,-1.75816 -1.02677,-2.08166 v -0.0281 c 0.6892,-0.32351 1.0127,-0.97051 1.0127,-1.98321 v -0.77359 c 0,-1.51905 -0.6892,-2.26451 -2.29264,-2.26451 h -2.33484 v 9.8457 h 1.54718 v -4.00861 h 0.53448 c 0.70327,0 1.0127,0.33757 1.0127,1.25181 v 1.54719 c 0,0.80172 0.0563,0.95643 0.14066,1.20961 z m -2.51769,-8.43917 c 0.54855,0 0.78766,0.30943 0.78766,1.0127 v 0.9705 c 0,0.78766 -0.35163,1.04083 -0.92831,1.04083 h -0.60481 v -3.02403 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';letter-spacing:3.79601979px;stroke-width:0.35163218px"
+         id="path8758" />
+    </g>
+  </g>
+</svg>

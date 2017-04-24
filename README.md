@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/redhat-nfvpe/koko.svg?branch=master)](https://travis-ci.org/redhat-nfvpe/koko)
 
+![koko_logo][koko_logo]
+
 # What is 'koko'?
 
 `koko` is a simple tool which connects between Docker containers/linux netns processes with veth devices/vxlan
@@ -83,3 +85,5 @@ Please see [Examples](https://github.com/redhat-nfvpe/koko/wiki/Examples) in Wik
 # Authors
 - Tomofumi Hayashi (s1061123)
 - Doug Smith (dougbtv)
+
+[koko_logo]: docs/koko_logo.png
