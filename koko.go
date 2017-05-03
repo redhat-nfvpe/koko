@@ -115,8 +115,10 @@ func getDockerContainerNS(containerID string) (namespace string, err error) {
 type vEth struct {
 	nsName		string		// What's the network namespace?
 	linkName	string		// And what will we call the link.
-	withIPAddr	bool		// Is there an ip address?
-	ipAddr		net.IPNet	// What is that ip address.
+	withIP4Addr	bool		// Is there an ipv4 address?
+	withIP6Addr	bool		// Is there an ipv6 address?
+	ip4Addr		net.IPNet	// What is that ip address.
+	ip6Addr		net.IPNet	// What is that ip address.
 }
 
 // vxLan is a structure to descrive vxlan endpoint.
@@ -151,8 +153,8 @@ func (veth *vEth) setVethLink(link netlink.Link) (err error) {
 		}
 
 		// Conditionally set the IP address.
-		if veth.withIPAddr {
-			addr := &netlink.Addr{IPNet: &veth.ipAddr, Label: ""}
+		if veth.withIP4Addr {
+			addr := &netlink.Addr{IPNet: &veth.ip4Addr, Label: ""}
 			if err = netlink.AddrAdd(link, addr); err != nil {
 				return fmt.Errorf("failed to add IP addr %v to %q: %v", addr, veth.linkName, err)
 			}
@@ -242,11 +244,11 @@ func parseNOption(s string) (veth vEth, err error) {
 				n[2], err2)
 			return
 		}
-		veth.ipAddr.IP = ip
-		veth.ipAddr.Mask = mask.Mask
-		veth.withIPAddr = true
+		veth.ip4Addr.IP = ip
+		veth.ip4Addr.Mask = mask.Mask
+		veth.withIP4Addr = true
 	} else {
-		veth.withIPAddr = false
+		veth.withIP4Addr = false
 	}
 
 	return
@@ -274,11 +276,11 @@ func parseDOption(s string) (veth vEth, err error) {
 				n[2], err2)
 			return
 		}
-		veth.ipAddr.IP = ip
-		veth.ipAddr.Mask = mask.Mask
-		veth.withIPAddr = true
+		veth.ip4Addr.IP = ip
+		veth.ip4Addr.Mask = mask.Mask
+		veth.withIP4Addr = true
 	} else {
-		veth.withIPAddr = false
+		veth.withIP4Addr = false
 	}
 
 	return
