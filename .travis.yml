@@ -9,4 +9,5 @@ before_script:
 
 script:
  - go get
+ - go test -v
  - go build

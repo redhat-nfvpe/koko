@@ -156,7 +156,15 @@ func (veth *vEth) setVethLink(link netlink.Link) (err error) {
 		if veth.withIP4Addr {
 			addr := &netlink.Addr{IPNet: &veth.ip4Addr, Label: ""}
 			if err = netlink.AddrAdd(link, addr); err != nil {
-				return fmt.Errorf("failed to add IP addr %v to %q: %v", addr, veth.linkName, err)
+				return fmt.Errorf("failed to add IPv4 addr %v to %q: %v", addr, veth.linkName, err)
+			}
+		}
+
+		// Conditionally set the IP address.
+		if veth.withIP6Addr {
+			addr := &netlink.Addr{IPNet: &veth.ip6Addr, Label: ""}
+			if err = netlink.AddrAdd(link, addr); err != nil {
+				return fmt.Errorf("failed to add IPv6 addr %v to %q: %v", addr, veth.linkName, err)
 			}
 		}
 
@@ -222,10 +230,52 @@ func makeVxLan(veth1 vEth, vxlan vxLan) {
 	}
 }
 
+func parseLinkIPOption(veth *vEth, n []string) (err error) {
+
+	veth.linkName = n[0]
+
+	switch len(n) {
+	case 2:
+		ip4, mask4, err1 := net.ParseCIDR(n[1])
+		if err1 != nil {
+			err = fmt.Errorf("failed to parse IP addr %s: %v",
+				n[1], err1)
+			return
+		}
+		veth.ip4Addr.IP = ip4
+		veth.ip4Addr.Mask = mask4.Mask
+		veth.withIP4Addr = true
+
+	case 3:
+		if n[1] != "" {
+			ip4, mask4, err2 := net.ParseCIDR(n[1])
+			if err2 != nil {
+				err = fmt.Errorf("failed to parse IPv4 addr %s: %v",
+					n[1], err2)
+				return
+			}
+			veth.ip4Addr.IP = ip4
+			veth.ip4Addr.Mask = mask4.Mask
+			veth.withIP4Addr = true
+		}
+
+		ip6, mask6, err3 := net.ParseCIDR(n[2])
+		if err3 != nil {
+			err = fmt.Errorf("failed to parse IPv6 addr %s: %v",
+				n[2], err3)
+			return
+		}
+		veth.ip6Addr.IP = ip6
+		veth.ip6Addr.Mask = mask6.Mask
+		veth.withIP6Addr = true
+	}
+	return
+}
+
 // parseNOption parses '-n' option and put this information in veth object.
 func parseNOption(s string) (veth vEth, err error) {
-	n := strings.Split(s, ":")
-	if len(n) != 3 && len(n) != 2 {
+	n := strings.Split(s, ",")
+	if len(n) > 4 || len(n) < 1 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
@@ -233,31 +283,22 @@ func parseNOption(s string) (veth vEth, err error) {
 	veth.nsName = fmt.Sprintf("/var/run/netns/%s", n[0])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v", err)
+		os.Exit(1)
 	}
 
-	veth.linkName = n[1]
-
-	if len(n) == 3 {
-		ip, mask, err2 := net.ParseCIDR(n[2])
-		if err2 != nil {
-			err = fmt.Errorf("failed to parse IP addr %s: %v",
-				n[2], err2)
-			return
-		}
-		veth.ip4Addr.IP = ip
-		veth.ip4Addr.Mask = mask.Mask
-		veth.withIP4Addr = true
-	} else {
-		veth.withIP4Addr = false
+	err1 := parseLinkIPOption(&veth, n[1:])
+	if err1 != nil {
+		fmt.Fprintf(os.Stderr, "%v", err1)
+		os.Exit(1)
 	}
 
 	return
 }
 
-// parseNOption parses '-n' option and put this information in veth object.
+// Parsedoption Parses '-n' option and put this information in veth object.
 func parseDOption(s string) (veth vEth, err error) {
-	n := strings.Split(s, ":")
-	if len(n) != 3 && len(n) != 2 {
+	n := strings.Split(s, ",")
+	if len(n) > 4 || len(n) < 1 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
@@ -265,22 +306,13 @@ func parseDOption(s string) (veth vEth, err error) {
 	veth.nsName, err = getDockerContainerNS(n[0])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v", err)
+		os.Exit(1)
 	}
 
-	veth.linkName = n[1]
-
-	if len(n) == 3 {
-		ip, mask, err2 := net.ParseCIDR(n[2])
-		if err2 != nil {
-			err = fmt.Errorf("failed to parse IP addr %s: %v",
-				n[2], err2)
-			return
-		}
-		veth.ip4Addr.IP = ip
-		veth.ip4Addr.Mask = mask.Mask
-		veth.withIP4Addr = true
-	} else {
-		veth.withIP4Addr = false
+	err1 := parseLinkIPOption(&veth, n[1:])
+	if err1 != nil {
+		fmt.Fprintf(os.Stderr, "%v", err1)
+		os.Exit(1)
 	}
 
 	return
@@ -290,7 +322,7 @@ func parseDOption(s string) (veth vEth, err error) {
 func parseXOption(s string) (vxlan vxLan, err error) {
 	var err2 error // if we encounter an error, it's marked here.
 
-	n := strings.Split(s, ":")
+	n := strings.Split(s, ",")
 	if len(n) != 3 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
@@ -312,9 +344,11 @@ func usage() {
 	doc := heredoc.Doc(`
 		
 		Usage:
-		./koko -d centos1:link1:192.168.1.1/24 -d centos2:link2:192.168.1.2/24 #with IP addr
-		./koko -d centos1:link1 -d centos2:link2  #without IP addr
-		./koko -n /var/run/netns/test1:link1:192.168.1.1/24 <other>	
+		./koko -d centos1,link1,192.168.1.1/24 -d centos2,link2,192.168.1.2/24 #with IP addr
+		./koko -d centos1,link1 -d centos2,link2  #without IP addr
+		./koko -n /var/run/netns/test1,link1,192.168.1.1/24 <other>	
+
+                See https://github.com/redhat-nfvpe/koko/wiki/Examples for the detail.
 	`)
 
 	fmt.Print(doc)
