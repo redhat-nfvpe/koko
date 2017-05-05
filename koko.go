@@ -20,7 +20,8 @@ import (
 	"github.com/MakeNowJust/heredoc"
 )
 
-var VERSION string
+// VERSION indicates koko's version.
+var VERSION = "master@git"
 
 func makeVethPair(name, peer string, mtu int) (netlink.Link, error) {
 	veth := &netlink.Veth{
@@ -363,10 +364,6 @@ func main() {
 		ModeAddVxlan
 		ModeDeleteLink
 	)
-
-	if VERSION == "" {
-		VERSION = "master@git"
-	}
 
 	cnt := 0 // Count of command line parameters.
 	// Any errors with peeling apart the command line options.
