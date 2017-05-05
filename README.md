@@ -25,6 +25,9 @@ From May 2016, option separator is changed from ':' to ',', due to support IPv6.
 - veth: Virtual Ethernet Interface
 - vxlan: Virtual eXtensible Local Area Network
 
+# Get Releases
+See [releases page](https://github.com/redhat-nfvpe/koko/releases).
+
 # Build
 
 `koko` is written in go, so following commands makes `koko` single binary. Build and put it in your container host.
