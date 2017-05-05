@@ -41,10 +41,10 @@ From May 2016, option separator is changed from ':' to ',', due to support IPv6.
 
 ## Connecting containers in container host using veth
 
-    ./koko {-d <container>,<linkname>[,<IPv4 addr>/<prefixlen>[,<IPv6 addr>/<prefixlen>]] |
-            -n <netns name>,<linkname>[,<IPv4 addr>/<prefixlen>[,<IPv6 addr>/<prefixlen>]]}
-	   {-d <container>,<linkname>[,<IPv4 addr>/<prefixlen>[,<IPv6 addr>/<prefixlen>]] |
-            -n <netns name>,<linkname>[,<IPv4 addr>/<prefixlen>[,<IPv6 addr>/<prefixlen>]]}
+    ./koko {-d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]}
+	   {-d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...] }
 
 
 ## Connecting containers using vxlan (interconnecting container hosts)
@@ -52,8 +52,8 @@ From May 2016, option separator is changed from ':' to ',', due to support IPv6.
 Connecting containers which are in separate hosts with vxlan. Following command makes vxlan interface 
 and put this interface into given container with/without IP address.
 
-    ./koko {-d <container>,<linkname>[,<IPv4 addr>/<prefixlen>[,<IPv6 addr>/<prefixlen>]] |
-            -n <netns name>,<linkname>[,<IPv4 addr>/<prefixlen>[,<IPv6 addr>/<prefixlen>]] }
+    ./koko {-d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...] }
             -x <parent interface>:<remote endpoint IP addr>:<vxlan id> 
 
 ## Delete link in containers
@@ -72,8 +72,12 @@ Please see [Examples](https://github.com/redhat-nfvpe/koko/wiki/Examples) in Wik
 
 ## Example
 
-    # connect between docker containers
+    # connect between docker containers with IPv4 address
     sudo ./koko -d centos1,link1,192.168.1.1/24 -d centos2,link2,192.168.1.2/24
+    # connect between docker containers with IPv6 address
+    sudo ./koko -d centos1,link1,2001:DB8::1/64 -d centos2,link2,2001:DB8::2/64
+    # connect between docker containers with IPv4/IPv6 address
+    sudo ./koko -d centos1,link1,192.168.1.1/24,2001:DB8::1/64 -d centos2,link2,192.168.1.2/24,2001:DB8::2/64
     # connect between netns namespaces
     sudo ./koko -n testns1,link1,192.168.1.1/24 -n testns2,link2,192.168.1.2/24
     # connect between docker container and netns namespace
