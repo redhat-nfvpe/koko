@@ -20,6 +20,8 @@ import (
 	"github.com/MakeNowJust/heredoc"
 )
 
+var version string
+
 func makeVethPair(name, peer string, mtu int) (netlink.Link, error) {
 	veth := &netlink.Veth{
 		LinkAttrs: netlink.LinkAttrs{
@@ -383,6 +385,10 @@ func main() {
 		ModeDeleteLink
 	)
 
+	if version == "" {
+		version = "master@git"
+	}
+
 	cnt := 0          // Count of command line parameters.
 	getopt.OptErr = 0 // Any errors with peeling apart the command line options.
 
@@ -394,7 +400,7 @@ func main() {
 
 	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("d:n:x:hD:"); c == getopt.EOF {
+		if c = getopt.Getopt("d:n:x:hD:v"); c == getopt.EOF {
 			break
 		}
 		switch c {
@@ -477,6 +483,10 @@ func main() {
 		case 'x':
 			vxlan, err = parseXOption(getopt.OptArg)
 			mode = ModeAddVxlan
+
+		case 'v':
+			fmt.Printf("koko version: %s\n", version)
+			os.Exit(0)
 
 		case 'h':
 			usage()
