@@ -109,7 +109,7 @@ func getDockerContainerNS(containerID string) (namespace string, err error) {
 		err = fmt.Errorf("failed to get container info: %v", err)
 		return
 	}
-	namespace = json.NetworkSettings.NetworkSettingsBase.SandboxKey
+	namespace = fmt.Sprintf("/proc/%d/ns/net", json.State.Pid)
 	return
 }
 
