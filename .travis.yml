@@ -1,13 +1,29 @@
 language: go
 
 before_install:
- - go get github.com/golang/lint/golint
+  - go get github.com/golang/lint/golint
 
 before_script:
- - go vet . 
- - golint . | xargs -r false
+  - go vet .
+  - golint . | xargs -r false
 
 script:
- - go get
- - go test -v
- - go build
+  - go get
+  - go test -v
+  - go build
+
+before_deploy:
+  - go get -u github.com/laher/goxc
+  - mkdir -p $TRAVIS_BUILD_DIR/dist
+  - goxc -d=$TRAVIS_BUILD_DIR/dist -bc=linux -tasks=clean-destination,xc,archive,rmbin
+
+deploy:
+  provider: releases
+  api_key:
+    secure: hTcbs8BsUTJnO8YDnlvVv/OiinQdTQBx0u7sedU6G5zSuudTs67EWQ5gQRsp1uw7x+gHVwDWpEzFyvdN/9k6hpMmq1SX7Dqn5wkF8TODkUKyCthiDuz8cwkRPobtokH3KYnGPkgBhxZr3THMxMva20lJnxXsCp6C8pIzD7iWfv4IbmAmoq97UjU5HXCFfpqVNIbUIt3kDLlZscbY1AIjRRfAr2NmL7LZgm+uNNpcBjRHFHYSFnkgUT0N+hctBfhNy2K9FWogZHjWE5x+llPj4SHPrN2keu0q3S4FJtMTdy0NSw1NtLj+QLhrI4Rqsq9HQpXmQy8kg3TLCCnJaZAvLSdjyrgIq8ojeVXLAtwFpx8jbUi5pqp5UiLdg2Y5qSwMQNxoazf7IkzTtSYwrnMnWmpKTzZ+can9nkXqlw+NfRl9cLTjFJwsoEQPYsGweRt/kEvepfVUlo/yBx+ywwEPrS1EMPF9xU8MViYsjucxSm2OC68lYbPE0FIyDC8JNk+EsyvAqFA7o8JAGguzWVOSWcQouR0iFVQk02D35XchG5e7dvxHeCRHc/jo4EAfoxsD6iF9Mr0F9WKbxhV8fbvR1lR9cq6xRRIQoh5R+b7dO6oTA0ntFMisVi5vpuZNyE9O8f0LjC6hoikmlleu/b68cGsvn8SZNMystkEYBDZdkzs=
+  file_glob: true
+  file: "$TRAVIS_BUILD_DIR/dist/**/*.gz"
+  on:
+    tags: true
+    all_branches: true
+    condition: "$TRAVIS_TAG =~ ^v[0-9].*$"
