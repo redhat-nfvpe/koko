@@ -38,13 +38,15 @@ func makeVethPair(name, peer string, mtu int) (netlink.Link, error) {
 	return veth, nil
 }
 
-func getVethPair(name1 string, name2 string) (link1 netlink.Link, link2 netlink.Link, err error) {
-
+func getVethPair(name1 string, name2 string) (link1 netlink.Link,
+	link2 netlink.Link, err error) {
 	link1, err = makeVethPair(name1, name2, 1500)
 	if err != nil {
 		switch {
 		case os.IsExist(err):
-			err = fmt.Errorf("container veth name provided (%v) already exists", name1)
+			err = fmt.Errorf(
+				"container veth name provided (%v) "+
+					"already exists", name1)
 			return
 		default:
 			err = fmt.Errorf("failed to make veth pair: %v", err)
@@ -115,12 +117,9 @@ func getDockerContainerNS(containerID string) (namespace string, err error) {
 
 // vEth is a structure to descrive veth interfaces.
 type vEth struct {
-	nsName      string    // What's the network namespace?
-	linkName    string    // And what will we call the link.
-	withIP4Addr bool      // Is there an ipv4 address?
-	withIP6Addr bool      // Is there an ipv6 address?
-	ip4Addr     net.IPNet // What is that ip address.
-	ip6Addr     net.IPNet // What is that ip address.
+	nsName   string      // What's the network namespace?
+	linkName string      // And what will we call the link.
+	ipAddr   []net.IPNet // Slice of IPv4/v6 adress.
 }
 
 // vxLan is a structure to descrive vxlan endpoint.
@@ -130,7 +129,8 @@ type vxLan struct {
 	ipAddr   net.IP // VxLan destination address
 }
 
-// setVethLink is low-level handler to set IP address onveth links given a single vEth data object.
+// setVethLink is low-level handler to set IP address onveth links given
+// a single vEth data object.
 // ...primarily used privately by makeVeth().
 func (veth *vEth) setVethLink(link netlink.Link) (err error) {
 	vethNs, err := ns.GetNS(veth.nsName)
@@ -147,26 +147,22 @@ func (veth *vEth) setVethLink(link netlink.Link) (err error) {
 	err = vethNs.Do(func(_ ns.NetNS) error {
 		link, err := netlink.LinkByName(veth.linkName)
 		if err != nil {
-			return fmt.Errorf("failed to lookup %q in %q: %v", veth.linkName, vethNs.Path(), err)
+			return fmt.Errorf("failed to lookup %q in %q: %v",
+				veth.linkName, vethNs.Path(), err)
 		}
 
 		if err = netlink.LinkSetUp(link); err != nil {
-			return fmt.Errorf("failed to set %q up: %v", veth.linkName, err)
+			return fmt.Errorf("failed to set %q up: %v",
+				veth.linkName, err)
 		}
 
 		// Conditionally set the IP address.
-		if veth.withIP4Addr {
-			addr := &netlink.Addr{IPNet: &veth.ip4Addr, Label: ""}
+		for i := 0; i < len(veth.ipAddr); i++ {
+			addr := &netlink.Addr{IPNet: &veth.ipAddr[i], Label: ""}
 			if err = netlink.AddrAdd(link, addr); err != nil {
-				return fmt.Errorf("failed to add IPv4 addr %v to %q: %v", addr, veth.linkName, err)
-			}
-		}
-
-		// Conditionally set the IP address.
-		if veth.withIP6Addr {
-			addr := &netlink.Addr{IPNet: &veth.ip6Addr, Label: ""}
-			if err = netlink.AddrAdd(link, addr); err != nil {
-				return fmt.Errorf("failed to add IPv6 addr %v to %q: %v", addr, veth.linkName, err)
+				return fmt.Errorf(
+					"failed to add IP addr %v to %q: %v",
+					addr, veth.linkName, err)
 			}
 		}
 
@@ -176,7 +172,8 @@ func (veth *vEth) setVethLink(link netlink.Link) (err error) {
 	return
 }
 
-// removeVethLink is low-level handler to get interface handle in container/netns namespace and remove it.
+// removeVethLink is low-level handler to get interface handle in
+// container/netns namespace and remove it.
 func (veth *vEth) removeVethLink() (err error) {
 	vethNs, err := ns.GetNS(veth.nsName)
 
@@ -188,12 +185,14 @@ func (veth *vEth) removeVethLink() (err error) {
 	err = vethNs.Do(func(_ ns.NetNS) error {
 		link, err := netlink.LinkByName(veth.linkName)
 		if err != nil {
-			return fmt.Errorf("failed to lookup %q in %q: %v", veth.linkName, vethNs.Path(), err)
+			return fmt.Errorf("failed to lookup %q in %q: %v",
+				veth.linkName, vethNs.Path(), err)
 		}
 
 		err = netlink.LinkDel(link)
 		if err != nil {
-			return fmt.Errorf("failed to remove link %q in %q: %v", veth.linkName, vethNs.Path(), err)
+			return fmt.Errorf("failed to remove link %q in %q: %v",
+				veth.linkName, vethNs.Path(), err)
 		}
 		return nil
 	})
@@ -201,7 +200,8 @@ func (veth *vEth) removeVethLink() (err error) {
 	return
 }
 
-// makeVeth is top-level handler to create veth links given two vEth data objects: veth1 and veth2.
+// makeVeth is top-level handler to create veth links given two vEth data
+// objects: veth1 and veth2.
 func makeVeth(veth1 vEth, veth2 vEth) {
 
 	link1, link2, err := getVethPair(veth1.linkName, veth2.linkName)
@@ -227,7 +227,8 @@ func makeVxLan(veth1 vEth, vxlan vxLan) {
 	}
 	err = veth1.setVethLink(link)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Cannot add IPaddr/netns failed: %v", err)
+		fmt.Fprintf(os.Stderr, "Cannot add IPaddr/netns failed: %v",
+			err)
 	}
 }
 
@@ -235,40 +236,18 @@ func parseLinkIPOption(veth *vEth, n []string) (err error) {
 
 	veth.linkName = n[0]
 
-	switch len(n) {
-	case 2:
-		ip4, mask4, err1 := net.ParseCIDR(n[1])
+	numAddr := len(n) - 1
+
+	veth.ipAddr = make([]net.IPNet, numAddr)
+	for i := 0; i < numAddr; i++ {
+		ip, mask, err1 := net.ParseCIDR(n[i+1])
 		if err1 != nil {
-			err = fmt.Errorf("failed to parse IP addr %s: %v",
-				n[1], err1)
+			err = fmt.Errorf("failed to parse IP addr(%d) %s: %v",
+				i, n[i], err1)
 			return
 		}
-		veth.ip4Addr.IP = ip4
-		veth.ip4Addr.Mask = mask4.Mask
-		veth.withIP4Addr = true
-
-	case 3:
-		if n[1] != "" {
-			ip4, mask4, err2 := net.ParseCIDR(n[1])
-			if err2 != nil {
-				err = fmt.Errorf("failed to parse IPv4 addr %s: %v",
-					n[1], err2)
-				return
-			}
-			veth.ip4Addr.IP = ip4
-			veth.ip4Addr.Mask = mask4.Mask
-			veth.withIP4Addr = true
-		}
-
-		ip6, mask6, err3 := net.ParseCIDR(n[2])
-		if err3 != nil {
-			err = fmt.Errorf("failed to parse IPv6 addr %s: %v",
-				n[2], err3)
-			return
-		}
-		veth.ip6Addr.IP = ip6
-		veth.ip6Addr.Mask = mask6.Mask
-		veth.withIP6Addr = true
+		veth.ipAddr[i].IP = ip
+		veth.ipAddr[i].Mask = mask.Mask
 	}
 	return
 }
@@ -389,8 +368,9 @@ func main() {
 		version = "master@git"
 	}
 
-	cnt := 0          // Count of command line parameters.
-	getopt.OptErr = 0 // Any errors with peeling apart the command line options.
+	cnt := 0 // Count of command line parameters.
+	// Any errors with peeling apart the command line options.
+	getopt.OptErr = 0
 
 	// Create some empty vEth data objects.
 	veth1 := vEth{}
@@ -408,14 +388,18 @@ func main() {
 			if cnt == 0 {
 				veth1, err = parseDOption(getopt.OptArg)
 				if err != nil {
-					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
 					usage()
 					os.Exit(1)
 				}
 			} else if cnt == 1 {
 				veth2, err = parseDOption(getopt.OptArg)
 				if err != nil {
-					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
 					usage()
 					os.Exit(1)
 				}
@@ -430,7 +414,9 @@ func main() {
 			if cnt == 0 {
 				veth1, err = parseDOption(getopt.OptArg)
 				if err != nil {
-					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
 					usage()
 					os.Exit(1)
 				}
@@ -446,14 +432,18 @@ func main() {
 			if cnt == 0 {
 				veth1, err = parseNOption(getopt.OptArg)
 				if err != nil {
-					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
 					usage()
 					os.Exit(1)
 				}
 			} else if cnt == 1 {
 				veth2, err = parseNOption(getopt.OptArg)
 				if err != nil {
-					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
 					usage()
 					os.Exit(1)
 				}
@@ -468,7 +458,9 @@ func main() {
 			if cnt == 0 {
 				veth1, err = parseNOption(getopt.OptArg)
 				if err != nil {
-					fmt.Fprintf(os.Stderr, "Parse failed %s!:%v", getopt.OptArg, err)
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
 					usage()
 					os.Exit(1)
 				}
