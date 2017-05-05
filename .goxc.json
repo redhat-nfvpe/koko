@@ -1,5 +1,8 @@
 {
 	"ConfigVersion": "0.1",
 	"PackageVersion": "0.1",
-	"PrereleaseInfo": ""
+	"PrereleaseInfo": "",
+	"BuildSettings": {
+		"LdFlags": "-extldflags '-static'"
+	}
 }
