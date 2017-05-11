@@ -134,14 +134,22 @@ type vxLan struct {
 // a single vEth data object.
 // ...primarily used privately by makeVeth().
 func (veth *vEth) setVethLink(link netlink.Link) (err error) {
-	vethNs, err := ns.GetNS(veth.nsName)
+	var vethNs ns.NetNS
 
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%v", err)
+	if veth.nsName == "" {
+		vethNs, err = ns.GetCurrentNS()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%v", err)
+		}
+	} else {
+		vethNs, err = ns.GetNS(veth.nsName)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%v", err)
+		}
 	}
-	defer vethNs.Close()
 
-	if err := netlink.LinkSetNsFd(link, int(vethNs.Fd())); err != nil {
+	defer vethNs.Close()
+	if err = netlink.LinkSetNsFd(link, int(vethNs.Fd())); err != nil {
 		fmt.Fprintf(os.Stderr, "%v", err)
 	}
 
@@ -176,10 +184,19 @@ func (veth *vEth) setVethLink(link netlink.Link) (err error) {
 // removeVethLink is low-level handler to get interface handle in
 // container/netns namespace and remove it.
 func (veth *vEth) removeVethLink() (err error) {
-	vethNs, err := ns.GetNS(veth.nsName)
+	var vethNs ns.NetNS
 
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%v", err)
+	if veth.nsName == "" {
+		vethNs, err = ns.GetCurrentNS()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%v", err)
+		}
+	} else {
+		vethNs, err = ns.GetNS(veth.nsName)
+
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%v", err)
+		}
 	}
 	defer vethNs.Close()
 
@@ -234,9 +251,7 @@ func makeVxLan(veth1 vEth, vxlan vxLan) {
 }
 
 func parseLinkIPOption(veth *vEth, n []string) (err error) {
-
 	veth.linkName = n[0]
-
 	numAddr := len(n) - 1
 
 	veth.ipAddr = make([]net.IPNet, numAddr)
@@ -276,7 +291,26 @@ func parseNOption(s string) (veth vEth, err error) {
 	return
 }
 
-// Parsedoption Parses '-n' option and put this information in veth object.
+// parseCOption Parses '-c' option and put this information in veth object.
+func parseCOption(s string) (veth vEth, err error) {
+	n := strings.Split(s, ",")
+	if len(n) > 4 || len(n) < 1 {
+		err = fmt.Errorf("failed to parse %s", s)
+		return
+	}
+
+	veth.nsName = ""
+
+	err1 := parseLinkIPOption(&veth, n)
+	if err1 != nil {
+		fmt.Fprintf(os.Stderr, "%v", err1)
+		os.Exit(1)
+	}
+
+	return
+}
+
+// parseDOption Parses '-d' option and put this information in veth object.
 func parseDOption(s string) (veth vEth, err error) {
 	n := strings.Split(s, ",")
 	if len(n) > 4 || len(n) < 1 {
@@ -327,7 +361,9 @@ func usage() {
 		Usage:
 		./koko -d centos1,link1,192.168.1.1/24 -d centos2,link2,192.168.1.2/24 #with IP addr
 		./koko -d centos1,link1 -d centos2,link2  #without IP addr
+                ./koko -d centos1,link1 -c link2
 		./koko -n /var/run/netns/test1,link1,192.168.1.1/24 <other>	
+
 
                 See https://github.com/redhat-nfvpe/koko/wiki/Examples for the detail.
 	`)
@@ -353,6 +389,10 @@ Usage:
 ./koko -D centos1:link1
 * case7: delete linux ns interface
 ./koko -N /var/run/netns/test1:link1
+
+* case8: connect docker/linux ns container to vxlan interface
+./koko -d centos1:link1:192.168.1.1/24 -c link2
+
 */
 func main() {
 
@@ -377,11 +417,11 @@ func main() {
 
 	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("d:n:x:hD:v"); c == getopt.EOF {
+		if c = getopt.Getopt("d:D:n:N:x:hv"); c == getopt.EOF {
 			break
 		}
 		switch c {
-		case 'd':
+		case 'd': // docker
 			if cnt == 0 {
 				veth1, err = parseDOption(getopt.OptArg)
 				if err != nil {
@@ -407,7 +447,7 @@ func main() {
 			}
 			cnt++
 
-		case 'D':
+		case 'D': // delete docker
 			if cnt == 0 {
 				veth1, err = parseDOption(getopt.OptArg)
 				if err != nil {
@@ -425,7 +465,7 @@ func main() {
 			cnt++
 			mode = ModeDeleteLink
 
-		case 'n':
+		case 'n': // linux netns
 			if cnt == 0 {
 				veth1, err = parseNOption(getopt.OptArg)
 				if err != nil {
@@ -451,7 +491,7 @@ func main() {
 			}
 			cnt++
 
-		case 'N':
+		case 'N': // delete linux netns
 			if cnt == 0 {
 				veth1, err = parseNOption(getopt.OptArg)
 				if err != nil {
@@ -469,15 +509,41 @@ func main() {
 			cnt++
 			mode = ModeDeleteLink
 
-		case 'x':
+		case 'c': // current netns
+			if cnt == 0 {
+				veth1, err = parseCOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
+					usage()
+					os.Exit(1)
+				}
+			} else if cnt == 1 {
+				veth2, err = parseCOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
+					usage()
+					os.Exit(1)
+				}
+			} else {
+				fmt.Fprintf(os.Stderr, "Too many config!")
+				usage()
+				os.Exit(1)
+			}
+			cnt++
+
+		case 'x': // VXLAN
 			vxlan, err = parseXOption(getopt.OptArg)
 			mode = ModeAddVxlan
 
-		case 'v':
+		case 'v': // version
 			fmt.Printf("koko version: %s\n", VERSION)
 			os.Exit(0)
 
-		case 'h':
+		case 'h': // help
 			usage()
 			os.Exit(0)
 
