@@ -452,7 +452,7 @@ func main() {
 			break
 		}
 		switch c {
-		case 'd': // docker
+		case 'd','D': // docker
 			if cnt == 0 {
 				veth1, err = parseDOption(getopt.OptArg)
 				if err != nil {
@@ -462,7 +462,7 @@ func main() {
 					usage()
 					os.Exit(1)
 				}
-			} else if cnt == 1 {
+			} else if cnt == 1 && c == 'd' {
 				veth2, err = parseDOption(getopt.OptArg)
 				if err != nil {
 					fmt.Fprintf(os.Stderr,
@@ -477,26 +477,11 @@ func main() {
 				os.Exit(1)
 			}
 			cnt++
-
-		case 'D': // delete docker
-			if cnt == 0 {
-				veth1, err = parseDOption(getopt.OptArg)
-				if err != nil {
-					fmt.Fprintf(os.Stderr,
-						"Parse failed %s!:%v",
-						getopt.OptArg, err)
-					usage()
-					os.Exit(1)
-				}
-			} else {
-				fmt.Fprintf(os.Stderr, "Too many config!")
-				usage()
-				os.Exit(1)
+			if c == 'D' {
+				mode = ModeDeleteLink
 			}
-			cnt++
-			mode = ModeDeleteLink
 
-		case 'p': // pid
+		case 'p','P': // pid
 			if cnt == 0 {
 				veth1, err = parsePOption(getopt.OptArg)
 				if err != nil {
@@ -506,7 +491,7 @@ func main() {
 					usage()
 					os.Exit(1)
 				}
-			} else if cnt == 1 {
+			} else if cnt == 1 && c == 'p' {
 				veth2, err = parsePOption(getopt.OptArg)
 				if err != nil {
 					fmt.Fprintf(os.Stderr,
@@ -521,35 +506,11 @@ func main() {
 				os.Exit(1)
 			}
 			cnt++
-
-		case 'P': // pid
-			if cnt == 0 {
-				veth1, err = parsePOption(getopt.OptArg)
-				if err != nil {
-					fmt.Fprintf(os.Stderr,
-						"Parse failed %s!:%v",
-						getopt.OptArg, err)
-					usage()
-					os.Exit(1)
-				}
-			} else if cnt == 1 {
-				veth2, err = parsePOption(getopt.OptArg)
-				if err != nil {
-					fmt.Fprintf(os.Stderr,
-						"Parse failed %s!:%v",
-						getopt.OptArg, err)
-					usage()
-					os.Exit(1)
-				}
-			} else {
-				fmt.Fprintf(os.Stderr, "Too many config!")
-				usage()
-				os.Exit(1)
+			if c == 'P' {
+				mode = ModeDeleteLink
 			}
-			cnt++
-			mode = ModeDeleteLink
 
-		case 'n': // linux netns
+		case 'n','N': // linux netns
 			if cnt == 0 {
 				veth1, err = parseNOption(getopt.OptArg)
 				if err != nil {
@@ -559,7 +520,7 @@ func main() {
 					usage()
 					os.Exit(1)
 				}
-			} else if cnt == 1 {
+			} else if cnt == 1 && c == 'n' {
 				veth2, err = parseNOption(getopt.OptArg)
 				if err != nil {
 					fmt.Fprintf(os.Stderr,
@@ -574,24 +535,9 @@ func main() {
 				os.Exit(1)
 			}
 			cnt++
-
-		case 'N': // delete linux netns
-			if cnt == 0 {
-				veth1, err = parseNOption(getopt.OptArg)
-				if err != nil {
-					fmt.Fprintf(os.Stderr,
-						"Parse failed %s!:%v",
-						getopt.OptArg, err)
-					usage()
-					os.Exit(1)
-				}
-			} else {
-				fmt.Fprintf(os.Stderr, "Too many config!")
-				usage()
-				os.Exit(1)
+			if c == 'N' {
+				mode = ModeDeleteLink
 			}
-			cnt++
-			mode = ModeDeleteLink
 
 		case 'c': // current netns
 			if cnt == 0 {
@@ -635,8 +581,10 @@ func main() {
 
 	}
 
-	// Assuming everything else above has worked out -- we'll continue on and make the vth pair.
-	// You'll node at this point we've created vEth data objects and pass them along to the makeVeth method.
+	// Assuming everything else above has worked out -- we'll continue
+	// on and make the vth pair.
+	// You'll node at this point we've created vEth data objects and
+	// pass them along to the makeVeth method.
 	if mode != ModeAddVxlan && cnt == 2 {
 		// case 1: two container endpoint.
 		fmt.Printf("Create veth...")
