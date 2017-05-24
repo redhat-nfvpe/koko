@@ -48,10 +48,11 @@ See [releases page](https://github.com/redhat-nfvpe/koko/releases).
 
     ./koko {-c <linkname> |
             -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
-            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]}
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
+            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]}
 	   {-d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
-            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...] }
-
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
+            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]}
 
 ## Connecting containers using vxlan (interconnecting container hosts)
 
@@ -60,7 +61,8 @@ and put this interface into given container with/without IP address.
 
     ./koko {-c <linkname> |
             -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
-            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...] }
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
+            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...] }
             -x <parent interface>:<remote endpoint IP addr>:<vxlan id> 
 
 ## Delete link in containers
@@ -77,6 +79,8 @@ removed in this command.
 - `-D` is to delete interface of docker container namespace
 - `-n` is to create interface and put it in linux netns namespace
 - `-N` is to delete interface of linux netns namespace
+- `-p` is to create interface and put it in pid's netns namespace
+- `-P` is to delete interface of pid's netns namespace
 - `-X` is to create vxlan interface
 - `-h` is to show help
 - `-v` is to show version
