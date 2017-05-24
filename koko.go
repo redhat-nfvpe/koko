@@ -250,6 +250,8 @@ func makeVxLan(veth1 vEth, vxlan vxLan) {
 	}
 }
 
+// parseLinkIPOption parses '<linkname>(:<ip>/<prefix>)' syntax and put it in
+// veth object
 func parseLinkIPOption(veth *vEth, n []string) (err error) {
 	veth.linkName = n[0]
 	numAddr := len(n) - 1
@@ -333,6 +335,30 @@ func parseDOption(s string) (veth vEth, err error) {
 	return
 }
 
+// parsePOption Parses '-p' option and put this information in veth object.
+func parsePOption(s string) (veth vEth, err error) {
+	n := strings.Split(s, ",")
+	if len(n) > 4 || len(n) < 1 {
+		err = fmt.Errorf("failed to parse %s", s)
+		return
+	}
+
+	veth.nsName = fmt.Sprintf("/proc/%s/ns/net", n[0])
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v", err)
+		os.Exit(1)
+	}
+
+	err1 := parseLinkIPOption(&veth, n[1:])
+	if err1 != nil {
+		fmt.Fprintf(os.Stderr, "%v", err1)
+		os.Exit(1)
+	}
+
+	return
+}
+
+
 // parseXOption parses '-x' option and put this information in veth object.
 func parseXOption(s string) (vxlan vxLan, err error) {
 	var err2 error // if we encounter an error, it's marked here.
@@ -362,8 +388,7 @@ func usage() {
 		./koko -d centos1,link1,192.168.1.1/24 -d centos2,link2,192.168.1.2/24 #with IP addr
 		./koko -d centos1,link1 -d centos2,link2  #without IP addr
                 ./koko -d centos1,link1 -c link2
-		./koko -n /var/run/netns/test1,link1,192.168.1.1/24 <other>	
-
+		./koko -n /var/run/netns/test1,link1,192.168.1.1/24 <other>
 
                 See https://github.com/redhat-nfvpe/koko/wiki/Examples for the detail.
 	`)
@@ -393,6 +418,12 @@ Usage:
 * case8: connect docker/linux ns container to vxlan interface
 ./koko -d centos1:link1:192.168.1.1/24 -c link2
 
+* case9: connect container of <pid1> and the one of <pid2>
+./koko -p <pid1>:link1:192.168.1.1/24 -p <pid2>:link1:192.168.1.1/24 
+
+* case10: connect container of <pid1> 
+./koko -P <pid1>:link1
+
 */
 func main() {
 
@@ -417,11 +448,11 @@ func main() {
 
 	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("d:D:n:N:x:hv"); c == getopt.EOF {
+		if c = getopt.Getopt("d:D:n:N:x:p:P:hv"); c == getopt.EOF {
 			break
 		}
 		switch c {
-		case 'd': // docker
+		case 'd','D': // docker
 			if cnt == 0 {
 				veth1, err = parseDOption(getopt.OptArg)
 				if err != nil {
@@ -431,7 +462,7 @@ func main() {
 					usage()
 					os.Exit(1)
 				}
-			} else if cnt == 1 {
+			} else if cnt == 1 && c == 'd' {
 				veth2, err = parseDOption(getopt.OptArg)
 				if err != nil {
 					fmt.Fprintf(os.Stderr,
@@ -446,10 +477,22 @@ func main() {
 				os.Exit(1)
 			}
 			cnt++
+			if c == 'D' {
+				mode = ModeDeleteLink
+			}
 
-		case 'D': // delete docker
+		case 'p','P': // pid
 			if cnt == 0 {
-				veth1, err = parseDOption(getopt.OptArg)
+				veth1, err = parsePOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
+					usage()
+					os.Exit(1)
+				}
+			} else if cnt == 1 && c == 'p' {
+				veth2, err = parsePOption(getopt.OptArg)
 				if err != nil {
 					fmt.Fprintf(os.Stderr,
 						"Parse failed %s!:%v",
@@ -463,9 +506,11 @@ func main() {
 				os.Exit(1)
 			}
 			cnt++
-			mode = ModeDeleteLink
+			if c == 'P' {
+				mode = ModeDeleteLink
+			}
 
-		case 'n': // linux netns
+		case 'n','N': // linux netns
 			if cnt == 0 {
 				veth1, err = parseNOption(getopt.OptArg)
 				if err != nil {
@@ -475,7 +520,7 @@ func main() {
 					usage()
 					os.Exit(1)
 				}
-			} else if cnt == 1 {
+			} else if cnt == 1 && c == 'n' {
 				veth2, err = parseNOption(getopt.OptArg)
 				if err != nil {
 					fmt.Fprintf(os.Stderr,
@@ -490,24 +535,9 @@ func main() {
 				os.Exit(1)
 			}
 			cnt++
-
-		case 'N': // delete linux netns
-			if cnt == 0 {
-				veth1, err = parseNOption(getopt.OptArg)
-				if err != nil {
-					fmt.Fprintf(os.Stderr,
-						"Parse failed %s!:%v",
-						getopt.OptArg, err)
-					usage()
-					os.Exit(1)
-				}
-			} else {
-				fmt.Fprintf(os.Stderr, "Too many config!")
-				usage()
-				os.Exit(1)
+			if c == 'N' {
+				mode = ModeDeleteLink
 			}
-			cnt++
-			mode = ModeDeleteLink
 
 		case 'c': // current netns
 			if cnt == 0 {
@@ -551,8 +581,10 @@ func main() {
 
 	}
 
-	// Assuming everything else above has worked out -- we'll continue on and make the vth pair.
-	// You'll node at this point we've created vEth data objects and pass them along to the makeVeth method.
+	// Assuming everything else above has worked out -- we'll continue
+	// on and make the vth pair.
+	// You'll node at this point we've created vEth data objects and
+	// pass them along to the makeVeth method.
 	if mode != ModeAddVxlan && cnt == 2 {
 		// case 1: two container endpoint.
 		fmt.Printf("Create veth...")
