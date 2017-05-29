@@ -47,12 +47,12 @@ See [releases page](https://github.com/redhat-nfvpe/koko/releases).
 ## Connecting containers in container host using veth
 
     ./koko {-c <linkname> |
-            -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
-            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
-            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]}
-	   {-d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
-            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
-            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]}
+    	    -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
+            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]}
+           {-d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
+            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]}
 
 ## Connecting containers using vxlan (interconnecting container hosts)
 
@@ -61,8 +61,8 @@ and put this interface into given container with/without IP address.
 
     ./koko {-c <linkname> |
             -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
-            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
-            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...] }
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
+            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...] }
             -x <parent interface>:<remote endpoint IP addr>:<vxlan id> 
 
 ## Delete link in containers
