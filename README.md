@@ -47,11 +47,7 @@ See [releases page](https://github.com/redhat-nfvpe/koko/releases).
 ## Connecting containers in container host using veth
 
     ./koko {-c <linkname> |
-<<<<<<< HEAD
             -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
-=======
-    	    -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
->>>>>>> 5fb102d0f0594c64bc7fbe8790e462bc36dd384a
             -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
             -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]}
            {-d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
