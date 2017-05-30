@@ -387,10 +387,10 @@ func usage() {
 		Usage:
 		./koko -d centos1,link1,192.168.1.1/24 -d centos2,link2,192.168.1.2/24 #with IP addr
 		./koko -d centos1,link1 -d centos2,link2  #without IP addr
-                ./koko -d centos1,link1 -c link2
+		./koko -d centos1,link1 -c link2
 		./koko -n /var/run/netns/test1,link1,192.168.1.1/24 <other>
 
-                See https://github.com/redhat-nfvpe/koko/wiki/Examples for the detail.
+			See https://github.com/redhat-nfvpe/koko/wiki/Examples for the detail.
 	`)
 
 	fmt.Print(doc)
