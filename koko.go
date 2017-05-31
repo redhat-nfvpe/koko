@@ -11,252 +11,20 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/containernetworking/cni/pkg/ns"
-	"github.com/vishvananda/netlink"
-
-	"github.com/docker/docker/client"
-	"golang.org/x/net/context"
-
 	"github.com/MakeNowJust/heredoc"
+	"github.com/redhat-nfvpe/koko/api"
 )
 
 // VERSION indicates koko's version.
 var VERSION = "master@git"
 
-func makeVethPair(name, peer string, mtu int) (netlink.Link, error) {
-	veth := &netlink.Veth{
-		LinkAttrs: netlink.LinkAttrs{
-			Name:  name,
-			Flags: net.FlagUp,
-			MTU:   mtu,
-		},
-		PeerName: peer,
-	}
-
-	if err := netlink.LinkAdd(veth); err != nil {
-		return nil, err
-	}
-	return veth, nil
-}
-
-func getVethPair(name1 string, name2 string) (link1 netlink.Link,
-	link2 netlink.Link, err error) {
-	link1, err = makeVethPair(name1, name2, 1500)
-	if err != nil {
-		switch {
-		case os.IsExist(err):
-			err = fmt.Errorf(
-				"container veth name provided (%v) "+
-					"already exists", name1)
-			return
-		default:
-			err = fmt.Errorf("failed to make veth pair: %v", err)
-			return
-		}
-	}
-
-	link2, err = netlink.LinkByName(name2)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to lookup %q: %v\n", name2, err)
-	}
-
-	return
-}
-
-// addVxLanInterface creates VxLan interface by given vxlan object
-func addVxLanInterface(vxlan vxLan, devName string) error {
-	parentIF, err := netlink.LinkByName(vxlan.parentIF)
-
-	if err != nil {
-		return fmt.Errorf("Failed to get %s: %v", vxlan.parentIF, err)
-	}
-
-	vxlanconf := netlink.Vxlan{
-		LinkAttrs: netlink.LinkAttrs{
-			Name:   devName,
-			TxQLen: 1000,
-		},
-		VxlanId:      vxlan.id,
-		VtepDevIndex: parentIF.Attrs().Index,
-		Group:        vxlan.ipAddr,
-		Port:         4789,
-		Learning:     true,
-		L2miss:       true,
-		L3miss:       true,
-	}
-	err = netlink.LinkAdd(&vxlanconf)
-
-	if err != nil {
-		return fmt.Errorf("Failed to add vxlan %s: %v", devName, err)
-	}
-	return nil
-}
-
-// getDockerContainerNS retrieves container's network namespace from
-// docker container id, given as containerID.
-func getDockerContainerNS(containerID string) (namespace string, err error) {
-	ctx := context.Background()
-	cli, err := client.NewEnvClient()
-	if err != nil {
-		panic(err)
-	}
-
-	cli.UpdateClientVersion("1.24")
-
-	json, err := cli.ContainerInspect(ctx, containerID)
-	if err != nil {
-		err = fmt.Errorf("failed to get container info: %v", err)
-		return
-	}
-	if json.NetworkSettings == nil {
-		err = fmt.Errorf("failed to get container info: %v", err)
-		return
-	}
-	namespace = fmt.Sprintf("/proc/%d/ns/net", json.State.Pid)
-	return
-}
-
-// vEth is a structure to descrive veth interfaces.
-type vEth struct {
-	nsName   string      // What's the network namespace?
-	linkName string      // And what will we call the link.
-	ipAddr   []net.IPNet // Slice of IPv4/v6 adress.
-}
-
-// vxLan is a structure to descrive vxlan endpoint.
-type vxLan struct {
-	parentIF string // parent interface name
-	id       int    // VxLan ID
-	ipAddr   net.IP // VxLan destination address
-}
-
-// setVethLink is low-level handler to set IP address onveth links given
-// a single vEth data object.
-// ...primarily used privately by makeVeth().
-func (veth *vEth) setVethLink(link netlink.Link) (err error) {
-	var vethNs ns.NetNS
-
-	if veth.nsName == "" {
-		vethNs, err = ns.GetCurrentNS()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%v", err)
-		}
-	} else {
-		vethNs, err = ns.GetNS(veth.nsName)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%v", err)
-		}
-	}
-
-	defer vethNs.Close()
-	if err = netlink.LinkSetNsFd(link, int(vethNs.Fd())); err != nil {
-		fmt.Fprintf(os.Stderr, "%v", err)
-	}
-
-	err = vethNs.Do(func(_ ns.NetNS) error {
-		link, err := netlink.LinkByName(veth.linkName)
-		if err != nil {
-			return fmt.Errorf("failed to lookup %q in %q: %v",
-				veth.linkName, vethNs.Path(), err)
-		}
-
-		if err = netlink.LinkSetUp(link); err != nil {
-			return fmt.Errorf("failed to set %q up: %v",
-				veth.linkName, err)
-		}
-
-		// Conditionally set the IP address.
-		for i := 0; i < len(veth.ipAddr); i++ {
-			addr := &netlink.Addr{IPNet: &veth.ipAddr[i], Label: ""}
-			if err = netlink.AddrAdd(link, addr); err != nil {
-				return fmt.Errorf(
-					"failed to add IP addr %v to %q: %v",
-					addr, veth.linkName, err)
-			}
-		}
-
-		return nil
-	})
-
-	return
-}
-
-// removeVethLink is low-level handler to get interface handle in
-// container/netns namespace and remove it.
-func (veth *vEth) removeVethLink() (err error) {
-	var vethNs ns.NetNS
-
-	if veth.nsName == "" {
-		vethNs, err = ns.GetCurrentNS()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%v", err)
-		}
-	} else {
-		vethNs, err = ns.GetNS(veth.nsName)
-
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%v", err)
-		}
-	}
-	defer vethNs.Close()
-
-	err = vethNs.Do(func(_ ns.NetNS) error {
-		link, err := netlink.LinkByName(veth.linkName)
-		if err != nil {
-			return fmt.Errorf("failed to lookup %q in %q: %v",
-				veth.linkName, vethNs.Path(), err)
-		}
-
-		err = netlink.LinkDel(link)
-		if err != nil {
-			return fmt.Errorf("failed to remove link %q in %q: %v",
-				veth.linkName, vethNs.Path(), err)
-		}
-		return nil
-	})
-
-	return
-}
-
-// makeVeth is top-level handler to create veth links given two vEth data
-// objects: veth1 and veth2.
-func makeVeth(veth1 vEth, veth2 vEth) {
-
-	link1, link2, err := getVethPair(veth1.linkName, veth2.linkName)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%v", err)
-	}
-
-	veth1.setVethLink(link1)
-	veth2.setVethLink(link2)
-}
-
-// makeVxLan makes vxlan interface and put it into container namespace
-func makeVxLan(veth1 vEth, vxlan vxLan) {
-
-	err := addVxLanInterface(vxlan, veth1.linkName)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "vxlan add failed: %v", err)
-	}
-
-	link, err2 := netlink.LinkByName(veth1.linkName)
-	if err2 != nil {
-		fmt.Fprintf(os.Stderr, "Cannot get %s: %v", veth1.linkName, err)
-	}
-	err = veth1.setVethLink(link)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Cannot add IPaddr/netns failed: %v",
-			err)
-	}
-}
-
 // parseLinkIPOption parses '<linkname>(:<ip>/<prefix>)' syntax and put it in
 // veth object
-func parseLinkIPOption(veth *vEth, n []string) (err error) {
-	veth.linkName = n[0]
+func parseLinkIPOption(veth *api.VEth, n []string) (err error) {
+	veth.LinkName = n[0]
 	numAddr := len(n) - 1
 
-	veth.ipAddr = make([]net.IPNet, numAddr)
+	veth.IpAddr = make([]net.IPNet, numAddr)
 	for i := 0; i < numAddr; i++ {
 		ip, mask, err1 := net.ParseCIDR(n[i+1])
 		if err1 != nil {
@@ -264,21 +32,21 @@ func parseLinkIPOption(veth *vEth, n []string) (err error) {
 				i, n[i], err1)
 			return
 		}
-		veth.ipAddr[i].IP = ip
-		veth.ipAddr[i].Mask = mask.Mask
+		veth.IpAddr[i].IP = ip
+		veth.IpAddr[i].Mask = mask.Mask
 	}
 	return
 }
 
 // parseNOption parses '-n' option and put this information in veth object.
-func parseNOption(s string) (veth vEth, err error) {
+func parseNOption(s string) (veth api.VEth, err error) {
 	n := strings.Split(s, ",")
 	if len(n) > 4 || len(n) < 1 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
 
-	veth.nsName = fmt.Sprintf("/var/run/netns/%s", n[0])
+	veth.NsName = fmt.Sprintf("/var/run/netns/%s", n[0])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v", err)
 		os.Exit(1)
@@ -294,14 +62,14 @@ func parseNOption(s string) (veth vEth, err error) {
 }
 
 // parseCOption Parses '-c' option and put this information in veth object.
-func parseCOption(s string) (veth vEth, err error) {
+func parseCOption(s string) (veth api.VEth, err error) {
 	n := strings.Split(s, ",")
 	if len(n) > 4 || len(n) < 1 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
 
-	veth.nsName = ""
+	veth.NsName = ""
 
 	err1 := parseLinkIPOption(&veth, n)
 	if err1 != nil {
@@ -313,14 +81,14 @@ func parseCOption(s string) (veth vEth, err error) {
 }
 
 // parseDOption Parses '-d' option and put this information in veth object.
-func parseDOption(s string) (veth vEth, err error) {
+func parseDOption(s string) (veth api.VEth, err error) {
 	n := strings.Split(s, ",")
 	if len(n) > 4 || len(n) < 1 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
 
-	veth.nsName, err = getDockerContainerNS(n[0])
+	veth.NsName, err = api.GetDockerContainerNS(n[0])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v", err)
 		os.Exit(1)
@@ -336,14 +104,14 @@ func parseDOption(s string) (veth vEth, err error) {
 }
 
 // parsePOption Parses '-p' option and put this information in veth object.
-func parsePOption(s string) (veth vEth, err error) {
+func parsePOption(s string) (veth api.VEth, err error) {
 	n := strings.Split(s, ",")
 	if len(n) > 4 || len(n) < 1 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
 
-	veth.nsName = fmt.Sprintf("/proc/%s/ns/net", n[0])
+	veth.NsName = fmt.Sprintf("/proc/%s/ns/net", n[0])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v", err)
 		os.Exit(1)
@@ -360,7 +128,7 @@ func parsePOption(s string) (veth vEth, err error) {
 
 
 // parseXOption parses '-x' option and put this information in veth object.
-func parseXOption(s string) (vxlan vxLan, err error) {
+func parseXOption(s string) (vxlan api.VxLan, err error) {
 	var err2 error // if we encounter an error, it's marked here.
 
 	n := strings.Split(s, ",")
@@ -369,9 +137,9 @@ func parseXOption(s string) (vxlan vxLan, err error) {
 		return
 	}
 
-	vxlan.parentIF = n[0]
-	vxlan.ipAddr = net.ParseIP(n[1])
-	vxlan.id, err2 = strconv.Atoi(n[2])
+	vxlan.ParentIF = n[0]
+	vxlan.IpAddr = net.ParseIP(n[1])
+	vxlan.Id, err2 = strconv.Atoi(n[2])
 	if err2 != nil {
 		err = fmt.Errorf("failed to parse VXID %s: %v", n[2], err2)
 		return
@@ -441,9 +209,9 @@ func main() {
 	getopt.OptErr = 0
 
 	// Create some empty vEth data objects.
-	veth1 := vEth{}
-	veth2 := vEth{}
-	vxlan := vxLan{}
+	veth1 := api.VEth{}
+	veth2 := api.VEth{}
+	vxlan := api.VxLan{}
 	mode := ModeUnspec
 
 	// Parse options and and exit if they don't meet our criteria.
@@ -588,15 +356,15 @@ func main() {
 	if mode != ModeAddVxlan && cnt == 2 {
 		// case 1: two container endpoint.
 		fmt.Printf("Create veth...")
-		makeVeth(veth1, veth2)
+		api.MakeVeth(veth1, veth2)
 		fmt.Printf("done\n")
 	} else if mode == ModeAddVxlan && cnt == 1 {
 		// case 2: one endpoint with vxlan
-		fmt.Printf("Create vxlan %s\n", veth1.linkName)
-		makeVxLan(veth1, vxlan)
+		fmt.Printf("Create vxlan %s\n", veth1.LinkName)
+		api.MakeVxLan(veth1, vxlan)
 	} else if mode == ModeDeleteLink && cnt == 1 {
-		fmt.Printf("Delete link %s\n", veth1.linkName)
-		veth1.removeVethLink()
+		fmt.Printf("Delete link %s\n", veth1.LinkName)
+		veth1.RemoveVethLink()
 	}
 
 }
