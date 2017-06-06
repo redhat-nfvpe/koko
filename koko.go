@@ -1,6 +1,6 @@
-/**
- * koko: Container connector
- */
+/*
+koko: Container connector
+*/
 package main
 
 import (
@@ -24,7 +24,7 @@ func parseLinkIPOption(veth *api.VEth, n []string) (err error) {
 	veth.LinkName = n[0]
 	numAddr := len(n) - 1
 
-	veth.IpAddr = make([]net.IPNet, numAddr)
+	veth.IPAddr = make([]net.IPNet, numAddr)
 	for i := 0; i < numAddr; i++ {
 		ip, mask, err1 := net.ParseCIDR(n[i+1])
 		if err1 != nil {
@@ -32,8 +32,8 @@ func parseLinkIPOption(veth *api.VEth, n []string) (err error) {
 				i, n[i], err1)
 			return
 		}
-		veth.IpAddr[i].IP = ip
-		veth.IpAddr[i].Mask = mask.Mask
+		veth.IPAddr[i].IP = ip
+		veth.IPAddr[i].Mask = mask.Mask
 	}
 	return
 }
@@ -126,7 +126,6 @@ func parsePOption(s string) (veth api.VEth, err error) {
 	return
 }
 
-
 // parseXOption parses '-x' option and put this information in veth object.
 func parseXOption(s string) (vxlan api.VxLan, err error) {
 	var err2 error // if we encounter an error, it's marked here.
@@ -138,8 +137,8 @@ func parseXOption(s string) (vxlan api.VxLan, err error) {
 	}
 
 	vxlan.ParentIF = n[0]
-	vxlan.IpAddr = net.ParseIP(n[1])
-	vxlan.Id, err2 = strconv.Atoi(n[2])
+	vxlan.IPAddr = net.ParseIP(n[1])
+	vxlan.ID, err2 = strconv.Atoi(n[2])
 	if err2 != nil {
 		err = fmt.Errorf("failed to parse VXID %s: %v", n[2], err2)
 		return
@@ -187,9 +186,9 @@ Usage:
 ./koko -d centos1:link1:192.168.1.1/24 -c link2
 
 * case9: connect container of <pid1> and the one of <pid2>
-./koko -p <pid1>:link1:192.168.1.1/24 -p <pid2>:link1:192.168.1.1/24 
+./koko -p <pid1>:link1:192.168.1.1/24 -p <pid2>:link1:192.168.1.1/24
 
-* case10: connect container of <pid1> 
+* case10: connect container of <pid1>
 ./koko -P <pid1>:link1
 
 */
@@ -220,7 +219,7 @@ func main() {
 			break
 		}
 		switch c {
-		case 'd','D': // docker
+		case 'd', 'D': // docker
 			if cnt == 0 {
 				veth1, err = parseDOption(getopt.OptArg)
 				if err != nil {
@@ -249,7 +248,7 @@ func main() {
 				mode = ModeDeleteLink
 			}
 
-		case 'p','P': // pid
+		case 'p', 'P': // pid
 			if cnt == 0 {
 				veth1, err = parsePOption(getopt.OptArg)
 				if err != nil {
@@ -278,7 +277,7 @@ func main() {
 				mode = ModeDeleteLink
 			}
 
-		case 'n','N': // linux netns
+		case 'n', 'N': // linux netns
 			if cnt == 0 {
 				veth1, err = parseNOption(getopt.OptArg)
 				if err != nil {
