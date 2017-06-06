@@ -1,6 +1,6 @@
-/**
- * koko: Container connector (api)
- */
+/*
+Package api provides koko's connector funcitionlity as API.
+*/
 package api
 
 import (
@@ -19,14 +19,14 @@ import (
 type VEth struct {
 	NsName   string      // What's the network namespace?
 	LinkName string      // And what will we call the link.
-	IpAddr   []net.IPNet // Slice of IPv4/v6 adress.
+	IPAddr   []net.IPNet // Slice of IPv4/v6 address.
 }
 
 // VxLan is a structure to descrive vxlan endpoint.
 type VxLan struct {
 	ParentIF string // parent interface name
-	Id       int    // VxLan ID
-	IpAddr   net.IP // VxLan destination address
+	ID       int    // VxLan ID
+	IPAddr   net.IP // VxLan destination address
 }
 
 // MakeVethPair makes veth pair and returns its link.
@@ -85,9 +85,9 @@ func AddVxLanInterface(vxlan VxLan, devName string) error {
 			Name:   devName,
 			TxQLen: 1000,
 		},
-		VxlanId:      vxlan.Id,
+		VxlanId:      vxlan.ID,
 		VtepDevIndex: parentIF.Attrs().Index,
-		Group:        vxlan.IpAddr,
+		Group:        vxlan.IPAddr,
 		Port:         4789,
 		Learning:     true,
 		L2miss:       true,
@@ -161,8 +161,8 @@ func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 		}
 
 		// Conditionally set the IP address.
-		for i := 0; i < len(veth.IpAddr); i++ {
-			addr := &netlink.Addr{IPNet: &veth.IpAddr[i], Label: ""}
+		for i := 0; i < len(veth.IPAddr); i++ {
+			addr := &netlink.Addr{IPNet: &veth.IPAddr[i], Label: ""}
 			if err = netlink.AddrAdd(link, addr); err != nil {
 				return fmt.Errorf(
 					"failed to add IP addr %v to %q: %v",
@@ -244,6 +244,3 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) {
 			err)
 	}
 }
-
-
-
