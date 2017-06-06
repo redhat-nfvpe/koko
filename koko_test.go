@@ -39,13 +39,13 @@ func TestParseLinkIPOption(t *testing.T) {
 		t.Fatalf("nsName Parse error %s should be %s",
 			veth2.NsName, linkName2)
 	}
-	if !veth2.IpAddr[0].IP.Equal(linkIP4Addr2) {
+	if !veth2.IPAddr[0].IP.Equal(linkIP4Addr2) {
 		t.Fatalf("ipAddr[0].IP Parse error %s should be %s",
-			veth2.IpAddr[0].IP, linkIP4Addr2)
+			veth2.IPAddr[0].IP, linkIP4Addr2)
 	}
-	if bytes.Compare(veth2.IpAddr[0].Mask, linkIP4Prefix2) != 0 {
+	if bytes.Compare(veth2.IPAddr[0].Mask, linkIP4Prefix2) != 0 {
 		t.Fatalf("ipAddr[0].Mask Parse error %s should be %s",
-			veth2.IpAddr[0].Mask, linkIP4Prefix2)
+			veth2.IPAddr[0].Mask, linkIP4Prefix2)
 	}
 
 	// test case3: parse "testlink,192.168.1.1/24,ff02::1/64"
@@ -65,21 +65,21 @@ func TestParseLinkIPOption(t *testing.T) {
 		t.Fatalf("nsName Parse error %s should be %s",
 			veth3.NsName, linkName3)
 	}
-	if !veth3.IpAddr[0].IP.Equal(linkIP4Addr3) {
+	if !veth3.IPAddr[0].IP.Equal(linkIP4Addr3) {
 		t.Fatalf("ipAddr[0].IP Parse error %s should be %s",
-			veth3.IpAddr[0].IP, linkIP4Addr3)
+			veth3.IPAddr[0].IP, linkIP4Addr3)
 	}
-	if bytes.Compare(veth3.IpAddr[0].Mask, linkIP4Prefix3) != 0 {
+	if bytes.Compare(veth3.IPAddr[0].Mask, linkIP4Prefix3) != 0 {
 		t.Fatalf("ipAddr[0].Mask Parse error %s should be %s",
-			veth3.IpAddr[0].Mask, linkIP4Prefix3)
+			veth3.IPAddr[0].Mask, linkIP4Prefix3)
 	}
-	if !veth3.IpAddr[1].IP.Equal(linkIP6Addr3) {
+	if !veth3.IPAddr[1].IP.Equal(linkIP6Addr3) {
 		t.Fatalf("ipAddr[1].IP Parse error %s should be %s",
-			veth3.IpAddr[1].IP, linkIP6Addr3)
+			veth3.IPAddr[1].IP, linkIP6Addr3)
 	}
-	if bytes.Compare(veth3.IpAddr[1].Mask, linkIP6Prefix3) != 0 {
+	if bytes.Compare(veth3.IPAddr[1].Mask, linkIP6Prefix3) != 0 {
 		t.Fatalf("ipAddr[1].Mask Parse error %s should be %s",
-			veth3.IpAddr[1].Mask, linkIP6Prefix3)
+			veth3.IPAddr[1].Mask, linkIP6Prefix3)
 	}
 
 	// test case4: parse "testlink,ff02::1/64"
@@ -97,13 +97,13 @@ func TestParseLinkIPOption(t *testing.T) {
 		t.Fatalf("nsName Parse error %s should be %s",
 			veth4.NsName, linkName4)
 	}
-	if !veth4.IpAddr[0].IP.Equal(linkIP6Addr4) {
+	if !veth4.IPAddr[0].IP.Equal(linkIP6Addr4) {
 		t.Fatalf("ipAddr[0].IP Parse error %s should be %s",
-			veth4.IpAddr[0].IP, linkIP6Addr4)
+			veth4.IPAddr[0].IP, linkIP6Addr4)
 	}
-	if bytes.Compare(veth4.IpAddr[0].Mask, linkIP6Prefix4) != 0 {
+	if bytes.Compare(veth4.IPAddr[0].Mask, linkIP6Prefix4) != 0 {
 		t.Fatalf("ipAddr[0].Mask Parse error %s should be %s",
-			veth4.IpAddr[0].Mask, linkIP6Prefix4)
+			veth4.IPAddr[0].Mask, linkIP6Prefix4)
 	}
 
 }
