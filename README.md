@@ -1,6 +1,6 @@
 # koko: Container connector (for chaining)
 
-[![Build Status](https://travis-ci.org/redhat-nfvpe/koko.svg?branch=master)](https://travis-ci.org/redhat-nfvpe/koko)
+[![Build Status](https://travis-ci.org/redhat-nfvpe/koko.svg?branch=master)](https://travis-ci.org/redhat-nfvpe/koko) [![Go Report Card](https://goreportcard.com/badge/github.com/redhat-nfvpe/koko)](https://goreportcard.com/report/github.com/redhat-nfvpe/koko) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ![Logo1](https://raw.githubusercontent.com/wiki/redhat-nfvpe/koko/images/logo_candidate/koko_logo1.png)
 
