@@ -215,7 +215,7 @@ func main() {
 
 	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("d:D:n:N:x:p:P:hv"); c == getopt.EOF {
+		if c = getopt.Getopt("c:d:D:n:N:x:p:P:hv"); c == getopt.EOF {
 			break
 		}
 		switch c {
