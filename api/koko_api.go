@@ -8,7 +8,7 @@ import (
 	"net"
 	"os"
 
-	"github.com/containernetworking/cni/pkg/ns"
+	"github.com/containernetworking/plugins/pkg/ns"
 	"github.com/vishvananda/netlink"
 
 	"github.com/docker/docker/client"
