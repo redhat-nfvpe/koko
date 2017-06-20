@@ -11,10 +11,6 @@ of linux kernel. Using `koko`, you can simply make point-to-point connection for
 
 ![Koko's abstruct design](https://raw.githubusercontent.com/wiki/redhat-nfvpe/koko/images/koko.png)
 
-# Note
-
-From May 2016, option separator is changed from ':' to ',', due to support IPv6. Now README.md and wiki page is updated.
-
 # Support Container Type and Interfaces
 
 `koko` supports following container:
