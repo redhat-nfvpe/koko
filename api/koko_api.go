@@ -110,7 +110,7 @@ func GetDockerContainerNS(containerID string) (namespace string, err error) {
 		panic(err)
 	}
 
-	cli.UpdateClientVersion("1.24")
+	cli.NegotiateAPIVersion(ctx)
 
 	json, err := cli.ContainerInspect(ctx, containerID)
 	if err != nil {
