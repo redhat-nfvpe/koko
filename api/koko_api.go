@@ -29,6 +29,18 @@ type VxLan struct {
 	IPAddr   net.IP // VxLan destination address
 }
 
+// VLan is a structure to descrive vlan endpoint.
+type VLan struct {
+	ParentIF string // parent interface name
+	ID       int    // VLan ID
+}
+
+// MacVLan is a structure to descrive vlan endpoint.
+type MacVLan struct {
+	ParentIF string			// parent interface name
+	Mode	 netlink.MacvlanMode	// MacVlan mode
+}
+
 // MakeVethPair makes veth pair and returns its link.
 func MakeVethPair(name, peer string, mtu int) (netlink.Link, error) {
 	veth := &netlink.Veth{
@@ -97,6 +109,52 @@ func AddVxLanInterface(vxlan VxLan, devName string) error {
 
 	if err != nil {
 		return fmt.Errorf("Failed to add vxlan %s: %v", devName, err)
+	}
+	return nil
+}
+
+// AddVLanInterface creates VLan interface by given vlan object
+func AddVLanInterface(vlan VLan, devName string) error {
+	parentIF, err := netlink.LinkByName(vlan.ParentIF)
+
+	if err != nil {
+		return fmt.Errorf("Failed to get %s: %v", vlan.ParentIF, err)
+	}
+
+	vlanconf := netlink.Vlan{
+		LinkAttrs: netlink.LinkAttrs{
+			Name:   devName,
+			ParentIndex: parentIF.Attrs().Index,
+		},
+		VlanId: vlan.ID,
+	}
+	err = netlink.LinkAdd(&vlanconf)
+
+	if err != nil {
+		return fmt.Errorf("Failed to add vlan %s: %v", devName, err)
+	}
+	return nil
+}
+
+// AddMacVLanInterface creates MacVLan interface by given macvlan object
+func AddMacVLanInterface(macvlan MacVLan, devName string) error {
+	parentIF, err := netlink.LinkByName(macvlan.ParentIF)
+
+	if err != nil {
+		return fmt.Errorf("Failed to get %s: %v", macvlan.ParentIF, err)
+	}
+
+	macvlanconf := netlink.Macvlan{
+		LinkAttrs: netlink.LinkAttrs{
+			Name:   devName,
+			ParentIndex: parentIF.Attrs().Index,
+		},
+		Mode: macvlan.Mode,
+	}
+	err = netlink.LinkAdd(&macvlanconf)
+
+	if err != nil {
+		return fmt.Errorf("Failed to add vlan %s: %v", devName, err)
 	}
 	return nil
 }
@@ -232,6 +290,44 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) {
 	err := AddVxLanInterface(vxlan, veth1.LinkName)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "vxlan add failed: %v", err)
+	}
+
+	link, err2 := netlink.LinkByName(veth1.LinkName)
+	if err2 != nil {
+		fmt.Fprintf(os.Stderr, "Cannot get %s: %v", veth1.LinkName, err)
+	}
+	err = veth1.SetVethLink(link)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Cannot add IPaddr/netns failed: %v",
+			err)
+	}
+}
+
+// MakeVLan makes vlan interface
+func MakeVLan(veth1 VEth, vlan VLan) {
+
+	err := AddVLanInterface(vlan, veth1.LinkName)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "vlan add failed: %v", err)
+	}
+
+	link, err2 := netlink.LinkByName(veth1.LinkName)
+	if err2 != nil {
+		fmt.Fprintf(os.Stderr, "Cannot get %s: %v", veth1.LinkName, err)
+	}
+	err = veth1.SetVethLink(link)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Cannot add IPaddr/netns failed: %v",
+			err)
+	}
+}
+
+// MakeMacVLan makes macvlan interface
+func MakeMacVLan(veth1 VEth, macvlan MacVLan) {
+
+	err := AddMacVLanInterface(macvlan, veth1.LinkName)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "macvlan add failed: %v", err)
 	}
 
 	link, err2 := netlink.LinkByName(veth1.LinkName)
