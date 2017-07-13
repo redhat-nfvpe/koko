@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/vishvananda/netlink"
 	"github.com/MakeNowJust/heredoc"
 	"github.com/redhat-nfvpe/koko/api"
 )
@@ -126,6 +127,53 @@ func parsePOption(s string) (veth api.VEth, err error) {
 	return
 }
 
+// parseMOption parses '-M' option and put this information in veth object.
+func parseMOption(s string) (macvlan api.MacVLan, err error) {
+
+	n := strings.Split(s, ",")
+	if len(n) != 2 {
+		err = fmt.Errorf("failed to parse %s", s)
+		return
+	}
+
+	macvlan.ParentIF = n[0]
+	macvlanmode := strings.ToLower(n[1])
+
+	switch macvlanmode {
+	case "default":
+		macvlan.Mode = netlink.MACVLAN_MODE_DEFAULT
+	case "private":
+		macvlan.Mode = netlink.MACVLAN_MODE_PRIVATE
+	case "vepa":
+		macvlan.Mode = netlink.MACVLAN_MODE_VEPA
+	case "bridge":
+		macvlan.Mode = netlink.MACVLAN_MODE_BRIDGE
+	case "passthru":
+		macvlan.Mode = netlink.MACVLAN_MODE_PASSTHRU
+	}
+	return
+}
+
+// parseVOption parses '-v' option and put this information in veth object.
+func parseVOption(s string) (vlan api.VLan, err error) {
+	var err2 error // if we encounter an error, it's marked here.
+
+	n := strings.Split(s, ",")
+	if len(n) != 2 {
+		err = fmt.Errorf("failed to parse %s", s)
+		return
+	}
+
+	vlan.ParentIF = n[0]
+	vlan.ID, err2 = strconv.Atoi(n[1])
+	if err2 != nil {
+		err = fmt.Errorf("failed to parse VID %s: %v", n[1], err2)
+		return
+	}
+
+	return
+}
+
 // parseXOption parses '-x' option and put this information in veth object.
 func parseXOption(s string) (vxlan api.VxLan, err error) {
 	var err2 error // if we encounter an error, it's marked here.
@@ -199,7 +247,9 @@ func main() {
 	const (
 		ModeUnspec = iota
 		ModeAddVeth
+		ModeAddVlan
 		ModeAddVxlan
+		ModeAddMacVlan
 		ModeDeleteLink
 	)
 
@@ -211,11 +261,13 @@ func main() {
 	veth1 := api.VEth{}
 	veth2 := api.VEth{}
 	vxlan := api.VxLan{}
+	vlan := api.VLan{}
+	macvlan := api.MacVLan{}
 	mode := ModeUnspec
 
 	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("c:d:D:n:N:x:p:P:hv"); c == getopt.EOF {
+		if c = getopt.Getopt("c:d:D:n:N:x:p:P:hvM:V:"); c == getopt.EOF {
 			break
 		}
 		switch c {
@@ -332,9 +384,17 @@ func main() {
 			}
 			cnt++
 
-		case 'x': // VXLAN
+		case 'M': // MACVLAN
+			macvlan, err = parseMOption(getopt.OptArg)
+			mode = ModeAddMacVlan
+
+		case 'x', 'X': // VXLAN
 			vxlan, err = parseXOption(getopt.OptArg)
 			mode = ModeAddVxlan
+
+		case 'V': // VLAN
+			vlan, err = parseVOption(getopt.OptArg)
+			mode = ModeAddVlan
 
 		case 'v': // version
 			fmt.Printf("koko version: %s\n", VERSION)
@@ -361,6 +421,14 @@ func main() {
 		// case 2: one endpoint with vxlan
 		fmt.Printf("Create vxlan %s\n", veth1.LinkName)
 		api.MakeVxLan(veth1, vxlan)
+	} else if mode == ModeAddVlan && cnt == 1 {
+		// case 3: one endpoint with vlan
+		fmt.Printf("Create vlan %s\n", veth1.LinkName)
+		api.MakeVLan(veth1, vlan)
+	} else if mode == ModeAddMacVlan && cnt == 1 {
+		// case 4: one endpoint with vlan
+		fmt.Printf("Create macvlan %s\n", veth1.LinkName)
+		api.MakeMacVLan(veth1, macvlan)
 	} else if mode == ModeDeleteLink && cnt == 1 {
 		fmt.Printf("Delete link %s\n", veth1.LinkName)
 		veth1.RemoveVethLink()
