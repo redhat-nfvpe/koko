@@ -26,6 +26,9 @@ of linux kernel. Using `koko`, you can simply make point-to-point connection for
 # Get Releases
 See [releases page](https://github.com/redhat-nfvpe/koko/releases).
 
+# Build Requirements
+- golang 1.7 or later
+
 # Build
 
 `koko` is written in go, so following commands makes `koko` single binary. Build and put it in your container host.
