@@ -64,6 +64,28 @@ and put this interface into given container with/without IP address.
             -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...] }
             -x <parent interface>:<remote endpoint IP addr>:<vxlan id> 
 
+## Connecting containers using VLAN 
+
+Connecting containers which are in separate hosts with vlan. Following command makes vlan interface 
+and put this interface into given container with/without IP address.
+
+    ./koko {-c <linkname> |
+            -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
+            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...] }
+            -V <parent interface>:<vlan id> 
+
+## Connecting containers using macvlan
+
+Connecting containers which are in separate hosts with macvlan. Following command makes macvlan interface 
+and put this interface into given container with/without IP address.
+
+    ./koko {-c <linkname> |
+            -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
+            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
+            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...] }
+            -M <parent interface>:<macvlan mode, {default|private|vepa|bridge|passthru}> 
+
 ## Delete link in containers
 
 `koko -D` and `koko -N` deletes veth interface or vxlan interface. In case of veth, peering interface is also
@@ -71,7 +93,7 @@ removed in this command.
 
     ./koko {-D <container>,<linkname> | -N <netns name>,<linkname> }
 
-## Command option
+## Command option summary
 
 - `-c` is to create veth and put it in current namespace.
 - `-d` is to create interface and put it in docker container namespace
@@ -81,6 +103,8 @@ removed in this command.
 - `-p` is to create interface and put it in pid's netns namespace
 - `-P` is to delete interface of pid's netns namespace
 - `-X` is to create vxlan interface
+- `-V` is to create vlan interface
+- `-M` is to create macvlan interface
 - `-h` is to show help
 - `-v` is to show version
 
