@@ -6,7 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/redhat-nfvpe/koko/api"
+	//"github.com/redhat-nfvpe/koko/api"
+	"./api"
 )
 
 func TestParseLinkIPOption(t *testing.T) {
