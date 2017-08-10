@@ -6,7 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/redhat-nfvpe/koko/api"
+	//"github.com/redhat-nfvpe/koko/api"
+	"./api"
 )
 
 func TestParseLinkIPOption(t *testing.T) {
@@ -33,7 +34,7 @@ func TestParseLinkIPOption(t *testing.T) {
 
 	err2 := parseLinkIPOption(&veth2, strings.Split(str2, ","))
 	if err2 != nil {
-		t.Fatalf("Parse error: %v", err1)
+		t.Fatalf("Parse error: %v", err2)
 	}
 	if veth2.LinkName != linkName2 {
 		t.Fatalf("nsName Parse error %s should be %s",
@@ -59,7 +60,7 @@ func TestParseLinkIPOption(t *testing.T) {
 
 	err3 := parseLinkIPOption(&veth3, strings.Split(str3, ","))
 	if err3 != nil {
-		t.Fatalf("Parse error: %v", err1)
+		t.Fatalf("Parse error: %v", err3)
 	}
 	if veth3.LinkName != linkName3 {
 		t.Fatalf("nsName Parse error %s should be %s",
@@ -91,7 +92,7 @@ func TestParseLinkIPOption(t *testing.T) {
 
 	err4 := parseLinkIPOption(&veth4, strings.Split(str4, ","))
 	if err4 != nil {
-		t.Fatalf("Parse error: %v", err1)
+		t.Fatalf("Parse error: %v", err4)
 	}
 	if veth4.LinkName != linkName4 {
 		t.Fatalf("nsName Parse error %s should be %s",
@@ -104,6 +105,24 @@ func TestParseLinkIPOption(t *testing.T) {
 	if bytes.Compare(veth4.IPAddr[0].Mask, linkIP6Prefix4) != 0 {
 		t.Fatalf("ipAddr[0].Mask Parse error %s should be %s",
 			veth4.IPAddr[0].Mask, linkIP6Prefix4)
+	}
+
+	// test case5: parse "testlink,mirror:ingress:eth0"
+	str5 := "testlink,mirror:ingress:eth0"
+	linkName5 := "testlink"
+	veth5 := api.VEth{}
+
+	err5 := parseLinkIPOption(&veth5, strings.Split(str5, ","))
+	if err5 != nil {
+		t.Fatalf("Parse error: %v", err5)
+	}
+	if veth5.LinkName != linkName4 {
+		t.Fatalf("nsName Parse error %s should be %s",
+			veth5.NsName, linkName5)
+	}
+	if veth5.MirrorIngress != "eth0" {
+		t.Fatalf("MirrorIngress Parse error %s should be %s",
+			veth5.MirrorIngress, "eth0")
 	}
 
 }

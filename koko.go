@@ -13,7 +13,8 @@ import (
 
 	"github.com/vishvananda/netlink"
 	"github.com/MakeNowJust/heredoc"
-	"github.com/redhat-nfvpe/koko/api"
+//	"github.com/redhat-nfvpe/koko/api"
+	"./api"
 )
 
 // VERSION indicates koko's version.
@@ -25,16 +26,38 @@ func parseLinkIPOption(veth *api.VEth, n []string) (err error) {
 	veth.LinkName = n[0]
 	numAddr := len(n) - 1
 
-	veth.IPAddr = make([]net.IPNet, numAddr)
+	veth.IPAddr = make([]net.IPNet, 0, numAddr)
 	for i := 0; i < numAddr; i++ {
-		ip, mask, err1 := net.ParseCIDR(n[i+1])
-		if err1 != nil {
-			err = fmt.Errorf("failed to parse IP addr(%d) %s: %v",
+		// check mirror
+		if (len(n[i+1]) > len("mirror:")) && (n[i+1][0:6] == "mirror") {
+			n1 := strings.Split(n[i+1], ":")
+			if len(n1) == 3 {
+				switch n1[1] {
+				case "ingress":
+					veth.MirrorIngress = n1[2]
+				case "egress":
+					veth.MirrorEgress = n1[2]
+				case "both":
+					veth.MirrorEgress = n1[2]
+					veth.MirrorIngress = n1[2]
+				}
+			} else {
+				return fmt.Errorf("unknown mirror command: %s", n[i+1])
+			}
+		} else { // check CIDR (ip/prefixlen)
+			ip, mask, err1 := net.ParseCIDR(n[i+1])
+			if err1 != nil {
+				return fmt.Errorf("failed to parse IP addr(%d) %s: %v",
 				i, n[i], err1)
-			return
+			}
+			i := net.IPNet{
+				IP: ip,
+				Mask: mask.Mask,
+			}
+			veth.IPAddr = append(veth.IPAddr, i)
+			// veth.IPAddr[i].IP = ip
+			// veth.IPAddr[i].Mask = mask.Mask
 		}
-		veth.IPAddr[i].IP = ip
-		veth.IPAddr[i].Mask = mask.Mask
 	}
 	return
 }
@@ -415,8 +438,12 @@ func main() {
 	if mode != ModeAddVxlan && cnt == 2 {
 		// case 1: two container endpoint.
 		fmt.Printf("Create veth...")
-		api.MakeVeth(veth1, veth2)
-		fmt.Printf("done\n")
+		err := api.MakeVeth(veth1, veth2)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "\nveth add failed: %v\n", err)
+		} else {
+			fmt.Printf("done\n")
+		}
 	} else if mode == ModeAddVxlan && cnt == 1 {
 		// case 2: one endpoint with vxlan
 		fmt.Printf("Create vxlan %s\n", veth1.LinkName)
@@ -431,7 +458,9 @@ func main() {
 		api.MakeMacVLan(veth1, macvlan)
 	} else if mode == ModeDeleteLink && cnt == 1 {
 		fmt.Printf("Delete link %s\n", veth1.LinkName)
-		veth1.RemoveVethLink()
+		if err := veth1.RemoveVethLink(); err != nil {
+			fmt.Fprintf(os.Stderr, "\nveth delete failed: %v\n", err)
+		}
 	}
 
 }
