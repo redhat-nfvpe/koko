@@ -48,10 +48,12 @@ See [releases page](https://github.com/redhat-nfvpe/koko/releases).
     ./koko {-c <linkname> |
             -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
             -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
-            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]}
+            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]|
+            -c <linkname> }
            {-d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
             -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
-            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]}
+            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...]|
+            -c <linkname> }
 
 ## Connecting containers using vxlan (interconnecting container hosts)
 
@@ -59,10 +61,12 @@ Connecting containers which are in separate hosts with vxlan. Following command 
 and put this interface into given container with/without IP address.
 
     ./koko {-c <linkname> |
-            -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
-            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
-            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...] }
+            -d <container>,<linkname>[,<IP/mirror>,...] |
+            -n <netns name>,<linkname>[,<IP/mirror>,...]|
+            -p <pid>,<linkname>[,<IP/mirror>,...] }
             -x <parent interface>:<remote endpoint IP addr>:<vxlan id> 
+    <IP/mirror> = {<IP addr>/<prefixlen> |
+                    mirror:{ingress|egress|both},<mirror IF>}
 
 ## Connecting containers using VLAN 
 
@@ -70,10 +74,12 @@ Connecting containers which are in separate hosts with vlan. Following command m
 and put this interface into given container with/without IP address.
 
     ./koko {-c <linkname> |
-            -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
-            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
-            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...] }
+            -d <container>,<linkname>[,<IP/mirror>,...] |
+            -n <netns name>,<linkname>[,<IP/mirror>,...]|
+            -p <pid>,<linkname>[,<IP/mirror>,...] }
             -V <parent interface>:<vlan id> 
+    <IP/mirror> = {<IP addr>/<prefixlen> |
+                    mirror:{ingress|egress|both},<mirror IF>}
 
 ## Connecting containers using macvlan
 
@@ -81,10 +87,12 @@ Connecting containers which are in separate hosts with macvlan. Following comman
 and put this interface into given container with/without IP address.
 
     ./koko {-c <linkname> |
-            -d <container>,<linkname>[,<IP addr>/<prefixlen>,...] |
-            -n <netns name>,<linkname>[,<IP addr>/<prefixlen>,...]|
-            -p <pid>,<linkname>[,<IP addr>/<prefixlen>,...] }
+            -d <container>,<linkname>[,<IP/mirror>,...] |
+            -n <netns name>,<linkname>[,<IP/mirror>,...]|
+            -p <pid>,<linkname>[,<IP/mirror>,...] }
             -M <parent interface>:<macvlan mode, {default|private|vepa|bridge|passthru}> 
+    <IP/mirror> = {<IP addr>/<prefixlen> |
+                    mirror:{ingress|egress|both},<mirror IF>}
 
 ## Delete link in containers
 
