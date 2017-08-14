@@ -101,6 +101,10 @@ removed in this command.
 
     ./koko {-D <container>,<linkname> | -N <netns name>,<linkname> }
 
+## Note (for egress mirroring)
+In case of 'egress' (and 'both'), the target interface (i.e. <mirror IF>) needs to be configured to have a queue because veth does not have tx queue in default (see https://github.com/moby/moby/issues/33162 for the details).
+`ip link set <mirror IF> qlen <queue length>` sets queue length to corresponding veth device.
+
 ## Command option summary
 
 - `-c` is to create veth and put it in current namespace.
