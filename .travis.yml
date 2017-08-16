@@ -1,14 +1,16 @@
 language: go
-before_install:
+
+install:
   - go get github.com/golang/lint/golint
+  - go get github.com/Masterminds/glide
 
 before_script:
   - go vet .
   - golint . | xargs -r false
 
 script:
-  - go get
-  - go test -v
+  - glide install
+  - go test -v $($GOPATH/bin/glide novendor)
   - go build
 
 before_deploy:
