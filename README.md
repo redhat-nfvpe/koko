@@ -33,9 +33,9 @@ See [releases page](https://github.com/redhat-nfvpe/koko/releases).
 
 `koko` is written in go, so following commands makes `koko` single binary. Build and put it in your container host.
 
+    cd $(GOPATH)/src
     git clone https://github.com/redhat-nfvpe/koko.git
     cd koko
-    go get
     go build
 
 # Syntax
