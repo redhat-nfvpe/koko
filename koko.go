@@ -13,8 +13,8 @@ import (
 
 	"github.com/vishvananda/netlink"
 	"github.com/MakeNowJust/heredoc"
+	"github.com/redhat-nfvpe/koko/api"
 )
-import "koko/api"
 
 // VERSION indicates koko's version.
 var VERSION = "master@git"

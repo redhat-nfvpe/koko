@@ -8,6 +8,9 @@ import:
   subpackages:
   - client
 - package: github.com/mattn/go-getopt
+- package: github.com/redhat-nfvpe/koko
+  subpackages:
+  - api
 - package: github.com/vishvananda/netlink
 - package: golang.org/x/net
   subpackages:
