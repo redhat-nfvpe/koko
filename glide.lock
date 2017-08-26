@@ -1,5 +1,5 @@
-hash: 0e9029dd6daa1ebf2861ead10f9aca8f64cd157fb92f0b72e9dc88cacd99ff61
-updated: 2017-08-16T22:47:40.296162691+09:00
+hash: 8b5686bd6aae7b8da59c719c3ff3b8ce693010b39f3cefc9096829a1154145b2
+updated: 2017-08-26T21:47:02.580784151+09:00
 imports:
 - name: github.com/containernetworking/cni
   version: a2da8f8d7fd8e6dc25f336408a8ac86f050fbd88
@@ -12,16 +12,16 @@ imports:
   - pkg/types/current
   - pkg/version
 - name: github.com/containernetworking/plugins
-  version: 7480240de9749f9a0a5c8614b17f1f03e0c06ab9
+  version: 9fb22524a1984ee24283e0e2b9f63caca9f7462a
   subpackages:
   - pkg/ns
 - name: github.com/docker/distribution
-  version: e0b4f55f2b1685d3293b240e5ca937ac9c205995
+  version: 30578ca32960a4d368bf6db67b0a33c2a1f3dc6f
   subpackages:
   - digestset
   - reference
 - name: github.com/docker/docker
-  version: 3d843e81d0cabe8d341f24f63d71548bc0ffd376
+  version: a5631c75e1349f6d71c53dbabee7f166f770d2b2
   subpackages:
   - api
   - api/types
@@ -56,7 +56,7 @@ imports:
 - name: github.com/docker/libtrust
   version: aabc10ec26b754e797f9028f4589c5b7bd90dc20
 - name: github.com/gogo/protobuf
-  version: fcdc5011193ff531a548e9b0301828d5a5b97fd8
+  version: 9319258ff0eab7faf2eaca190ef9dff2b9603ead
   subpackages:
   - proto
 - name: github.com/MakeNowJust/heredoc
@@ -68,18 +68,14 @@ imports:
 - name: github.com/opencontainers/go-digest
   version: 279bed98673dd5bef374d3b6e4b09e2af76183bf
 - name: github.com/opencontainers/image-spec
-  version: 710038243d857231f17df1c3f4c10850154bd1f7
+  version: 97ae57f204b5956aa313d453ead9094ff9056b32
   subpackages:
   - specs-go
   - specs-go/v1
 - name: github.com/pkg/errors
   version: c605e284fe17294bda444b34710735b29d1a9d90
-- name: github.com/redhat-nfvpe/koko
-  version: 236a57353e965a020bdd8e698503ee590a7fb3d1
-  subpackages:
-  - api
 - name: github.com/sirupsen/logrus
-  version: f006c2ac4710855cf0f916dd6b77acf6b048dc6e
+  version: 89742aefa4b206dcf400792f3bd35b542998eb3b
 - name: github.com/vishvananda/netlink
   version: f5a6f697a596c788d474984a38a0ac4ba0719e93
   subpackages:
@@ -87,11 +83,11 @@ imports:
 - name: github.com/vishvananda/netns
   version: 86bef332bfc3b59b7624a600bd53009ce91a9829
 - name: golang.org/x/crypto
-  version: b176d7def5d71bdd214203491f89843ed217f420
+  version: 81e90905daefcd6fd217b62423c0908922eadb30
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net
-  version: 1c05540f6879653db88113bc4a2b70aec4bd491f
+  version: 57efc9c3d9f91fb3277f8da1cff370539c4d3dc5
   subpackages:
   - context
   - context/ctxhttp
