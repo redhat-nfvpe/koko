@@ -8,6 +8,8 @@ import (
 	"net"
 	"os"
 	"syscall"
+	"time"
+	"math/rand"
 
 	"github.com/containernetworking/plugins/pkg/ns"
 	"github.com/vishvananda/netlink"
@@ -370,6 +372,7 @@ func (veth *VEth) UnsetEgressMirror() (err error) {
 func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 	var vethNs ns.NetNS
 
+	vethLinkName := link.Attrs().Name
 	if veth.NsName == "" {
 		if vethNs, err = ns.GetCurrentNS(); err != nil {
 			return fmt.Errorf("%v", err)
@@ -386,10 +389,19 @@ func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 	}
 
 	err = vethNs.Do(func(_ ns.NetNS) error {
-		link, err := netlink.LinkByName(veth.LinkName)
+		link, err := netlink.LinkByName(vethLinkName)
 		if err != nil {
 			return fmt.Errorf("failed to lookup %q in %q: %v",
 				veth.LinkName, vethNs.Path(), err)
+		}
+
+		if veth.LinkName != vethLinkName {
+			if err = netlink.LinkSetName(link, veth.LinkName);
+			   err != nil {
+				   return fmt.Errorf(
+					   "failed to rename link %s -> %s: %v",
+					   vethLinkName, veth.LinkName, err)
+			}
 		}
 
 		if err = netlink.LinkSetUp(link); err != nil {
@@ -479,7 +491,11 @@ func (veth *VEth) RemoveVethLink() (err error) {
 // MakeVeth is top-level handler to create veth links given two VEth data
 // objects: veth1 and veth2.
 func MakeVeth(veth1 VEth, veth2 VEth) (error) {
-	link1, link2, err := GetVethPair(veth1.LinkName, veth2.LinkName)
+	rand.Seed(time.Now().UnixNano())
+	tempLinkName1 := fmt.Sprintf("koko%d", rand.Uint32())
+	tempLinkName2 := fmt.Sprintf("koko%d", rand.Uint32())
+
+	link1, link2, err := GetVethPair(tempLinkName1, tempLinkName2)
 	if err != nil {
 		return err
 	}
@@ -591,4 +607,33 @@ func MakeMacVLan(veth1 VEth, macvlan MacVLan) (err error) {
 		}
 	}
 	return err
+}
+
+// FindLinkInNS finds interface name in given namespace. if foud return true.
+// otherwise false.
+func IsExistLinkInNS(nsName string, linkName string) (result bool, err error) {
+	var vethNs ns.NetNS
+	result = false
+
+	if nsName == "" {
+		if vethNs, err = ns.GetCurrentNS(); err != nil {
+			return false, err
+		}
+	} else {
+		if vethNs, err = ns.GetNS(nsName); err != nil {
+			return false, err
+		}
+	}
+
+	defer vethNs.Close()
+	err = vethNs.Do(func(_ ns.NetNS) error {
+		link, err := netlink.LinkByName(linkName)
+		if link != nil {
+			result = true
+		}
+		result = false
+		return err
+	})
+
+	return result, err
 }

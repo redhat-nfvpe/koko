@@ -25,6 +25,12 @@ func parseLinkIPOption(veth *api.VEth, n []string) (err error) {
 	veth.LinkName = n[0]
 	numAddr := len(n) - 1
 
+	exists,_ := api.IsExistLinkInNS(veth.NsName, veth.LinkName)
+	if exists == true {
+		return fmt.Errorf("exists interface %s at namespace (%s)",
+				  veth.LinkName, veth.NsName)
+	}
+
 	veth.IPAddr = make([]net.IPNet, 0, numAddr)
 	for i := 0; i < numAddr; i++ {
 		// check mirror
@@ -409,14 +415,35 @@ func main() {
 		case 'M': // MACVLAN
 			macvlan, err = parseMOption(getopt.OptArg)
 			mode = ModeAddMacVlan
+			if err != nil {
+				fmt.Fprintf(os.Stderr,
+					    "Parse failed %s!:%v",
+					    getopt.OptArg, err)
+				usage()
+				os.Exit(1)
+			}
 
 		case 'x', 'X': // VXLAN
 			vxlan, err = parseXOption(getopt.OptArg)
 			mode = ModeAddVxlan
+			if err != nil {
+				fmt.Fprintf(os.Stderr,
+					    "Parse failed %s!:%v",
+					    getopt.OptArg, err)
+				usage()
+				os.Exit(1)
+			}
 
 		case 'V': // VLAN
 			vlan, err = parseVOption(getopt.OptArg)
 			mode = ModeAddVlan
+			if err != nil {
+				fmt.Fprintf(os.Stderr,
+					    "Parse failed %s!:%v",
+					    getopt.OptArg, err)
+				usage()
+				os.Exit(1)
+			}
 
 		case 'v': // version
 			fmt.Printf("koko version: %s\n", VERSION)
