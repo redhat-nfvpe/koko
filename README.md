@@ -64,7 +64,7 @@ and put this interface into given container with/without IP address.
             -d <container>,<linkname>[,<IP/mirror>,...] |
             -n <netns name>,<linkname>[,<IP/mirror>,...]|
             -p <pid>,<linkname>[,<IP/mirror>,...] }
-            -x <parent interface>:<remote endpoint IP addr>:<vxlan id> 
+            -x <parent interface>,<remote endpoint IP addr>,<vxlan id>
     <IP/mirror> = {<IP addr>/<prefixlen> |
                     mirror:{ingress|egress|both},<mirror IF>}
 
@@ -77,7 +77,7 @@ and put this interface into given container with/without IP address.
             -d <container>,<linkname>[,<IP/mirror>,...] |
             -n <netns name>,<linkname>[,<IP/mirror>,...]|
             -p <pid>,<linkname>[,<IP/mirror>,...] }
-            -V <parent interface>:<vlan id> 
+            -V <parent interface>,<vlan id>
     <IP/mirror> = {<IP addr>/<prefixlen> |
                     mirror:{ingress|egress|both},<mirror IF>}
 
@@ -90,7 +90,7 @@ and put this interface into given container with/without IP address.
             -d <container>,<linkname>[,<IP/mirror>,...] |
             -n <netns name>,<linkname>[,<IP/mirror>,...]|
             -p <pid>,<linkname>[,<IP/mirror>,...] }
-            -M <parent interface>:<macvlan mode, {default|private|vepa|bridge|passthru}> 
+            -M <parent interface>,<macvlan mode, {default|private|vepa|bridge|passthru}>
     <IP/mirror> = {<IP addr>/<prefixlen> |
                     mirror:{ingress|egress|both},<mirror IF>}
 
