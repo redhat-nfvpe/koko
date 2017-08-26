@@ -1,104 +1,22 @@
-hash: 0e9029dd6daa1ebf2861ead10f9aca8f64cd157fb92f0b72e9dc88cacd99ff61
-updated: 2017-08-16T22:47:40.296162691+09:00
+hash: 8b5686bd6aae7b8da59c719c3ff3b8ce693010b39f3cefc9096829a1154145b2
+updated: 2017-08-26T20:43:00.713439394+09:00
 imports:
-- name: github.com/containernetworking/cni
-  version: a2da8f8d7fd8e6dc25f336408a8ac86f050fbd88
-  subpackages:
-  - libcni
-  - pkg/invoke
-  - pkg/skel
-  - pkg/types
-  - pkg/types/020
-  - pkg/types/current
-  - pkg/version
 - name: github.com/containernetworking/plugins
   version: 7480240de9749f9a0a5c8614b17f1f03e0c06ab9
   subpackages:
   - pkg/ns
-- name: github.com/docker/distribution
-  version: e0b4f55f2b1685d3293b240e5ca937ac9c205995
-  subpackages:
-  - digestset
-  - reference
 - name: github.com/docker/docker
   version: 3d843e81d0cabe8d341f24f63d71548bc0ffd376
   subpackages:
-  - api
-  - api/types
-  - api/types/blkiodev
-  - api/types/container
-  - api/types/events
-  - api/types/filters
-  - api/types/image
-  - api/types/mount
-  - api/types/network
-  - api/types/registry
-  - api/types/strslice
-  - api/types/swarm
-  - api/types/swarm/runtime
-  - api/types/time
-  - api/types/versions
-  - api/types/volume
   - client
-  - pkg/ioutils
-  - pkg/longpath
-  - pkg/mount
-  - pkg/system
-  - pkg/tlsconfig
-- name: github.com/docker/go-connections
-  version: 3ede32e2033de7505e6500d6c868c2b9ed9f169d
-  subpackages:
-  - nat
-  - sockets
-  - tlsconfig
-- name: github.com/docker/go-units
-  version: 0dadbb0345b35ec7ef35e228dabb8de89a65bf52
-- name: github.com/docker/libtrust
-  version: aabc10ec26b754e797f9028f4589c5b7bd90dc20
-- name: github.com/gogo/protobuf
-  version: fcdc5011193ff531a548e9b0301828d5a5b97fd8
-  subpackages:
-  - proto
 - name: github.com/MakeNowJust/heredoc
   version: bb23615498cded5e105af4ce27de75b089cbe851
 - name: github.com/mattn/go-getopt
   version: 824dc755f216158c40b01264dde707ff41df43c3
-- name: github.com/Microsoft/go-winio
-  version: 78439966b38d69bf38227fbf57ac8a6fee70f69a
-- name: github.com/opencontainers/go-digest
-  version: 279bed98673dd5bef374d3b6e4b09e2af76183bf
-- name: github.com/opencontainers/image-spec
-  version: 710038243d857231f17df1c3f4c10850154bd1f7
-  subpackages:
-  - specs-go
-  - specs-go/v1
-- name: github.com/pkg/errors
-  version: c605e284fe17294bda444b34710735b29d1a9d90
-- name: github.com/redhat-nfvpe/koko
-  version: 236a57353e965a020bdd8e698503ee590a7fb3d1
-  subpackages:
-  - api
-- name: github.com/sirupsen/logrus
-  version: f006c2ac4710855cf0f916dd6b77acf6b048dc6e
 - name: github.com/vishvananda/netlink
   version: f5a6f697a596c788d474984a38a0ac4ba0719e93
-  subpackages:
-  - nl
-- name: github.com/vishvananda/netns
-  version: 86bef332bfc3b59b7624a600bd53009ce91a9829
-- name: golang.org/x/crypto
-  version: b176d7def5d71bdd214203491f89843ed217f420
-  subpackages:
-  - ssh/terminal
 - name: golang.org/x/net
   version: 1c05540f6879653db88113bc4a2b70aec4bd491f
   subpackages:
   - context
-  - context/ctxhttp
-  - proxy
-- name: golang.org/x/sys
-  version: 076b546753157f758b316e59bcb51e6807c04057
-  subpackages:
-  - unix
-  - windows
 testImports: []
