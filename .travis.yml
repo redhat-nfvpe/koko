@@ -16,7 +16,7 @@ script:
 before_deploy:
   - go get -u github.com/laher/goxc
   - mkdir -p $TRAVIS_BUILD_DIR/dist
-  - goxc -d=$TRAVIS_BUILD_DIR/dist -bc=linux -tasks=clean-destination,xc,archive,rmbin
+  - goxc -d=$TRAVIS_BUILD_DIR/dist -pv=$TRAVIS_TAG -bc=linux -tasks=clean-destination,xc,archive,rmbin
 
 deploy:
   provider: releases
