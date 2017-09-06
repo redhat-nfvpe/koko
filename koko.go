@@ -31,7 +31,6 @@ func parseLinkIPOption(veth *api.VEth, n []string) (err error) {
 				  veth.LinkName, veth.NsName)
 	}
 
-	veth.IPAddr = make([]net.IPNet, 0, numAddr)
 	for i := 0; i < numAddr; i++ {
 		// check mirror
 		if (len(n[i+1]) > len("mirror:")) && (n[i+1][0:6] == "mirror") {
@@ -60,8 +59,6 @@ func parseLinkIPOption(veth *api.VEth, n []string) (err error) {
 				Mask: mask.Mask,
 			}
 			veth.IPAddr = append(veth.IPAddr, i)
-			// veth.IPAddr[i].IP = ip
-			// veth.IPAddr[i].Mask = mask.Mask
 		}
 	}
 	return
