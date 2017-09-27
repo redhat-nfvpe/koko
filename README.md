@@ -141,7 +141,6 @@ Please see [Examples](https://github.com/redhat-nfvpe/koko/wiki/Examples) in Wik
 
 # Todo
 - Document
-- Logo?
 
 # Authors
 - Tomofumi Hayashi (s1061123)
