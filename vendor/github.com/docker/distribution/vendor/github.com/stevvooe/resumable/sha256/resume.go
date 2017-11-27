@@ -2,10 +2,8 @@ package sha256
 
 import (
 	"bytes"
-	"crypto"
 	"encoding/gob"
 
-	"github.com/stevvooe/resumable"
 	// import to ensure that our init function runs after the standard package
 	_ "crypto/sha256"
 )
@@ -20,15 +18,10 @@ func (d *digest) State() ([]byte, error) {
 	var buf bytes.Buffer
 	encoder := gob.NewEncoder(&buf)
 
-	function := crypto.SHA256
-	if d.is224 {
-		function = crypto.SHA224
-	}
-
 	// We encode this way so that we do not have
 	// to export these fields of the digest struct.
 	vals := []interface{}{
-		d.h, d.x, d.nx, d.len, function,
+		d.h, d.x, d.nx, d.len, d.is224,
 	}
 
 	for _, val := range vals {
@@ -44,27 +37,16 @@ func (d *digest) State() ([]byte, error) {
 func (d *digest) Restore(state []byte) error {
 	decoder := gob.NewDecoder(bytes.NewReader(state))
 
-	var function uint
-
 	// We decode this way so that we do not have
 	// to export these fields of the digest struct.
 	vals := []interface{}{
-		&d.h, &d.x, &d.nx, &d.len, &function,
+		&d.h, &d.x, &d.nx, &d.len, &d.is224,
 	}
 
 	for _, val := range vals {
 		if err := decoder.Decode(val); err != nil {
 			return err
 		}
-	}
-
-	switch crypto.Hash(function) {
-	case crypto.SHA224:
-		d.is224 = true
-	case crypto.SHA256:
-		d.is224 = false
-	default:
-		return resumable.ErrBadState
 	}
 
 	return nil

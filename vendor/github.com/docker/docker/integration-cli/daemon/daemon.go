@@ -33,6 +33,7 @@ import (
 )
 
 type testingT interface {
+	require.TestingT
 	logT
 	Fatalf(string, ...interface{})
 }
@@ -221,7 +222,7 @@ func (d *Daemon) StartWithLogFile(out *os.File, providedArgs ...string) error {
 		return errors.Wrapf(err, "[%s] could not find docker binary in $PATH", d.id)
 	}
 	args := append(d.GlobalFlags,
-		"--containerd", "/var/run/docker/libcontainerd/docker-containerd.sock",
+		"--containerd", "/var/run/docker/containerd/docker-containerd.sock",
 		"--data-root", d.Root,
 		"--exec-root", d.execRoot,
 		"--pidfile", fmt.Sprintf("%s/docker.pid", d.Folder),
@@ -329,9 +330,7 @@ func (d *Daemon) StartWithLogFile(out *os.File, providedArgs ...string) error {
 // then save the busybox image from the main daemon and load it into this Daemon instance.
 func (d *Daemon) StartWithBusybox(t testingT, arg ...string) {
 	d.Start(t, arg...)
-	if err := d.LoadBusybox(); err != nil {
-		t.Fatalf("Error loading busybox image to current daemon: %s\n%v", d.id, err)
-	}
+	d.LoadBusybox(t)
 }
 
 // Kill will send a SIGKILL to the daemon
@@ -458,6 +457,8 @@ out2:
 		return err
 	}
 
+	d.cmd.Wait()
+
 	if err := os.Remove(fmt.Sprintf("%s/docker.pid", d.Folder)); err != nil {
 		return err
 	}
@@ -493,27 +494,24 @@ func (d *Daemon) handleUserns() {
 	}
 }
 
-// LoadBusybox will load the stored busybox into a newly started daemon
-func (d *Daemon) LoadBusybox() error {
-	bb := filepath.Join(d.Folder, "busybox.tar")
-	if _, err := os.Stat(bb); err != nil {
-		if !os.IsNotExist(err) {
-			return errors.Errorf("unexpected error on busybox.tar stat: %v", err)
-		}
-		// saving busybox image from main daemon
-		if out, err := exec.Command(d.dockerBinary, "save", "--output", bb, "busybox:latest").CombinedOutput(); err != nil {
-			imagesOut, _ := exec.Command(d.dockerBinary, "images", "--format", "{{ .Repository }}:{{ .Tag }}").CombinedOutput()
-			return errors.Errorf("could not save busybox image: %s\n%s", string(out), strings.TrimSpace(string(imagesOut)))
-		}
-	}
-	// loading busybox image to this daemon
-	if out, err := d.Cmd("load", "--input", bb); err != nil {
-		return errors.Errorf("could not load busybox image: %s", out)
-	}
-	if err := os.Remove(bb); err != nil {
-		return err
-	}
-	return nil
+// LoadBusybox image into the daemon
+func (d *Daemon) LoadBusybox(t testingT) {
+	clientHost, err := client.NewEnvClient()
+	require.NoError(t, err, "failed to create client")
+	defer clientHost.Close()
+
+	ctx := context.Background()
+	reader, err := clientHost.ImageSave(ctx, []string{"busybox:latest"})
+	require.NoError(t, err, "failed to download busybox")
+	defer reader.Close()
+
+	client, err := d.NewClient()
+	require.NoError(t, err, "failed to create client")
+	defer client.Close()
+
+	resp, err := client.ImageLoad(ctx, reader, true)
+	require.NoError(t, err, "failed to load busybox")
+	defer resp.Body.Close()
 }
 
 func (d *Daemon) queryRootDir() (string, error) {

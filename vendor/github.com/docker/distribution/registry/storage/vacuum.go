@@ -1,12 +1,11 @@
 package storage
 
 import (
-	"context"
 	"path"
 
-	dcontext "github.com/docker/distribution/context"
+	"github.com/docker/distribution/context"
+	"github.com/docker/distribution/digest"
 	"github.com/docker/distribution/registry/storage/driver"
-	"github.com/opencontainers/go-digest"
 )
 
 // vacuum contains functions for cleaning up repositories and blobs
@@ -30,7 +29,7 @@ type Vacuum struct {
 
 // RemoveBlob removes a blob from the filesystem
 func (v Vacuum) RemoveBlob(dgst string) error {
-	d, err := digest.Parse(dgst)
+	d, err := digest.ParseDigest(dgst)
 	if err != nil {
 		return err
 	}
@@ -40,7 +39,7 @@ func (v Vacuum) RemoveBlob(dgst string) error {
 		return err
 	}
 
-	dcontext.GetLogger(v.ctx).Infof("Deleting blob: %s", blobPath)
+	context.GetLogger(v.ctx).Infof("Deleting blob: %s", blobPath)
 
 	err = v.driver.Delete(v.ctx, blobPath)
 	if err != nil {
@@ -58,7 +57,7 @@ func (v Vacuum) RemoveRepository(repoName string) error {
 		return err
 	}
 	repoDir := path.Join(rootForRepository, repoName)
-	dcontext.GetLogger(v.ctx).Infof("Deleting repo: %s", repoDir)
+	context.GetLogger(v.ctx).Infof("Deleting repo: %s", repoDir)
 	err = v.driver.Delete(v.ctx, repoDir)
 	if err != nil {
 		return err

@@ -2,10 +2,7 @@ package sha512
 
 import (
 	"bytes"
-	"crypto"
 	"encoding/gob"
-
-	"github.com/stevvooe/resumable"
 
 	// import to ensure that our init function runs after the standard package
 	_ "crypto/sha512"
@@ -24,7 +21,7 @@ func (d *digest) State() ([]byte, error) {
 	// We encode this way so that we do not have
 	// to export these fields of the digest struct.
 	vals := []interface{}{
-		d.h, d.x, d.nx, d.len, d.function,
+		d.h, d.x, d.nx, d.len, d.is384,
 	}
 
 	for _, val := range vals {
@@ -43,20 +40,13 @@ func (d *digest) Restore(state []byte) error {
 	// We decode this way so that we do not have
 	// to export these fields of the digest struct.
 	vals := []interface{}{
-		&d.h, &d.x, &d.nx, &d.len, &d.function,
+		&d.h, &d.x, &d.nx, &d.len, &d.is384,
 	}
 
 	for _, val := range vals {
 		if err := decoder.Decode(val); err != nil {
 			return err
 		}
-	}
-
-	switch d.function {
-	case crypto.SHA384, crypto.SHA512, crypto.SHA512_224, crypto.SHA512_256:
-		break
-	default:
-		return resumable.ErrBadState
 	}
 
 	return nil

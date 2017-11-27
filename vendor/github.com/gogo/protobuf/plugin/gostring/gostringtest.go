@@ -1,6 +1,4 @@
-// Protocol Buffers for Go with Gadgets
-//
-// Copyright (c) 2013, The GoGo Authors. All rights reserved.
+// Copyright (c) 2013, Vastech SA (PTY) LTD. All rights reserved.
 // http://github.com/gogo/protobuf
 //
 // Redistribution and use in source and binary forms, with or without
@@ -74,7 +72,7 @@ func (p *test) Generate(imports generator.PluginImports, file *generator.FileDes
 			p.P(`_, err := `, parserPkg.Use(), `.ParseExpr(s1)`)
 			p.P(`if err != nil {`)
 			p.In()
-			p.P(`t.Fatal(err)`)
+			p.P(`panic(err)`)
 			p.Out()
 			p.P(`}`)
 			p.Out()
