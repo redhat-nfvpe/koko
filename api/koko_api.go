@@ -503,8 +503,15 @@ func (veth *VEth) RemoveVethLink() (err error) {
 // objects: veth1 and veth2.
 func MakeVeth(veth1 VEth, veth2 VEth) (error) {
 	rand.Seed(time.Now().UnixNano())
-	tempLinkName1 := fmt.Sprintf("koko%d", rand.Uint32())
-	tempLinkName2 := fmt.Sprintf("koko%d", rand.Uint32())
+	tempLinkName1 := veth1.LinkName
+	tempLinkName2 := veth2.LinkName
+
+	if veth1.NsName != "" {
+		tempLinkName1 = fmt.Sprintf("koko%d", rand.Uint32())
+	}
+	if veth2.NsName != "" {
+		tempLinkName2 = fmt.Sprintf("koko%d", rand.Uint32())
+	}
 
 	link1, link2, err := GetVethPair(tempLinkName1, tempLinkName2)
 	if err != nil {

@@ -104,7 +104,8 @@ In case of 'egress' (and 'both'), the target interface (i.e. <mirror IF>) needs 
 
 ## Command option summary
 
-- `-c` is to create veth and put it in current namespace.
+- `-c` is to create veth and put it in current namespace
+- `-C` is to delete veth in current namespace
 - `-d` is to create interface and put it in docker container namespace
 - `-D` is to delete interface of docker container namespace
 - `-n` is to create interface and put it in linux netns namespace

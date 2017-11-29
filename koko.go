@@ -292,7 +292,7 @@ func main() {
 
 	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("c:d:D:n:N:x:p:P:hvM:V:"); c == getopt.EOF {
+		if c = getopt.Getopt("c:C:d:D:n:N:x:p:P:hvM:V:"); c == getopt.EOF {
 			break
 		}
 		switch c {
@@ -383,7 +383,7 @@ func main() {
 				mode = ModeDeleteLink
 			}
 
-		case 'c': // current netns
+		case 'c', 'C': // current netns
 			if cnt == 0 {
 				veth1, err = parseCOption(getopt.OptArg)
 				if err != nil {
@@ -408,6 +408,10 @@ func main() {
 				os.Exit(1)
 			}
 			cnt++
+			if c == 'C' {
+				fmt.Printf("TEST3\n")
+				mode = ModeDeleteLink
+			}
 
 		case 'M': // MACVLAN
 			macvlan, err = parseMOption(getopt.OptArg)
