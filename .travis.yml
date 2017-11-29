@@ -1,4 +1,13 @@
 language: go
+# see https://docs.travis-ci.com/user/reference/overview/#Virtualization-environments
+# for the detail
+sudo: requried
+dist: trusty
+
+before_install:
+  - sudo add-apt-repository ppa:duggan/bats --yes
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq bats
 
 install:
   - go get github.com/golang/lint/golint
@@ -12,6 +21,7 @@ script:
   - glide install
   - go test -v $($GOPATH/bin/glide novendor)
   - go build
+  - bats tests/acceptanceIPv4.bats
 
 before_deploy:
   - go get -u github.com/laher/goxc
