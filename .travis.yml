@@ -7,7 +7,7 @@ dist: trusty
 before_install:
   - sudo add-apt-repository ppa:duggan/bats --yes
   - sudo apt-get update -qq
-  - sudo apt-get install -qq bats
+  - sudo apt-get install -qq bats iputils-ping
 
 install:
   - go get github.com/golang/lint/golint
@@ -22,6 +22,8 @@ script:
   - go test -v $($GOPATH/bin/glide novendor)
   - go build
   - bats tests/acceptanceIPv4.bats
+  - bats tests/acceptanceIPv6.bats
+  - bats tests/acceptanceIPv4v6.bats
 
 before_deploy:
   - go get -u github.com/laher/goxc
