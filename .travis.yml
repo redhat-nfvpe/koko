@@ -12,6 +12,9 @@ script:
   - glide install
   - go test -v $($GOPATH/bin/glide novendor)
   - go build
+  - bats tests/acceptanceIPv4.bats
+  - bats tests/acceptanceIPv6.bats
+  - bats tests/acceptanceIPv4v6.bats
 
 before_deploy:
   - go get -u github.com/laher/goxc
