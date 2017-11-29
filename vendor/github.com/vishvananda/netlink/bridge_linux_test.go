@@ -38,7 +38,7 @@ func TestBridgeVlan(t *testing.T) {
 				t.Fatal()
 			} else {
 				if !vInfo[0].EngressUntag() || !vInfo[0].PortVID() || vInfo[0].Vid != 1 {
-					t.Fatalf("bridge vlan show get wrong return %s", vInfo[0].String())
+					t.Fatal("bridge vlan show get wrong return %s", vInfo[0].String())
 				}
 			}
 		}
