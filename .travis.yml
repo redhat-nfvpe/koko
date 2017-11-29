@@ -1,4 +1,13 @@
 language: go
+# see https://docs.travis-ci.com/user/reference/overview/#Virtualization-environments
+# for the detail
+sudo: requried
+dist: trusty
+
+before_install:
+  - sudo add-apt-repository ppa:duggan/bats --yes
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq bats iputils-ping
 
 install:
   - go get github.com/golang/lint/golint

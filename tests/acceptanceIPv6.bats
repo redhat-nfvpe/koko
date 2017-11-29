@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Acceptance test script for each command line options with IPv4.
+# Acceptance test script for each command line options with IPv6.
 # https://github.com/redhat-nfvpe/koko/wiki/Examples
 
 setup() {
@@ -28,8 +28,8 @@ teardown() {
 }
 
 @test "netns .. netns" {
-      sudo ./koko -n NS1,vethNS1NS2,10.10.10.1/29,2001::1/64 \
-                  -n NS2,vethNS2NS1,10.10.10.2/29,2001::2/64
+      sudo ./koko -n NS1,vethNS1NS2,2001::1/64 \
+                  -n NS2,vethNS2NS1,2001::2/64
       run sudo ip netns exec NS1 ping6 -c 3 -w 5 2001::2
       [ "$status" -eq 0 ]
 }

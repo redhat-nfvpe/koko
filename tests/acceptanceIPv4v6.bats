@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Acceptance test script for each command line options with IPv4.
+# Acceptance test script for each command line options with IPv4/v6.
 # https://github.com/redhat-nfvpe/koko/wiki/Examples
 
 setup() {
