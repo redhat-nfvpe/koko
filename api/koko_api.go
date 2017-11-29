@@ -12,6 +12,7 @@ import (
 	"math/rand"
 
 	"github.com/containernetworking/plugins/pkg/ns"
+	"github.com/containernetworking/plugins/pkg/utils/sysctl"
 	"github.com/vishvananda/netlink"
 
 	"github.com/docker/docker/client"
@@ -411,6 +412,16 @@ func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 
 		// Conditionally set the IP address.
 		for i := 0; i < len(veth.IPAddr); i++ {
+			// if IPv6, need to enable IPv6 using sysctl
+			if veth.IPAddr[i].IP.To4() == nil {
+				ipv6SysctlName := fmt.Sprintf("net.ipv6.conf.%s.disable_ipv6",
+							     veth.LinkName)
+				if _, err := sysctl.Sysctl(ipv6SysctlName, "0"); err != nil {
+					return fmt.Errorf("failed to set ipv6.disable to 0 at %s: %v",
+						veth.LinkName, err)
+				}
+
+			}
 			addr := &netlink.Addr{IPNet: &veth.IPAddr[i], Label: ""}
 			if err = netlink.AddrAdd(link, addr); err != nil {
 				return fmt.Errorf(

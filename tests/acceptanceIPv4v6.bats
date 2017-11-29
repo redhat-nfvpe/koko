@@ -4,8 +4,8 @@
 
 setup() {
 # Create dockers and namespaces
-    DOCKER1="$(docker run --rm -d -it alpine sh)"
-    DOCKER2="$(docker run --rm -d -it alpine sh)"
+    DOCKER1="$(docker run --rm -d -it --sysctl net.ipv6.conf.all.disable_ipv6=0 alpine sh)"
+    DOCKER2="$(docker run --rm -d -it --sysctl net.ipv6.conf.all.disable_ipv6=0 alpine sh)"
     sudo ip netns add NS1
     sudo ip netns add NS2
 }
