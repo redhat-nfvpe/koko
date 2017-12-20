@@ -40,3 +40,4 @@ deploy:
     tags: true
     all_branches: true
     condition: "$TRAVIS_TAG =~ ^v[0-9].*$"
+  skip_cleanup: true
