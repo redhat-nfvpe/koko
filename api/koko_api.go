@@ -5,11 +5,11 @@ package api
 
 import (
 	"fmt"
+	"math/rand"
 	"net"
 	"os"
 	"syscall"
 	"time"
-	"math/rand"
 
 	"github.com/containernetworking/plugins/pkg/ns"
 	"github.com/containernetworking/plugins/pkg/utils/sysctl"
@@ -21,11 +21,11 @@ import (
 
 // VEth is a structure to descrive veth interfaces.
 type VEth struct {
-	NsName   string      // What's the network namespace?
-	LinkName string      // And what will we call the link.
-	IPAddr   []net.IPNet // (optional) Slice of IPv4/v6 address.
-	MirrorEgress string  // (optional) source interface for egress mirror
-	MirrorIngress string // (optional) source interface for ingress mirror
+	NsName        string      // What's the network namespace?
+	LinkName      string      // And what will we call the link.
+	IPAddr        []net.IPNet // (optional) Slice of IPv4/v6 address.
+	MirrorEgress  string      // (optional) source interface for egress mirror
+	MirrorIngress string      // (optional) source interface for ingress mirror
 }
 
 // VxLan is a structure to descrive vxlan endpoint.
@@ -43,8 +43,8 @@ type VLan struct {
 
 // MacVLan is a structure to descrive vlan endpoint.
 type MacVLan struct {
-	ParentIF string			// parent interface name
-	Mode	 netlink.MacvlanMode	// MacVlan mode
+	ParentIF string              // parent interface name
+	Mode     netlink.MacvlanMode // MacVlan mode
 }
 
 // MakeVethPair makes veth pair and returns its link.
@@ -128,7 +128,7 @@ func AddVLanInterface(vlan VLan, devName string) (err error) {
 
 	vlanconf := netlink.Vlan{
 		LinkAttrs: netlink.LinkAttrs{
-			Name:   devName,
+			Name:        devName,
 			ParentIndex: parentIF.Attrs().Index,
 		},
 		VlanId: vlan.ID,
@@ -150,7 +150,7 @@ func AddMacVLanInterface(macvlan MacVLan, devName string) (err error) {
 
 	macvlanconf := netlink.Macvlan{
 		LinkAttrs: netlink.LinkAttrs{
-			Name:   devName,
+			Name:        devName,
 			ParentIndex: parentIF.Attrs().Index,
 		},
 		Mode: macvlan.Mode,
@@ -205,12 +205,12 @@ func (veth *VEth) SetIngressMirror() (err error) {
 	qdisc := &netlink.Ingress{
 		QdiscAttrs: netlink.QdiscAttrs{
 			LinkIndex: linkSrc.Attrs().Index,
-			Handle: netlink.MakeHandle(0xffff, 0),
-			Parent: netlink.HANDLE_INGRESS,
+			Handle:    netlink.MakeHandle(0xffff, 0),
+			Parent:    netlink.HANDLE_INGRESS,
 		},
 	}
 	if err = netlink.QdiscAdd(qdisc); err != nil {
-		if ! os.IsExist(err) {
+		if !os.IsExist(err) {
 			return err
 		}
 	}
@@ -219,17 +219,17 @@ func (veth *VEth) SetIngressMirror() (err error) {
 	// protocol all
 	// u32 match u32 0 0
 	// action mirred egress mirror dev $DST_IFACE
-	filter := &netlink.U32 {
-		FilterAttrs: netlink.FilterAttrs {
+	filter := &netlink.U32{
+		FilterAttrs: netlink.FilterAttrs{
 			LinkIndex: linkSrc.Attrs().Index,
-			Parent: netlink.MakeHandle(0xffff, 0),
-			Protocol: syscall.ETH_P_ALL,
+			Parent:    netlink.MakeHandle(0xffff, 0),
+			Protocol:  syscall.ETH_P_ALL,
 		},
 		Sel: &netlink.TcU32Sel{
-			Keys: []netlink.TcU32Key {
-				netlink.TcU32Key{
+			Keys: []netlink.TcU32Key{
+				{
 					Mask: 0x0,
-					Val: 0,
+					Val:  0,
 				},
 			},
 			Flags: netlink.TC_U32_TERMINAL,
@@ -240,15 +240,12 @@ func (veth *VEth) SetIngressMirror() (err error) {
 					Action: netlink.TC_ACT_PIPE,
 				},
 				MirredAction: netlink.TCA_EGRESS_MIRROR,
-				Ifindex: linkDest.Attrs().Index,
+				Ifindex:      linkDest.Attrs().Index,
 			},
 		},
 	}
 
-	if err = netlink.FilterAdd(filter); err != nil {
-		return err
-	}
-	return nil
+	return netlink.FilterAdd(filter)
 }
 
 // SetEgressMirror sets TC to mirror egress from given port
@@ -274,11 +271,11 @@ func (veth *VEth) SetEgressMirror() (err error) {
 	qdisc := netlink.NewPrio(
 		netlink.QdiscAttrs{
 			LinkIndex: linkSrc.Attrs().Index,
-			Handle: netlink.MakeHandle(1, 0),
-			Parent: netlink.HANDLE_ROOT,
+			Handle:    netlink.MakeHandle(1, 0),
+			Parent:    netlink.HANDLE_ROOT,
 		})
 	if err = netlink.QdiscAdd(qdisc); err != nil {
-		if ! os.IsExist(err) {
+		if !os.IsExist(err) {
 			return err
 		}
 	}
@@ -286,20 +283,20 @@ func (veth *VEth) SetEgressMirror() (err error) {
 	// protocol all
 	// u32 match u32 0 0
 	// action mirred egress mirror dev $DST_IFACE
-	u32SelKeys := []netlink.TcU32Key {
-		netlink.TcU32Key{
+	u32SelKeys := []netlink.TcU32Key{
+		{
 			Mask: 0x0,
-			Val: 0,
+			Val:  0,
 		},
 	}
-	filter := &netlink.U32 {
-		FilterAttrs: netlink.FilterAttrs {
+	filter := &netlink.U32{
+		FilterAttrs: netlink.FilterAttrs{
 			LinkIndex: linkSrc.Attrs().Index,
-			Parent: netlink.MakeHandle(1, 0),
-			Protocol: syscall.ETH_P_ALL,
+			Parent:    netlink.MakeHandle(1, 0),
+			Protocol:  syscall.ETH_P_ALL,
 		},
 		Sel: &netlink.TcU32Sel{
-			Keys: u32SelKeys,
+			Keys:  u32SelKeys,
 			Flags: netlink.TC_U32_TERMINAL,
 		},
 		Actions: []netlink.Action{
@@ -308,15 +305,12 @@ func (veth *VEth) SetEgressMirror() (err error) {
 					Action: netlink.TC_ACT_PIPE,
 				},
 				MirredAction: netlink.TCA_EGRESS_MIRROR,
-				Ifindex: linkDest.Attrs().Index,
+				Ifindex:      linkDest.Attrs().Index,
 			},
 		},
 	}
 
-	if err = netlink.FilterAdd(filter); err != nil {
-		return err
-	}
-	return nil
+	return netlink.FilterAdd(filter)
 }
 
 // UnsetIngressMirror sets TC to mirror ingress from given port
@@ -333,15 +327,12 @@ func (veth *VEth) UnsetIngressMirror() (err error) {
 	qdisc := &netlink.Ingress{
 		QdiscAttrs: netlink.QdiscAttrs{
 			LinkIndex: linkSrc.Attrs().Index,
-			Handle: netlink.MakeHandle(0xffff, 0),
-			Parent: netlink.HANDLE_INGRESS,
+			Handle:    netlink.MakeHandle(0xffff, 0),
+			Parent:    netlink.HANDLE_INGRESS,
 		},
 	}
-	if err = netlink.QdiscDel(qdisc); err != nil {
-		return err
-	}
 
-	return nil
+	return netlink.QdiscDel(qdisc)
 }
 
 // UnsetEgressMirror sets TC to mirror egress from given port
@@ -358,13 +349,10 @@ func (veth *VEth) UnsetEgressMirror() (err error) {
 	qdisc := netlink.NewPrio(
 		netlink.QdiscAttrs{
 			LinkIndex: linkSrc.Attrs().Index,
-			Handle: netlink.MakeHandle(1, 0),
-			Parent: netlink.HANDLE_ROOT,
+			Handle:    netlink.MakeHandle(1, 0),
+			Parent:    netlink.HANDLE_ROOT,
 		})
-	if err = netlink.QdiscDel(qdisc); err != nil {
-		return err
-	}
-	return nil
+	return netlink.QdiscDel(qdisc)
 }
 
 // SetVethLink is low-level handler to set IP address onveth links given
@@ -397,11 +385,10 @@ func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 		}
 
 		if veth.LinkName != vethLinkName {
-			if err = netlink.LinkSetName(link, veth.LinkName);
-			   err != nil {
-				   return fmt.Errorf(
-					   "failed to rename link %s -> %s: %v",
-					   vethLinkName, veth.LinkName, err)
+			if err = netlink.LinkSetName(link, veth.LinkName); err != nil {
+				return fmt.Errorf(
+					"failed to rename link %s -> %s: %v",
+					vethLinkName, veth.LinkName, err)
 			}
 		}
 
@@ -415,7 +402,7 @@ func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 			// if IPv6, need to enable IPv6 using sysctl
 			if veth.IPAddr[i].IP.To4() == nil {
 				ipv6SysctlName := fmt.Sprintf("net.ipv6.conf.%s.disable_ipv6",
-							     veth.LinkName)
+					veth.LinkName)
 				if _, err := sysctl.Sysctl(ipv6SysctlName, "0"); err != nil {
 					return fmt.Errorf("failed to set ipv6.disable to 0 at %s: %v",
 						veth.LinkName, err)
@@ -435,7 +422,7 @@ func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 				netlink.LinkDel(link)
 				return fmt.Errorf(
 					"Failed to set tc ingress mirror :%v",
-				err)
+					err)
 			}
 		}
 		if veth.MirrorEgress != "" {
@@ -473,14 +460,14 @@ func (veth *VEth) RemoveVethLink() (err error) {
 			if err = veth.UnsetIngressMirror(); err != nil {
 				return fmt.Errorf(
 					"Failed to unset tc ingress mirror :%v",
-				err)
+					err)
 			}
 		}
 		if veth.MirrorEgress != "" {
 			if err = veth.UnsetEgressMirror(); err != nil {
 				return fmt.Errorf(
 					"Failed to unset tc egress mirror: %v",
-				err)
+					err)
 			}
 		}
 
@@ -501,7 +488,7 @@ func (veth *VEth) RemoveVethLink() (err error) {
 
 // MakeVeth is top-level handler to create veth links given two VEth data
 // objects: veth1 and veth2.
-func MakeVeth(veth1 VEth, veth2 VEth) (error) {
+func MakeVeth(veth1 VEth, veth2 VEth) error {
 	rand.Seed(time.Now().UnixNano())
 	tempLinkName1 := veth1.LinkName
 	tempLinkName2 := veth2.LinkName
@@ -518,13 +505,10 @@ func MakeVeth(veth1 VEth, veth2 VEth) (error) {
 		return err
 	}
 
-	if err:= veth1.SetVethLink(link1); err != nil {
+	if err := veth1.SetVethLink(link1); err != nil {
 		return err
 	}
-	if err:= veth2.SetVethLink(link2); err != nil {
-		return err
-	}
-	return nil
+	return veth2.SetVethLink(link2)
 }
 
 // MakeVxLan makes vxlan interface and put it into container namespace
@@ -607,7 +591,7 @@ func MakeMacVLan(veth1 VEth, macvlan MacVLan) (err error) {
 	}
 
 	if err = veth1.SetVethLink(link); err != nil {
-		fmt.Errorf("Cannot add IPaddr/netns failed: %v", err)
+		return fmt.Errorf("Cannot add IPaddr/netns failed: %v", err)
 	}
 	if veth1.MirrorIngress != "" {
 		if err = veth1.SetIngressMirror(); err != nil {
@@ -627,7 +611,7 @@ func MakeMacVLan(veth1 VEth, macvlan MacVLan) (err error) {
 	return err
 }
 
-// FindLinkInNS finds interface name in given namespace. if foud return true.
+// IsExistLinkInNS finds interface name in given namespace. if foud return true.
 // otherwise false.
 func IsExistLinkInNS(nsName string, linkName string) (result bool, err error) {
 	var vethNs ns.NetNS

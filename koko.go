@@ -11,9 +11,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/vishvananda/netlink"
 	"github.com/MakeNowJust/heredoc"
 	"github.com/redhat-nfvpe/koko/api"
+	"github.com/vishvananda/netlink"
 )
 
 // VERSION indicates koko's version.
@@ -25,10 +25,10 @@ func parseLinkIPOption(veth *api.VEth, n []string) (err error) {
 	veth.LinkName = n[0]
 	numAddr := len(n) - 1
 
-	exists,_ := api.IsExistLinkInNS(veth.NsName, veth.LinkName)
+	exists, _ := api.IsExistLinkInNS(veth.NsName, veth.LinkName)
 	if exists == true {
 		return fmt.Errorf("exists interface %s at namespace (%s)",
-				  veth.LinkName, veth.NsName)
+			veth.LinkName, veth.NsName)
 	}
 
 	for i := 0; i < numAddr; i++ {
@@ -52,10 +52,10 @@ func parseLinkIPOption(veth *api.VEth, n []string) (err error) {
 			ip, mask, err1 := net.ParseCIDR(n[i+1])
 			if err1 != nil {
 				return fmt.Errorf("failed to parse IP addr(%d) %s: %v",
-				i, n[i], err1)
+					i, n[i], err1)
 			}
 			i := net.IPNet{
-				IP: ip,
+				IP:   ip,
 				Mask: mask.Mask,
 			}
 			veth.IPAddr = append(veth.IPAddr, i)
@@ -418,8 +418,8 @@ func main() {
 			mode = ModeAddMacVlan
 			if err != nil {
 				fmt.Fprintf(os.Stderr,
-					    "Parse failed %s!:%v",
-					    getopt.OptArg, err)
+					"Parse failed %s!:%v",
+					getopt.OptArg, err)
 				usage()
 				os.Exit(1)
 			}
@@ -429,8 +429,8 @@ func main() {
 			mode = ModeAddVxlan
 			if err != nil {
 				fmt.Fprintf(os.Stderr,
-					    "Parse failed %s!:%v",
-					    getopt.OptArg, err)
+					"Parse failed %s!:%v",
+					getopt.OptArg, err)
 				usage()
 				os.Exit(1)
 			}
@@ -440,8 +440,8 @@ func main() {
 			mode = ModeAddVlan
 			if err != nil {
 				fmt.Fprintf(os.Stderr,
-					    "Parse failed %s!:%v",
-					    getopt.OptArg, err)
+					"Parse failed %s!:%v",
+					getopt.OptArg, err)
 				usage()
 				os.Exit(1)
 			}
