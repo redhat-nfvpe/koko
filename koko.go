@@ -409,7 +409,6 @@ func main() {
 			}
 			cnt++
 			if c == 'C' {
-				fmt.Printf("TEST3\n")
 				mode = ModeDeleteLink
 			}
 
