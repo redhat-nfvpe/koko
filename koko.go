@@ -114,7 +114,7 @@ func parseDOption(s string) (veth api.VEth, err error) {
 		return
 	}
 
-	veth.NsName, err = api.GetDockerContainerNS(n[0])
+	veth.NsName, err = api.GetDockerContainerNS("", n[0])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v", err)
 		os.Exit(1)

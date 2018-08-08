@@ -164,7 +164,7 @@ func AddMacVLanInterface(macvlan MacVLan, devName string) (err error) {
 
 // GetDockerContainerNS retrieves container's network namespace from
 // docker container id, given as containerID.
-func GetDockerContainerNS(containerID string) (namespace string, err error) {
+func GetDockerContainerNS(procPrefix, containerID string) (namespace string, err error) {
 	ctx := context.Background()
 	cli, err := client.NewEnvClient()
 	if err != nil {
@@ -182,7 +182,7 @@ func GetDockerContainerNS(containerID string) (namespace string, err error) {
 		err = fmt.Errorf("failed to get container info: %v", err)
 		return
 	}
-	namespace = fmt.Sprintf("/proc/%d/ns/net", json.State.Pid)
+	namespace = fmt.Sprintf("%s//proc/%d/ns/net", procPrefix, json.State.Pid)
 	return
 }
 
