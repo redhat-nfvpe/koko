@@ -10,12 +10,12 @@
   revision = "e9091a26100e9cfb2b6a8f470085bfa541931a91"
 
 [[projects]]
-  branch = "master"
-  digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
+  digest = "1:adbfc2db750d6fbe0c165ad801ba2d730883a3bc40bc8fe829516eb42ed17771"
   name = "github.com/Microsoft/go-winio"
   packages = ["."]
   pruneopts = "UT"
-  revision = "78a084671df137c2acfcacaa730d7e7dc285ac39"
+  revision = "a6d595ae73cf27a1b8fc32930668708f45ce1c85"
+  version = "v0.4.9"
 
 [[projects]]
   digest = "1:7cd9152acb750b973d5db04841dc4992226e35dade802c02f32948e6fc0fc0f4"
@@ -25,23 +25,23 @@
     "pkg/utils/sysctl",
   ]
   pruneopts = "UT"
-  revision = "72b62babeeb3d7b25c9809ea9eb9fc9c02cc0f71"
-  version = "v0.7.2"
+  revision = "19f2f28178aa88772f69c4eeb3793d4a63c244b0"
+  version = "v0.7.3"
 
 [[projects]]
-  branch = "master"
-  digest = "1:4189ee6a3844f555124d9d2656fe7af02fca961c2a9bad9074789df13a0c62e0"
+  digest = "1:3cabbabc9e0e4aa7e12b882bdc213f41cf8bd2b2ce2a7b5e0aceaf8a6a78049b"
   name = "github.com/docker/distribution"
   packages = [
-    "digestset",
+    "digest",
     "reference",
   ]
   pruneopts = "UT"
-  revision = "4a75b72fd3621c1892143614474ff2b05d30e4b3"
+  revision = "48294d928ced5dd9b378f7fd7c6f5da3ff3f2c89"
+  version = "v2.6.2"
 
 [[projects]]
   branch = "master"
-  digest = "1:c73f5be409f47c9d3eddfda26af2d3aac7d92856c6ad1eb666a4ba43a653b914"
+  digest = "1:88fab78d17fa94e38f7157162d268bb9031cb1c34fcab48c92700315b2c3ac39"
   name = "github.com/docker/docker"
   packages = [
     "api",
@@ -64,7 +64,7 @@
     "errdefs",
   ]
   pruneopts = "UT"
-  revision = "f57f260b49b6142366e6bc1274204ee0a1205945"
+  revision = "e0ad6d045c752e0523d8591b235ec2db32bc71fc"
 
 [[projects]]
   digest = "1:811c86996b1ca46729bad2724d4499014c4b9effd05ef8c71b852aad90deb0ce"
@@ -103,12 +103,12 @@
   revision = "824dc755f216158c40b01264dde707ff41df43c3"
 
 [[projects]]
-  branch = "master"
-  digest = "1:bc62c2c038cc8ae51b68f6d52570501a763bb71e78736a9f65d60762429864a9"
+  digest = "1:ee4d4af67d93cc7644157882329023ce9a7bcfce956a079069a9405521c7cc8d"
   name = "github.com/opencontainers/go-digest"
   packages = ["."]
   pruneopts = "UT"
-  revision = "c9281466c8b2f606084ac71339773efd177436e7"
+  revision = "279bed98673dd5bef374d3b6e4b09e2af76183bf"
+  version = "v1.0.0-rc1"
 
 [[projects]]
   digest = "1:11db38d694c130c800d0aefb502fb02519e514dc53d9804ce51d1ad25ec27db6"
@@ -122,12 +122,12 @@
   version = "v1.0.1"
 
 [[projects]]
-  branch = "master"
-  digest = "1:3891cc78541df6e4596b3e73978eb062d32967084069270ec881b959be5155ae"
+  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
   name = "github.com/pkg/errors"
   packages = ["."]
   pruneopts = "UT"
-  revision = "816c9085562cd7ee03e7f8188a1cfd942858cded"
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
 
 [[projects]]
   digest = "1:2d9d06cb9d46dacfdbb45f8575b39fc0126d083841a29d4fbf8d97708f43107e"
@@ -148,28 +148,6 @@
   pruneopts = "UT"
   revision = "13995c7128ccc8e51e9a6bd2b551020a27180abd"
 
-[[projects]]
-  digest = "1:f697b73347a52b82d705ea67e0699164da07a0c833118ca968fee017fc132464"
-  name = "golang.org/x/net"
-  packages = [
-    "context",
-    "context/ctxhttp",
-    "proxy",
-  ]
-  pruneopts = "UT"
-  revision = "e90d6d0afc4c315a0d87a568ae68577cc15149a0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:2455630696ece2771aab91b25300a375df10b948d43d1b565feda5d89afd2bde"
-  name = "golang.org/x/sys"
-  packages = [
-    "unix",
-    "windows",
-  ]
-  pruneopts = "UT"
-  revision = "acbc56fc7007d2a01796d5bde54f39e3b3e95945"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
@@ -180,7 +158,6 @@
     "github.com/docker/docker/client",
     "github.com/mattn/go-getopt",
     "github.com/vishvananda/netlink",
-    "golang.org/x/net/context",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
