@@ -24,7 +24,8 @@
 #   go-tests = true
 #   unused-packages = true
 
-ignored = ["bytes"]
+ignored = ["bytes", "golang.org/x/sys/unix", "golang.org/x/sys/windows", "golang.org/x/net/context",  
+ "golang.org/x/net/context/ctxhttp", "golang.org/x/net/proxy"]
 
 [[constraint]]
   branch = "master"
