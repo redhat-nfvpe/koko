@@ -12,7 +12,7 @@ before_install:
 
 install:
   - $GOPATH/bin/dep ensure
-  - go get github.com/golang/lint/golint
+  - go get -u golang.org/x/lint/golint
 
 before_script:
   - go vet .
