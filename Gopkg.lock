@@ -30,6 +30,19 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:6926b6c9077785262ab3be1a3bdf68bb28fac8a748154386472bdf85841570d2"
+  name = "github.com/containers/storage"
+  packages = [
+    "pkg/fileutils",
+    "pkg/idtools",
+    "pkg/mount",
+    "pkg/system",
+  ]
+  pruneopts = "UT"
+  revision = "bd5818eda84012cf1db4dafbddd4b7509bb77142"
+
+[[projects]]
+  branch = "master"
   digest = "1:4189ee6a3844f555124d9d2656fe7af02fca961c2a9bad9074789df13a0c62e0"
   name = "github.com/docker/distribution"
   packages = [
@@ -95,6 +108,25 @@
   version = "v1.1.1"
 
 [[projects]]
+  digest = "1:0a69a1c0db3591fcefb47f115b224592c8dfa4368b7ba9fae509d5e16cdc95c8"
+  name = "github.com/konsorten/go-windows-terminal-sequences"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5c8c8bd35d3832f5d134ae1e1e375b69a4d25242"
+  version = "v1.0.1"
+
+[[projects]]
+  digest = "1:49960ad8510186a00e0d3699e013b5e9167f964667989bf3cfea9acf75a6225c"
+  name = "github.com/kubernetes-sigs/cri-o"
+  packages = [
+    "client",
+    "types",
+  ]
+  pruneopts = "UT"
+  revision = "774a29ecf6855f2dff266dc2aa2fe81d7d964465"
+  version = "v1.12.0"
+
+[[projects]]
   branch = "master"
   digest = "1:920701aef4a93387a98662d4fc4a0d45c583cdf97e748a171c553fcb33198144"
   name = "github.com/mattn/go-getopt"
@@ -122,12 +154,28 @@
   version = "v1.0.1"
 
 [[projects]]
+  digest = "1:38ee335aedf4626620f3cf8f605661e71abdcce7b40b38921962beb3980f0a20"
+  name = "github.com/opencontainers/runc"
+  packages = ["libcontainer/user"]
+  pruneopts = "UT"
+  revision = "baf6536d6259209c3edfa2b22237af82942d3dfa"
+  version = "v0.1.1"
+
+[[projects]]
   branch = "master"
   digest = "1:3891cc78541df6e4596b3e73978eb062d32967084069270ec881b959be5155ae"
   name = "github.com/pkg/errors"
   packages = ["."]
   pruneopts = "UT"
   revision = "816c9085562cd7ee03e7f8188a1cfd942858cded"
+
+[[projects]]
+  digest = "1:3f53e9e4dfbb664cd62940c9c4b65a2171c66acd0b7621a1a6b8e78513525a52"
+  name = "github.com/sirupsen/logrus"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ad15b42461921f1fb3529b058c6786c6a45d5162"
+  version = "v1.1.1"
 
 [[projects]]
   digest = "1:2d9d06cb9d46dacfdbb45f8575b39fc0126d083841a29d4fbf8d97708f43107e"
@@ -147,6 +195,14 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "13995c7128ccc8e51e9a6bd2b551020a27180abd"
+
+[[projects]]
+  branch = "master"
+  digest = "1:3f3a05ae0b95893d90b9b3b5afdb79a9b3d96e4e36e099d841ae602e4aca0da8"
+  name = "golang.org/x/crypto"
+  packages = ["ssh/terminal"]
+  pruneopts = "UT"
+  revision = "74cb1d3d52f4c01cbfb44c1b50d204462f3124c7"
 
 [[projects]]
   digest = "1:f697b73347a52b82d705ea67e0699164da07a0c833118ca968fee017fc132464"
@@ -178,6 +234,7 @@
     "github.com/containernetworking/plugins/pkg/ns",
     "github.com/containernetworking/plugins/pkg/utils/sysctl",
     "github.com/docker/docker/client",
+    "github.com/kubernetes-sigs/cri-o/client",
     "github.com/mattn/go-getopt",
     "github.com/vishvananda/netlink",
     "golang.org/x/net/context",

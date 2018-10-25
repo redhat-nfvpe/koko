@@ -108,6 +108,8 @@ In case of 'egress' (and 'both'), the target interface (i.e. <mirror IF>) needs 
 - `-C` is to delete veth in current namespace
 - `-d` is to create interface and put it in docker container namespace
 - `-D` is to delete interface of docker container namespace
+- `-e` is to create interface and put it in cri-o container namespace
+- `-E` is to delete interface of cri-o container namespace
 - `-n` is to create interface and put it in linux netns namespace
 - `-N` is to delete interface of linux netns namespace
 - `-p` is to create interface and put it in pid's netns namespace

@@ -129,6 +129,29 @@ func parseDOption(s string) (veth api.VEth, err error) {
 	return
 }
 
+// parseEOption Parses '-e' option and put this information in veth object.
+func parseEOption(s string) (veth api.VEth, err error) {
+	n := strings.Split(s, ",")
+	if len(n) > 4 || len(n) < 1 {
+		err = fmt.Errorf("failed to parse %s", s)
+		return
+	}
+
+	veth.NsName, err = api.GetCrioContainerNS("", n[0], "")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v", err)
+		os.Exit(1)
+	}
+
+	err1 := parseLinkIPOption(&veth, n[1:])
+	if err1 != nil {
+		fmt.Fprintf(os.Stderr, "%v", err1)
+		os.Exit(1)
+	}
+
+	return
+}
+
 // parsePOption Parses '-p' option and put this information in veth object.
 func parsePOption(s string) (veth api.VEth, err error) {
 	n := strings.Split(s, ",")
@@ -292,7 +315,7 @@ func main() {
 
 	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("c:C:d:D:n:N:x:p:P:hvM:V:"); c == getopt.EOF {
+		if c = getopt.Getopt("c:C:d:e:E:D:n:N:x:p:P:hvM:V:"); c == getopt.EOF {
 			break
 		}
 		switch c {
@@ -322,6 +345,35 @@ func main() {
 			}
 			cnt++
 			if c == 'D' {
+				mode = ModeDeleteLink
+			}
+
+		case 'e', 'E': // docker
+			if cnt == 0 {
+				veth1, err = parseEOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
+					usage()
+					os.Exit(1)
+				}
+			} else if cnt == 1 && c == 'e' {
+				veth2, err = parseEOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
+					usage()
+					os.Exit(1)
+				}
+			} else {
+				fmt.Fprintf(os.Stderr, "Too many config!")
+				usage()
+				os.Exit(1)
+			}
+			cnt++
+			if c == 'E' {
 				mode = ModeDeleteLink
 			}
 
