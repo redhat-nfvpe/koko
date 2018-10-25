@@ -13,9 +13,10 @@ import (
 
 	"github.com/containernetworking/plugins/pkg/ns"
 	"github.com/containernetworking/plugins/pkg/utils/sysctl"
+	crio "github.com/kubernetes-sigs/cri-o/client"
 	"github.com/vishvananda/netlink"
 
-	"github.com/docker/docker/client"
+	docker "github.com/docker/docker/client"
 	"golang.org/x/net/context"
 )
 
@@ -166,7 +167,7 @@ func AddMacVLanInterface(macvlan MacVLan, devName string) (err error) {
 // docker container id, given as containerID.
 func GetDockerContainerNS(procPrefix, containerID string) (namespace string, err error) {
 	ctx := context.Background()
-	cli, err := client.NewEnvClient()
+	cli, err := docker.NewEnvClient()
 	if err != nil {
 		panic(err)
 	}
@@ -183,6 +184,26 @@ func GetDockerContainerNS(procPrefix, containerID string) (namespace string, err
 		return
 	}
 	namespace = fmt.Sprintf("%s//proc/%d/ns/net", procPrefix, json.State.Pid)
+	return
+}
+
+// GetCrioContainerNS retrieves container's network namespace from
+// cri-o container id, given as containerID.
+func GetCrioContainerNS(procPrefix, containerID, socketPath string) (namespace string, err error) {
+	if socketPath == "" {
+		socketPath = "/var/run/crio/crio.sock"
+	}
+
+	client, err := crio.New(socketPath)
+	if err != nil {
+		return "", err
+	}
+
+	info, err := client.ContainerInfo(containerID)
+	if err != nil {
+		return "", err
+	}
+	namespace = fmt.Sprintf("%s//proc/%d/ns/net", procPrefix, info.Pid)
 	return
 }
 

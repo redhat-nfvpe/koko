@@ -46,6 +46,10 @@ ignored = ["bytes"]
   name = "github.com/vishvananda/netlink"
   version = "1.0.0"
 
+[[constraint]]
+  name = "github.com/kubernetes-sigs/cri-o"
+  version = "1.12.0"
+
 [prune]
   go-tests = true
   unused-packages = true
