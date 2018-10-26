@@ -34,8 +34,13 @@ ignored = ["bytes"]
   name = "github.com/containernetworking/plugins"
   version = "0.7.2"
 
+[[override]]
+  name = "github.com/docker/distribution"
+  branch = "master"
+
 [[constraint]]
   name = "github.com/docker/docker"
+  #version = "17.05"
   branch = "master"
 
 [[constraint]]
