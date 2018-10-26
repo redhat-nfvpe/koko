@@ -279,8 +279,13 @@ func (veth *VEth) SetEgressMirror() (err error) {
 			veth.MirrorEgress, veth.NsName, err)
 	}
 
+	/*
 	if linkSrc.Attrs().TxQLen == 0 {
 		return fmt.Errorf("veth qlen must be non zero!")
+	}
+	*/
+	if err = netlink.LinkSetTxQLen(linkSrc, 1000); err != nil {
+		return fmt.Errorf("cannot set %s TxQLen: %v", veth.MirrorEgress, err)
 	}
 
 	if linkDest, err = netlink.LinkByName(veth.LinkName); err != nil {
