@@ -85,7 +85,7 @@ func GetVethPair(name1 string, name2 string) (link1 netlink.Link,
 	}
 
 	if link2, err = netlink.LinkByName(name2); err != nil {
-		err = fmt.Errorf("Failed to lookup %q: %v\n", name2, err)
+		err = fmt.Errorf("failed to lookup %q: %v\n", name2, err)
 	}
 
 	return
@@ -96,7 +96,7 @@ func AddVxLanInterface(vxlan VxLan, devName string) (err error) {
 	var parentIF netlink.Link
 
 	if parentIF, err = netlink.LinkByName(vxlan.ParentIF); err != nil {
-		return fmt.Errorf("Failed to get %s: %v", vxlan.ParentIF, err)
+		return fmt.Errorf("failed to get %s: %v", vxlan.ParentIF, err)
 	}
 
 	vxlanconf := netlink.Vxlan{
@@ -451,7 +451,7 @@ func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 			if err = veth.SetIngressMirror(); err != nil {
 				netlink.LinkDel(link)
 				return fmt.Errorf(
-					"Failed to set tc ingress mirror :%v",
+					"failed to set tc ingress mirror :%v",
 					err)
 			}
 		}
@@ -459,7 +459,7 @@ func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 			if err = veth.SetEgressMirror(); err != nil {
 				netlink.LinkDel(link)
 				return fmt.Errorf(
-					"Failed to set tc egress mirror: %v", err)
+					"failed to set tc egress mirror: %v", err)
 			}
 		}
 		return nil
@@ -489,14 +489,14 @@ func (veth *VEth) RemoveVethLink() (err error) {
 		if veth.MirrorIngress != "" {
 			if err = veth.UnsetIngressMirror(); err != nil {
 				return fmt.Errorf(
-					"Failed to unset tc ingress mirror :%v",
+					"failed to unset tc ingress mirror :%v",
 					err)
 			}
 		}
 		if veth.MirrorEgress != "" {
 			if err = veth.UnsetEgressMirror(); err != nil {
 				return fmt.Errorf(
-					"Failed to unset tc egress mirror: %v",
+					"failed to unset tc egress mirror: %v",
 					err)
 			}
 		}
@@ -634,11 +634,11 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 		// need to adjast vxlan MTU as ingress
 		mtuMirror, err1 := GetMTU(veth1.MirrorIngress);
 		if err1 != nil {
-			return fmt.Errorf("Failed to get %s MTU: %v", veth1.MirrorIngress, err1)
+			return fmt.Errorf("failed to get %s MTU: %v", veth1.MirrorIngress, err1)
 		}
 		mtuVxlan, err2 := GetMTU(veth1.LinkName)
 		if err2 != nil {
-			return fmt.Errorf("Failed to get %s MTU: %v", veth1.LinkName, err2)
+			return fmt.Errorf("failed to get %s MTU: %v", veth1.LinkName, err2)
 		}
 
 		if mtuMirror != mtuVxlan {
@@ -651,7 +651,7 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 		if err = veth1.SetIngressMirror(); err != nil {
 			netlink.LinkDel(link)
 			return fmt.Errorf(
-				"Failed to set tc ingress mirror :%v",
+				"failed to set tc ingress mirror :%v",
 				err)
 		}
 	}
@@ -659,11 +659,11 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 		// need to adjast vxlan MTU as egress
 		mtuMirror, err1 := GetMTU(veth1.MirrorEgress);
 		if err1 != nil {
-			return fmt.Errorf("Failed to get %s MTU: %v", veth1.MirrorEgress, err1)
+			return fmt.Errorf("failed to get %s MTU: %v", veth1.MirrorEgress, err1)
 		}
 		mtuVxlan, err2 := GetMTU(veth1.LinkName)
 		if err2 != nil {
-			return fmt.Errorf("Failed to get %s MTU: %v", veth1.LinkName, err2)
+			return fmt.Errorf("failed to get %s MTU: %v", veth1.LinkName, err2)
 		}
 
 		if mtuMirror != mtuVxlan {
@@ -678,7 +678,7 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 		if err = veth1.SetEgressMirror(); err != nil {
 			netlink.LinkDel(link)
 			return fmt.Errorf(
-				"Failed to set tc egress mirror: %v", err)
+				"failed to set tc egress mirror: %v", err)
 		}
 	}
 	return nil
@@ -703,7 +703,7 @@ func MakeVLan(veth1 VEth, vlan VLan) (err error) {
 		if err = veth1.SetIngressMirror(); err != nil {
 			netlink.LinkDel(link)
 			return fmt.Errorf(
-				"Failed to set tc ingress mirror :%v",
+				"failed to set tc ingress mirror :%v",
 				err)
 		}
 	}
@@ -711,7 +711,7 @@ func MakeVLan(veth1 VEth, vlan VLan) (err error) {
 		if err = veth1.SetEgressMirror(); err != nil {
 			netlink.LinkDel(link)
 			return fmt.Errorf(
-				"Failed to set tc egress mirror: %v", err)
+				"failed to set tc egress mirror: %v", err)
 		}
 	}
 	return nil
@@ -736,7 +736,7 @@ func MakeMacVLan(veth1 VEth, macvlan MacVLan) (err error) {
 		if err = veth1.SetIngressMirror(); err != nil {
 			netlink.LinkDel(link)
 			return fmt.Errorf(
-				"Failed to set tc ingress mirror :%v",
+				"failed to set tc ingress mirror :%v",
 				err)
 		}
 	}
@@ -744,7 +744,7 @@ func MakeMacVLan(veth1 VEth, macvlan MacVLan) (err error) {
 		if err = veth1.SetEgressMirror(); err != nil {
 			netlink.LinkDel(link)
 			return fmt.Errorf(
-				"Failed to set tc egress mirror: %v", err)
+				"failed to set tc egress mirror: %v", err)
 		}
 	}
 	return err
