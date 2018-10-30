@@ -34,6 +34,7 @@ type VxLan struct {
 	ParentIF string // parent interface name
 	ID       int    // VxLan ID
 	IPAddr   net.IP // VxLan destination address
+	MTU      int    // VxLan Interface MTU (with VxLan encap), used mirroring
 }
 
 // VLan is a structure to descrive vlan endpoint.
@@ -110,6 +111,9 @@ func AddVxLanInterface(vxlan VxLan, devName string) (err error) {
 		Learning:     true,
 		L2miss:       true,
 		L3miss:       true,
+	}
+	if vxlan.MTU != 0 {
+		vxlanconf.LinkAttrs.MTU = vxlan.MTU
 	}
 	err = netlink.LinkAdd(&vxlanconf)
 
@@ -512,38 +516,39 @@ func (veth *VEth) RemoveVethLink() (err error) {
 	return err
 }
 
-// GetEgressMTU get veth's EgressIF MTU
-func (veth *VEth) GetEgressMTU() (mtu int, err error) {
-	var linkSrc netlink.Link
+// GetMTU get veth's IF MTU
+func GetMTU(ifname string) (mtu int, err error) {
+	var link netlink.Link
 
-	if veth.MirrorEgress == "" {
-		return -1, fmt.Errorf("No EgressIF")
+	if ifname == "" {
+		return -1, fmt.Errorf("No IF: %s", ifname)
 	}
 
-	if linkSrc, err = netlink.LinkByName(veth.MirrorEgress); err != nil {
-		return -1, fmt.Errorf("failed to lookup %q in %q: %v", veth.MirrorEgress, veth.NsName, err)
+	if link, err = netlink.LinkByName(ifname); err != nil {
+		return -1, fmt.Errorf("failed to lookup %q: %v", ifname, err)
 	}
 
-	return linkSrc.Attrs().MTU, nil
+	return link.Attrs().MTU, nil
 }
 
-// SetEgressMTU set veth's EgressIF MTU
-func (veth *VEth) SetEgressMTU(mtu int) (err error) {
-	var linkSrc netlink.Link
+// SetMTU set veth's IF MTU
+func SetMTU(ifname string, mtu int) (err error) {
+	var link netlink.Link
 
-	if veth.MirrorEgress == "" {
-		return fmt.Errorf("No EgressIF")
+	if ifname == "" {
+		return fmt.Errorf("No IF: %s", ifname)
 	}
 
-	if linkSrc, err = netlink.LinkByName(veth.MirrorEgress); err != nil {
-		return fmt.Errorf("failed to lookup %q in %q: %v", veth.MirrorEgress, veth.NsName, err)
+	if link, err = netlink.LinkByName(ifname); err != nil {
+		return fmt.Errorf("failed to lookup %q: %v", ifname, err)
 	}
 
-	if err = netlink.LinkSetMTU(linkSrc, mtu); err != nil {
-		return fmt.Errorf("failed to set MTU %q in %q: %v", veth.MirrorEgress, mtu, err)
+	if err = netlink.LinkSetMTU(link, mtu); err != nil {
+		return fmt.Errorf("failed to set MTU %q in %q: %v", ifname, mtu, err)
 	}
 	return nil
 }
+
 
 // GetEgressTxQLen get veth's EgressIF TxQLen
 func (veth *VEth) GetEgressTxQLen() (qlen int, err error) {
@@ -626,6 +631,23 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 	}
 
 	if veth1.MirrorIngress != "" {
+		// need to adjast vxlan MTU as ingress
+		mtuMirror, err1 := GetMTU(veth1.MirrorIngress);
+		if err1 != nil {
+			return fmt.Errorf("Failed to get %s MTU: %v", veth1.MirrorIngress, err1)
+		}
+		mtuVxlan, err2 := GetMTU(veth1.LinkName)
+		if err2 != nil {
+			return fmt.Errorf("Failed to get %s MTU: %v", veth1.LinkName, err2)
+		}
+
+		if mtuMirror != mtuVxlan {
+			if err := SetMTU(veth1.MirrorIngress, vxlan.MTU); err != nil {
+				return fmt.Errorf("Cannot set %s MTU to %d",
+					veth1.MirrorIngress,  vxlan.MTU)
+			}
+		}
+
 		if err = veth1.SetIngressMirror(); err != nil {
 			netlink.LinkDel(link)
 			return fmt.Errorf(
@@ -634,6 +656,25 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 		}
 	}
 	if veth1.MirrorEgress != "" {
+		// need to adjast vxlan MTU as egress
+		mtuMirror, err1 := GetMTU(veth1.MirrorEgress);
+		if err1 != nil {
+			return fmt.Errorf("Failed to get %s MTU: %v", veth1.MirrorEgress, err1)
+		}
+		mtuVxlan, err2 := GetMTU(veth1.LinkName)
+		if err2 != nil {
+			return fmt.Errorf("Failed to get %s MTU: %v", veth1.LinkName, err2)
+		}
+
+		if mtuMirror != mtuVxlan {
+			if mtu1, _ := GetMTU(veth1.MirrorEgress); vxlan.MTU != mtu1 {
+				if err := SetMTU(veth1.MirrorEgress, vxlan.MTU); err != nil {
+					return fmt.Errorf("Cannot set %s MTU to %d",
+						veth1.MirrorEgress,  vxlan.MTU)
+				}
+			}
+		}
+
 		if err = veth1.SetEgressMirror(); err != nil {
 			netlink.LinkDel(link)
 			return fmt.Errorf(

@@ -227,7 +227,7 @@ func parseXOption(s string) (vxlan api.VxLan, err error) {
 	var err2 error // if we encounter an error, it's marked here.
 
 	n := strings.Split(s, ",")
-	if len(n) != 3 {
+	if len(n) != 3 && len(n) != 4 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
@@ -237,6 +237,11 @@ func parseXOption(s string) (vxlan api.VxLan, err error) {
 	vxlan.ID, err2 = strconv.Atoi(n[2])
 	if err2 != nil {
 		err = fmt.Errorf("failed to parse VXID %s: %v", n[2], err2)
+		return
+	}
+	if len(n) == 4 {
+		vxlan.MTU, err2 = strconv.Atoi(n[3])
+		err = fmt.Errorf("failed to parse MTU %s: %v", n[2], err2)
 		return
 	}
 
