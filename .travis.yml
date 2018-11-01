@@ -25,17 +25,12 @@ script:
   - bats tests/acceptanceIPv6.bats
   - bats tests/acceptanceIPv4v6.bats
 
-before_deploy:
-  - go get -u github.com/laher/goxc
-  - mkdir -p $TRAVIS_BUILD_DIR/dist
-  - goxc -d=$TRAVIS_BUILD_DIR/dist -pv=$TRAVIS_TAG -bc=linux -tasks=clean-destination,xc,archive,rmbin
-
 deploy:
-  provider: releases
+  provider: script
   api_key:
-    secure: "$DEPLOY_SECURE"
-  file_glob: true
-  file: "$TRAVIS_BUILD_DIR/dist/**/*.gz"
+    secure: "$GITHUB_TOKEN"
+  skip_cleanup: true
+  script: curl -sL http://git.io/goreleaser | bash
   on:
     tags: true
     all_branches: true

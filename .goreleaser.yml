@@ -1,0 +1,42 @@
+# This is an example goreleaser.yaml file with some sane defaults.
+# Make sure to check the documentation at http://goreleaser.com
+project_name: koko
+release:
+  github:
+    owner: redhat-nfvpe
+    name: koko
+  name_template: '{{.Tag}}'
+builds:
+- goos:
+  - linux
+  goarch:
+  - amd64
+  - "386"
+  - arm
+  - arm64
+  goarm:
+  - "6"
+  ignore:
+  - goos: darwin
+  main: ./koko.go
+  env:
+  - CGO_ENABLED=0
+  ldflags:
+  - -s -w -X "main.Version={{ .Version }}" -X "main.GitHash={{ .ShortCommit }}"
+archive:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  replacements:
+    #linux: Linux
+    386: i386
+    amd64: x86_64
+  format: tar.gz
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
