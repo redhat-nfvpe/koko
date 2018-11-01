@@ -33,7 +33,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: F5fhO5NeDhvDYtr222NtLOII/xCcS+wzaFAYNNQoyHt8ARwjfTgWhHXthNpKJdyX9Y25kfsERO3FZWdLqXtwHEOWtVio8DdHKpWKq0ZmY1flX4LDi1e2uauEOGSNnKeJq8Q5FWbnBBsxgvg63q31l/P7QW9XgVltqgXgKWtln77pd1T6ULVzsID7glaFZxWTofNGK/WM57w3E/oBRKSWGFDv239Cof11owmlMgIknp9qdNpecbQNz598THGQmT+jEo1jHdWUehntyXlCbYgsIdj559H7S/HigSD7S9nCfYyf4021LRpAffWWBui2aYTc9xYB390nIKkLpwMlAo/galpIhpKrdt4apPjYRtHsCAlQzBJyRyS7QRoHix+t4uH9SGkWR5Rjqg3iVcW/NsHqnzt+40iGBYKhshM7YbjvosXq9zGLeNQZU8xmAro6tYmrBWtlh9sSgT5i5tP4iYHql5kIUXkZLbz+cf33nEzhMdq9IKqy0QAtdGgpsrXPmNnOmh/b2Ka0A3EA6sC7mrM1GUJ6z1RpTxmLXGNh6bsq+a7JGisLLizHQR7JTbym/cDuX1asgzQ1Qz/yCverg+r5iq1cO/G43tsqWHu0yvg22+XX9VOKc032UG38885eRgPNNjhygRrzdRQk6b4rvImNtMuqSiN88upK3Z3XxttVpPE=
+    secure: "$DEPLOY_SECURE"
   file_glob: true
   file: "$TRAVIS_BUILD_DIR/dist/**/*.gz"
   on:
