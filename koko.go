@@ -16,8 +16,10 @@ import (
 	"github.com/vishvananda/netlink"
 )
 
-// VERSION indicates koko's version.
-var VERSION = "master@git"
+// Version indicates koko's version.
+var Version = "master"
+// GitHash indicates koko's github hash.
+var GitHash = "HEAD"
 
 // parseLinkIPOption parses '<linkname>(:<ip>/<prefix>)' syntax and put it in
 // veth object
@@ -503,7 +505,7 @@ func main() {
 			}
 
 		case 'v': // version
-			fmt.Printf("koko version: %s\n", VERSION)
+			fmt.Printf("koko version: %s (%s)\n", Version, GitHash)
 			os.Exit(0)
 
 		case 'h': // help
