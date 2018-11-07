@@ -27,8 +27,9 @@ archive:
   name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
   replacements:
     #linux: Linux
+    #amd64: x86_64
     386: i386
-    amd64: x86_64
+  wrap_in_directory: true
   format: tar.gz
 checksum:
   name_template: 'checksums.txt'
@@ -40,3 +41,5 @@ changelog:
     exclude:
     - '^docs:'
     - '^test:'
+    - Merge pull request
+    - Merge branch
