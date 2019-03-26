@@ -35,6 +35,7 @@ teardown() {
 @test "Docker .. Docker" {
       sudo ./koko -d $DOCKER1,vethD1D2,2001::1/64 \
                   -d $DOCKER2,vethD2D1,2001::2/64
+      sleep 2 # for DAD (to wait IPv6 address to stable)
       run docker exec $DOCKER1 ping6 -c 3 -w 5 2001::2
       [ "$status" -eq 0 ]
 }
@@ -49,6 +50,7 @@ teardown() {
 @test "Docker .. netns" {
       sudo ./koko -d $DOCKER1,vethD1D2,2001::1/64 \
                   -n NS2,vethNS2NS1,2001::2/64
+      sleep 2 # for DAD (to wait IPv6 address to stable)
       run docker exec $DOCKER1 ping6 -c 3 -w 5 2001::2
       [ "$status" -eq 0 ]
 }
@@ -56,6 +58,7 @@ teardown() {
 @test "Docker .. Docker (VXLAN)" {
       sudo ip netns exec vxNS1 ./koko -d $DOCKER1,vxlanD1D2,2001::1/64 -x vxveth1,10.0.0.2,100
       sudo ip netns exec vxNS2 ./koko -d $DOCKER2,vxlanD2D1,2001::2/64 -x vxveth2,10.0.0.1,100
+      sleep 2 # for DAD (to wait IPv6 address to stable)
       run docker exec $DOCKER1 ping6 -c 3 -w 5 2001::2
       [ "$status" -eq 0 ]
 }
@@ -71,6 +74,7 @@ teardown() {
 @test "Docker .. netns (VXLAN)" {
       sudo ip netns exec vxNS1 ./koko -d $DOCKER1,vxlanD1D2,2001::1/64 -x vxveth1,10.0.0.2,100
       sudo ip netns exec vxNS2 ./koko -n NS2,vxlanNS2NS1,2001::2/64 -x vxveth2,10.0.0.1,100
+      sleep 2 # for DAD (to wait IPv6 address to stable)
       run docker exec $DOCKER1 ping6 -c 3 -w 5 2001::2
       [ "$status" -eq 0 ]
 }
