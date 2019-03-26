@@ -229,7 +229,7 @@ func parseXOption(s string) (vxlan api.VxLan, err error) {
 	var err2 error // if we encounter an error, it's marked here.
 
 	n := strings.Split(s, ",")
-	if len(n) != 3 && len(n) != 4 {
+	if len(n) != 3 && len(n) != 4 && len(n) != 5 {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
@@ -241,9 +241,19 @@ func parseXOption(s string) (vxlan api.VxLan, err error) {
 		err = fmt.Errorf("failed to parse VXID %s: %v", n[2], err2)
 		return
 	}
-	if len(n) == 4 {
-		vxlan.MTU, err2 = strconv.Atoi(n[3])
-		err = fmt.Errorf("failed to parse MTU %s: %v", n[2], err2)
+	if len(n) > 3 {
+		//XXX
+		for _, v := range n[3:] {
+			s := strings.Split(v, "=")
+			switch s[0] {
+			case "port":
+				vxlan.UDPPort, err2 = strconv.Atoi(s[1])
+				err2 = fmt.Errorf("failed to parse port %s: %v", s[1], err2)
+			case "mtu":
+				vxlan.MTU, err2 = strconv.Atoi(s[1])
+				err2 = fmt.Errorf("failed to parse MTU %s: %v", s[1], err2)
+			}
+		}
 		return
 	}
 
@@ -322,7 +332,7 @@ func main() {
 
 	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("c:C:d:e:E:D:n:N:x:p:P:hvM:V:"); c == getopt.EOF {
+		if c = getopt.Getopt("c:C:D:d:E:e:hM:N:n:p:P:vV:x:"); c == getopt.EOF {
 			break
 		}
 		switch c {

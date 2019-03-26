@@ -35,6 +35,7 @@ type VxLan struct {
 	ID       int    // VxLan ID
 	IPAddr   net.IP // VxLan destination address
 	MTU      int    // VxLan Interface MTU (with VxLan encap), used mirroring
+	UDPPort  int    // VxLan UDP port (src/dest, no range, single value)
 }
 
 // VLan is a structure to descrive vlan endpoint.
@@ -94,9 +95,14 @@ func GetVethPair(name1 string, name2 string) (link1 netlink.Link,
 // AddVxLanInterface creates VxLan interface by given vxlan object
 func AddVxLanInterface(vxlan VxLan, devName string) (err error) {
 	var parentIF netlink.Link
+	UDPPort := 4789
 
 	if parentIF, err = netlink.LinkByName(vxlan.ParentIF); err != nil {
 		return fmt.Errorf("failed to get %s: %v", vxlan.ParentIF, err)
+	}
+
+	if vxlan.UDPPort != 0 {
+		UDPPort = vxlan.UDPPort
 	}
 
 	vxlanconf := netlink.Vxlan{
@@ -107,7 +113,7 @@ func AddVxLanInterface(vxlan VxLan, devName string) (err error) {
 		VxlanId:      vxlan.ID,
 		VtepDevIndex: parentIF.Attrs().Index,
 		Group:        vxlan.IPAddr,
-		Port:         4789,
+		Port:         UDPPort,
 		Learning:     true,
 		L2miss:       true,
 		L3miss:       true,
