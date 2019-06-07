@@ -4,19 +4,21 @@ language: go
 sudo: requried
 dist: trusty
 
+env:
+  global:
+    - GO111MODULE=on
+
 before_install:
   - sudo add-apt-repository ppa:duggan/bats --yes
   - sudo apt-get update -qq
   - sudo apt-get install -qq bats iputils-ping
-  - go get github.com/golang/dep/...
 
 install:
-  - $GOPATH/bin/dep ensure
   - go get -u golang.org/x/lint/golint
 
 before_script:
-  - go vet .
-  - golint . | xargs -r false
+  - go vet ./...
+  - golint ./... | xargs -r false
 
 script:
   - go test -v
