@@ -86,7 +86,7 @@ func GetVethPair(name1 string, name2 string) (link1 netlink.Link,
 	}
 
 	if link2, err = netlink.LinkByName(name2); err != nil {
-		err = fmt.Errorf("failed to lookup %q: %v\n", name2, err)
+		err = fmt.Errorf("failed to lookup %q: %v", name2, err)
 	}
 
 	return
