@@ -66,6 +66,16 @@ teardown() {
       [ "$status" -eq 0 ]
 }
 
+@test "netns .. netns (VXLAN same intf)" {
+      sudo ip netns exec vxNS1 ./koko -n NS1,vxlanNS1NS2,10.10.10.1/29 -x vxveth1,10.0.0.2,100 &
+      sudo ip netns exec vxNS1 ./koko -n NS2,vxlanNS1NS2,20.10.10.1/29 -x vxveth1,10.0.0.2,200 &
+      sudo ip netns exec vxNS2 ./koko -n NS2,vxlanNS2NS1,10.10.10.2/29 -x vxveth2,10.0.0.1,100 &
+      sudo ip netns exec vxNS2 ./koko -n NS1,vxlanNS2NS1,20.10.10.2/29 -x vxveth2,10.0.0.1,200 &
+      run sudo ip netns exec NS1 ping -c 3 -w 5 10.10.10.2
+      run sudo ip netns exec NS2 ping -c 3 -w 5 20.10.10.2
+      [ "$status" -eq 0 ]
+}
+
 @test "Docker .. netns (VXLAN)" {
       sudo ip netns exec vxNS1 ./koko -d $DOCKER1,vxlanD1D2,10.10.10.1/29 -x vxveth1,10.0.0.2,100
       sudo ip netns exec vxNS2 ./koko -n NS2,vxlanNS2NS1,10.10.10.2/29 -x vxveth2,10.0.0.1,100
