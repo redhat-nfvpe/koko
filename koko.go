@@ -306,7 +306,6 @@ Usage:
 
 */
 func main() {
-
 	var c int     // command line parameters.
 	var err error // if we encounter an error, it's marked here.
 	const (
@@ -318,6 +317,8 @@ func main() {
 		ModeDeleteLink
 	)
 
+	// koko command only shows error and above.
+	err = api.SetLogLevel("Error")
 	cnt := 0 // Count of command line parameters.
 	// Any errors with peeling apart the command line options.
 	getopt.OptErr = 0

@@ -16,9 +16,24 @@ import (
 	crio "github.com/kubernetes-sigs/cri-o/client"
 	"github.com/vishvananda/netlink"
 
+	log "github.com/sirupsen/logrus"
 	docker "github.com/docker/docker/client"
 	"golang.org/x/net/context"
 )
+
+var (
+	logger = log.New()
+)
+
+// SetLogLevel sets logger log level
+func SetLogLevel(level string) (error) {
+	lvl, err := log.ParseLevel(level)
+	if err != nil {
+		return err
+	}
+	logger.SetLevel(lvl)
+	return nil
+}
 
 // VEth is a structure to descrive veth interfaces.
 type VEth struct {
@@ -50,8 +65,13 @@ type MacVLan struct {
 	Mode     netlink.MacvlanMode // MacVlan mode
 }
 
-// MakeVethPair makes veth pair and returns its link.
-func MakeVethPair(name, peer string, mtu int) (netlink.Link, error) {
+// getRandomIFName generates random string for unique interface name
+func getRandomIFName() (string) {
+	return fmt.Sprintf("koko%d", rand.Uint32())
+}
+
+// makeVethPair makes veth pair and returns its link.
+func makeVethPair(name, peer string, mtu int) (netlink.Link, error) {
 	veth := &netlink.Veth{
 		LinkAttrs: netlink.LinkAttrs{
 			Name:  name,
@@ -71,7 +91,7 @@ func MakeVethPair(name, peer string, mtu int) (netlink.Link, error) {
 //both links.
 func GetVethPair(name1 string, name2 string) (link1 netlink.Link,
 	link2 netlink.Link, err error) {
-	link1, err = MakeVethPair(name1, name2, 1500)
+	link1, err = makeVethPair(name1, name2, 1500)
 	if err != nil {
 		switch {
 		case os.IsExist(err):
@@ -95,6 +115,7 @@ func GetVethPair(name1 string, name2 string) (link1 netlink.Link,
 // AddVxLanInterface creates VxLan interface by given vxlan object
 func AddVxLanInterface(vxlan VxLan, devName string) (err error) {
 	var parentIF netlink.Link
+	logger.Infof("koko: create vxlan link %s under %s", devName, vxlan.ParentIF)
 	UDPPort := 4789
 
 	if parentIF, err = netlink.LinkByName(vxlan.ParentIF); err != nil {
@@ -132,6 +153,7 @@ func AddVxLanInterface(vxlan VxLan, devName string) (err error) {
 // AddVLanInterface creates VLan interface by given vlan object
 func AddVLanInterface(vlan VLan, devName string) (err error) {
 	var parentIF netlink.Link
+	logger.Infof("koko: create vlan (id: %d) link %s under %s", vlan.ID, devName, vlan.ParentIF)
 
 	if parentIF, err = netlink.LinkByName(vlan.ParentIF); err != nil {
 		return fmt.Errorf("Failed to get %s: %v", vlan.ParentIF, err)
@@ -154,6 +176,7 @@ func AddVLanInterface(vlan VLan, devName string) (err error) {
 // AddMacVLanInterface creates MacVLan interface by given macvlan object
 func AddMacVLanInterface(macvlan MacVLan, devName string) (err error) {
 	var parentIF netlink.Link
+	logger.Infof("koko: create macvlan link %s under %s", devName, macvlan.ParentIF)
 
 	if parentIF, err = netlink.LinkByName(macvlan.ParentIF); err != nil {
 		return fmt.Errorf("Failed to get %s: %v", macvlan.ParentIF, err)
@@ -221,6 +244,7 @@ func GetCrioContainerNS(procPrefix, containerID, socketPath string) (namespace s
 // as MirrorIngress.
 func (veth *VEth) SetIngressMirror() (err error) {
 	var linkSrc, linkDest netlink.Link
+	logger.Infof("koko: configure ingress mirroring")
 
 	if linkSrc, err = netlink.LinkByName(veth.MirrorIngress); err != nil {
 		return fmt.Errorf("failed to lookup %q in %q: %v",
@@ -283,6 +307,7 @@ func (veth *VEth) SetIngressMirror() (err error) {
 // as MirrorEgress.
 func (veth *VEth) SetEgressMirror() (err error) {
 	var linkSrc, linkDest netlink.Link
+	logger.Infof("koko: configure egress mirroring")
 
 	if linkSrc, err = netlink.LinkByName(veth.MirrorEgress); err != nil {
 		return fmt.Errorf("failed to lookup %q in %q: %v",
@@ -353,6 +378,7 @@ func (veth *VEth) SetEgressMirror() (err error) {
 // as MirrorIngress.
 func (veth *VEth) UnsetIngressMirror() (err error) {
 	var linkSrc netlink.Link
+	logger.Infof("koko: unconfigure ingress mirroring")
 
 	if linkSrc, err = netlink.LinkByName(veth.MirrorIngress); err != nil {
 		return fmt.Errorf("failed to lookup %q in %q: %v",
@@ -375,6 +401,7 @@ func (veth *VEth) UnsetIngressMirror() (err error) {
 // as MirrorEgress.
 func (veth *VEth) UnsetEgressMirror() (err error) {
 	var linkSrc netlink.Link
+	logger.Infof("koko: unconfigure egress mirroring")
 
 	if linkSrc, err = netlink.LinkByName(veth.MirrorEgress); err != nil {
 		return fmt.Errorf("failed to lookup %q in %q: %v",
@@ -479,6 +506,7 @@ func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 func (veth *VEth) RemoveVethLink() (err error) {
 	var vethNs ns.NetNS
 	var link netlink.Link
+	logger.Infof("koko: remove veth link %s", veth.LinkName)
 
 	if veth.NsName == "" {
 		if vethNs, err = ns.GetCurrentNS(); err != nil {
@@ -540,6 +568,7 @@ func GetMTU(ifname string) (mtu int, err error) {
 // SetMTU set veth's IF MTU
 func SetMTU(ifname string, mtu int) (err error) {
 	var link netlink.Link
+	logger.Infof("koko: set interface %s mtu to %d", ifname, mtu)
 
 	if ifname == "" {
 		return fmt.Errorf("No IF: %s", ifname)
@@ -575,6 +604,7 @@ func (veth *VEth) GetEgressTxQLen() (qlen int, err error) {
 // SetEgressTxQLen set veth's EgressIF TxQLen
 func (veth *VEth) SetEgressTxQLen(qlen int) (err error) {
 	var linkSrc netlink.Link
+	logger.Infof("koko: set veth %s egress tx qlen to %d", veth.LinkName, qlen)
 
 	if veth.MirrorEgress == "" {
 		return fmt.Errorf("No EgressIF")
@@ -599,10 +629,10 @@ func MakeVeth(veth1 VEth, veth2 VEth) error {
 	tempLinkName2 := veth2.LinkName
 
 	if veth1.NsName != "" {
-		tempLinkName1 = fmt.Sprintf("koko%d", rand.Uint32())
+		tempLinkName1 = getRandomIFName()
 	}
 	if veth2.NsName != "" {
-		tempLinkName2 = fmt.Sprintf("koko%d", rand.Uint32())
+		tempLinkName2 = getRandomIFName()
 	}
 
 	link1, link2, err := GetVethPair(tempLinkName1, tempLinkName2)
@@ -610,11 +640,11 @@ func MakeVeth(veth1 VEth, veth2 VEth) error {
 		return err
 	}
 
-	if err := veth1.SetVethLink(link1); err != nil {
+	if err = veth1.SetVethLink(link1); err != nil {
 		netlink.LinkDel(link1)
 		return err
 	}
-	if err := veth2.SetVethLink(link2); err != nil {
+	if err = veth2.SetVethLink(link2); err != nil {
 		netlink.LinkDel(link2)
 	}
 	return err
@@ -623,16 +653,29 @@ func MakeVeth(veth1 VEth, veth2 VEth) error {
 // MakeVxLan makes vxlan interface and put it into container namespace
 func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 	var link netlink.Link
+	tempLinkName1 := veth1.LinkName
 
-	if err = AddVxLanInterface(vxlan, veth1.LinkName); err != nil {
-		return fmt.Errorf("vxlan add failed: %v", err)
+	if veth1.NsName != "" {
+		tempLinkName1 = getRandomIFName()
 	}
 
-	if link, err = netlink.LinkByName(veth1.LinkName); err != nil {
-		return fmt.Errorf("Cannot get %s: %v", veth1.LinkName, err)
+	if err = AddVxLanInterface(vxlan, tempLinkName1); err != nil {
+		if err != nil {
+			// retry once if failed. thanks meshnet-cni to pointing it out!
+			logger.Errorf("koko: cannot create vxlan interface: %+v. Retrying...", err)
+			veth1.RemoveVethLink()
+			if err = AddVxLanInterface(vxlan, tempLinkName1); err != nil {
+				return fmt.Errorf("vxlan add failed: %v", err)
+			}
+		}
+	}
+
+	if link, err = netlink.LinkByName(tempLinkName1); err != nil {
+		return fmt.Errorf("Cannot get %s: %v", tempLinkName1, err)
 	}
 
 	if err = veth1.SetVethLink(link); err != nil {
+		netlink.LinkDel(link)
 		return fmt.Errorf("Cannot add IPaddr/netns failed: %v", err)
 	}
 
