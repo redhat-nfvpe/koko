@@ -13,11 +13,10 @@ import (
 
 	"github.com/containernetworking/plugins/pkg/ns"
 	"github.com/containernetworking/plugins/pkg/utils/sysctl"
-	crio "github.com/kubernetes-sigs/cri-o/client"
 	"github.com/vishvananda/netlink"
 
-	log "github.com/sirupsen/logrus"
 	docker "github.com/docker/docker/client"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 )
 
@@ -26,7 +25,7 @@ var (
 )
 
 // SetLogLevel sets logger log level
-func SetLogLevel(level string) (error) {
+func SetLogLevel(level string) error {
 	lvl, err := log.ParseLevel(level)
 	if err != nil {
 		return err
@@ -66,7 +65,7 @@ type MacVLan struct {
 }
 
 // getRandomIFName generates random string for unique interface name
-func getRandomIFName() (string) {
+func getRandomIFName() string {
 	return fmt.Sprintf("koko%d", rand.Uint32())
 }
 
@@ -220,26 +219,6 @@ func GetDockerContainerNS(procPrefix, containerID string) (namespace string, err
 	return
 }
 
-// GetCrioContainerNS retrieves container's network namespace from
-// cri-o container id, given as containerID.
-func GetCrioContainerNS(procPrefix, containerID, socketPath string) (namespace string, err error) {
-	if socketPath == "" {
-		socketPath = "/var/run/crio/crio.sock"
-	}
-
-	client, err := crio.New(socketPath)
-	if err != nil {
-		return "", err
-	}
-
-	info, err := client.ContainerInfo(containerID)
-	if err != nil {
-		return "", err
-	}
-	namespace = fmt.Sprintf("%s//proc/%d/ns/net", procPrefix, info.Pid)
-	return
-}
-
 // SetIngressMirror sets TC to mirror ingress from given port
 // as MirrorIngress.
 func (veth *VEth) SetIngressMirror() (err error) {
@@ -315,9 +294,9 @@ func (veth *VEth) SetEgressMirror() (err error) {
 	}
 
 	/*
-	if linkSrc.Attrs().TxQLen == 0 {
-		return fmt.Errorf("veth qlen must be non zero!")
-	}
+		if linkSrc.Attrs().TxQLen == 0 {
+			return fmt.Errorf("veth qlen must be non zero!")
+		}
 	*/
 	if err = netlink.LinkSetTxQLen(linkSrc, 1000); err != nil {
 		return fmt.Errorf("cannot set %s TxQLen: %v", veth.MirrorEgress, err)
@@ -584,7 +563,6 @@ func SetMTU(ifname string, mtu int) (err error) {
 	return nil
 }
 
-
 // GetEgressTxQLen get veth's EgressIF TxQLen
 func (veth *VEth) GetEgressTxQLen() (qlen int, err error) {
 	var linkSrc netlink.Link
@@ -681,7 +659,7 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 
 	if veth1.MirrorIngress != "" {
 		// need to adjast vxlan MTU as ingress
-		mtuMirror, err1 := GetMTU(veth1.MirrorIngress);
+		mtuMirror, err1 := GetMTU(veth1.MirrorIngress)
 		if err1 != nil {
 			return fmt.Errorf("failed to get %s MTU: %v", veth1.MirrorIngress, err1)
 		}
@@ -693,7 +671,7 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 		if mtuMirror != mtuVxlan {
 			if err := SetMTU(veth1.MirrorIngress, vxlan.MTU); err != nil {
 				return fmt.Errorf("Cannot set %s MTU to %d",
-					veth1.MirrorIngress,  vxlan.MTU)
+					veth1.MirrorIngress, vxlan.MTU)
 			}
 		}
 
@@ -706,7 +684,7 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 	}
 	if veth1.MirrorEgress != "" {
 		// need to adjast vxlan MTU as egress
-		mtuMirror, err1 := GetMTU(veth1.MirrorEgress);
+		mtuMirror, err1 := GetMTU(veth1.MirrorEgress)
 		if err1 != nil {
 			return fmt.Errorf("failed to get %s MTU: %v", veth1.MirrorEgress, err1)
 		}
@@ -719,7 +697,7 @@ func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 			if mtu1, _ := GetMTU(veth1.MirrorEgress); vxlan.MTU != mtu1 {
 				if err := SetMTU(veth1.MirrorEgress, vxlan.MTU); err != nil {
 					return fmt.Errorf("Cannot set %s MTU to %d",
-						veth1.MirrorEgress,  vxlan.MTU)
+						veth1.MirrorEgress, vxlan.MTU)
 				}
 			}
 		}

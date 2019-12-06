@@ -18,6 +18,7 @@ import (
 
 // Version indicates koko's version.
 var Version = "master"
+
 // GitHash indicates koko's github hash.
 var GitHash = "HEAD"
 
@@ -138,8 +139,13 @@ func parseEOption(s string) (veth api.VEth, err error) {
 		err = fmt.Errorf("failed to parse %s", s)
 		return
 	}
+	runtimeClient, runtimeConn, err := api.GetCrioRuntimeClient()
+	if err != nil {
+		return
+	}
+	defer api.CloseCrioConnection(runtimeConn)
 
-	veth.NsName, err = api.GetCrioContainerNS("", n[0], "")
+	veth.NsName, err = api.GetCrioContainerNS(runtimeClient, "", n[0])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v", err)
 		os.Exit(1)
