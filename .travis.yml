@@ -1,8 +1,12 @@
-language: go
 # see https://docs.travis-ci.com/user/reference/overview/#Virtualization-environments
 # for the detail
-sudo: requried
-dist: trusty
+os: linux
+dist: bionic
+language: go
+sudo: true
+
+go:
+  - 1.13.x
 
 env:
   global:
@@ -29,6 +33,7 @@ script:
 
 deploy:
   provider: script
+  edge: true
   api_key:
     secure: "$GITHUB_TOKEN"
   skip_cleanup: true
@@ -37,4 +42,4 @@ deploy:
     tags: true
     all_branches: true
     condition: "$TRAVIS_TAG =~ ^v[0-9].*$"
-  skip_cleanup: true
+  cleanup: false
