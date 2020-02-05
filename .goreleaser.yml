@@ -23,14 +23,15 @@ builds:
   - CGO_ENABLED=0
   ldflags:
   - -s -w -X "main.Version={{ .Version }}" -X "main.GitHash={{ .ShortCommit }}"
-archive:
-  name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-  replacements:
-    #linux: Linux
-    #amd64: x86_64
-    386: i386
-  wrap_in_directory: true
-  format: tar.gz
+archives:
+  - 
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    replacements:
+      #linux: Linux
+      #amd64: x86_64
+      386: i386
+    wrap_in_directory: true
+    format: tar.gz
 checksum:
   name_template: 'checksums.txt'
 snapshot:

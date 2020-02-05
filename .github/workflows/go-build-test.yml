@@ -1,9 +1,9 @@
-name: Go
+name: Go build and test
 on: [push, pull_request]
 jobs:
 
   build:
-    name: Build
+    name: Build and test
     runs-on: ubuntu-latest
     steps:
 
