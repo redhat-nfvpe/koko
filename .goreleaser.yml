@@ -24,7 +24,14 @@ builds:
   ldflags:
   - -s -w -X "main.Version={{ .Version }}" -X "main.GitHash={{ .ShortCommit }}"
 archives:
-  - 
+  - id: bin
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    replacements:
+      #linux: Linux
+      #amd64: x86_64
+      386: i386
+    format: binary
+  - id: archives
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     replacements:
       #linux: Linux
