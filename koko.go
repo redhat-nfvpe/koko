@@ -67,6 +67,29 @@ func parseLinkIPOption(veth *api.VEth, n []string) (err error) {
 	return
 }
 
+// parseAOption parses '-a' option and put this information in veth object.
+func parseAOption(s string) (veth api.VEth, err error) {
+	n := strings.Split(s, ",")
+	if len(n) > 4 || len(n) < 1 {
+		err = fmt.Errorf("failed to parse %s", s)
+		return
+	}
+
+	veth.NsName = fmt.Sprintf("%s", n[0])
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v", err)
+		os.Exit(1)
+	}
+
+	err1 := parseLinkIPOption(&veth, n[1:])
+	if err1 != nil {
+		fmt.Fprintf(os.Stderr, "%v", err1)
+		os.Exit(1)
+	}
+
+	return
+}
+
 // parseNOption parses '-n' option and put this information in veth object.
 func parseNOption(s string) (veth api.VEth, err error) {
 	n := strings.Split(s, ",")
@@ -310,6 +333,9 @@ Usage:
 * case10: connect container of <pid1>
 ./koko -P <pid1>:link1
 
+* case11: connect container of netns path (inode)
+./koko -a /foo/bar:link1:192.168.1.1/24
+
 */
 func main() {
 	var c int     // command line parameters.
@@ -339,10 +365,39 @@ func main() {
 
 	// Parse options and and exit if they don't meet our criteria.
 	for {
-		if c = getopt.Getopt("c:C:D:d:E:e:hM:N:n:p:P:vV:x:"); c == getopt.EOF {
+		if c = getopt.Getopt("a:A:c:C:D:d:E:e:hM:N:n:p:P:vV:x:"); c == getopt.EOF {
 			break
 		}
 		switch c {
+		case 'a', 'A': // linux netns
+			if cnt == 0 {
+				veth1, err = parseAOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
+					usage()
+					os.Exit(1)
+				}
+			} else if cnt == 1 && c == 'a' {
+				veth2, err = parseAOption(getopt.OptArg)
+				if err != nil {
+					fmt.Fprintf(os.Stderr,
+						"Parse failed %s!:%v",
+						getopt.OptArg, err)
+					usage()
+					os.Exit(1)
+				}
+			} else {
+				fmt.Fprintf(os.Stderr, "Too many config!")
+				usage()
+				os.Exit(1)
+			}
+			cnt++
+			if c == 'A' {
+				mode = ModeDeleteLink
+			}
+
 		case 'd', 'D': // docker
 			if cnt == 0 {
 				veth1, err = parseDOption(getopt.OptArg)
