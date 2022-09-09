@@ -15,7 +15,7 @@ import (
 	"github.com/containernetworking/plugins/pkg/utils/sysctl"
 	"github.com/vishvananda/netlink"
 
-	docker "github.com/docker/docker/client"
+	docker "github.com/moby/moby/client"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 )
