@@ -24,7 +24,7 @@ jobs:
     - name: Install bats
       run: sudo apt install bats
 
-    - name: Run IPv4 tests
+    - name: Run IPv4/v6/v4v6 tests
       run: |
         export TERM=dumb
         bats tests/acceptanceIPv4.bats

@@ -66,6 +66,7 @@ type MacVLan struct {
 
 // getRandomIFName generates random string for unique interface name
 func getRandomIFName() string {
+	rand.Seed(time.Now().UnixNano())
 	return fmt.Sprintf("koko%d", rand.Uint32())
 }
 
@@ -602,7 +603,6 @@ func (veth *VEth) SetEgressTxQLen(qlen int) (err error) {
 // MakeVeth is top-level handler to create veth links given two VEth data
 // objects: veth1 and veth2.
 func MakeVeth(veth1 VEth, veth2 VEth) error {
-	rand.Seed(time.Now().UnixNano())
 	tempLinkName1 := veth1.LinkName
 	tempLinkName2 := veth2.LinkName
 
@@ -631,21 +631,11 @@ func MakeVeth(veth1 VEth, veth2 VEth) error {
 // MakeVxLan makes vxlan interface and put it into container namespace
 func MakeVxLan(veth1 VEth, vxlan VxLan) (err error) {
 	var link netlink.Link
-	tempLinkName1 := veth1.LinkName
-
-	if veth1.NsName != "" {
-		tempLinkName1 = getRandomIFName()
-	}
+	tempLinkName1 := getRandomIFName()
 
 	if err = AddVxLanInterface(vxlan, tempLinkName1); err != nil {
-		if err != nil {
-			// retry once if failed. thanks meshnet-cni to pointing it out!
-			logger.Errorf("koko: cannot create vxlan interface: %+v. Retrying...", err)
-			veth1.RemoveVethLink()
-			if err = AddVxLanInterface(vxlan, tempLinkName1); err != nil {
-				return fmt.Errorf("vxlan add failed: %v", err)
-			}
-		}
+		logger.Errorf("vxlan add failed: %v", err)
+		return fmt.Errorf("vxlan add failed: %v", err)
 	}
 
 	if link, err = netlink.LinkByName(tempLinkName1); err != nil {
