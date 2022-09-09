@@ -4,18 +4,19 @@ go 1.12
 
 require (
 	github.com/MakeNowJust/heredoc v0.0.0-20171113091838-e9091a26100e
-	github.com/containernetworking/plugins v0.0.0-20180803153142-19f2f28178aa
+	github.com/containernetworking/plugins v0.9.1
 	github.com/mattn/go-getopt v0.0.0-20150316012638-824dc755f216
 	github.com/moby/moby v20.10.18+incompatible
 	github.com/sirupsen/logrus v1.8.1
-	github.com/vishvananda/netlink v1.1.0
+	github.com/vishvananda/netlink v1.1.1-0.20201029203352-d40f9887b852
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd
 	google.golang.org/grpc v1.40.0
-	k8s.io/cri-api v0.0.0
+	k8s.io/cri-api v0.20.6
 	k8s.io/kubernetes v1.24.4
 )
 
 replace (
+	github.com/containerd/containerd => github.com/containerd/containerd v1.5.13
 	github.com/gogo/protobuf => github.com/gogo/protobuf v1.3.2
 	k8s.io/api => k8s.io/api v0.24.4
 	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.24.4
