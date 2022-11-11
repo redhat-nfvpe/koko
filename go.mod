@@ -6,7 +6,7 @@ require (
 	github.com/MakeNowJust/heredoc v0.0.0-20171113091838-e9091a26100e
 	github.com/containernetworking/plugins v0.9.1
 	github.com/mattn/go-getopt v0.0.0-20150316012638-824dc755f216
-	github.com/moby/moby v20.10.18+incompatible
+	github.com/moby/moby v20.10.20+incompatible
 	github.com/sirupsen/logrus v1.8.1
 	github.com/vishvananda/netlink v1.1.1-0.20201029203352-d40f9887b852
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd
