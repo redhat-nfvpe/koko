@@ -36,11 +36,12 @@ func SetLogLevel(level string) error {
 
 // VEth is a structure to descrive veth interfaces.
 type VEth struct {
-	NsName        string      // What's the network namespace?
-	LinkName      string      // And what will we call the link.
-	IPAddr        []net.IPNet // (optional) Slice of IPv4/v6 address.
-	MirrorEgress  string      // (optional) source interface for egress mirror
-	MirrorIngress string      // (optional) source interface for ingress mirror
+	NsName        string           // What's the network namespace?
+	LinkName      string           // And what will we call the link.
+	IPAddr        []net.IPNet      // (optional) Slice of IPv4/v6 address.
+	HardwareAddr  net.HardwareAddr // (optional) Hardware address.
+	MirrorEgress  string           // (optional) source interface for egress mirror
+	MirrorIngress string           // (optional) source interface for ingress mirror
 }
 
 // VxLan is a structure to descrive vxlan endpoint.
@@ -88,7 +89,7 @@ func makeVethPair(name, peer string, mtu int) (netlink.Link, error) {
 }
 
 // GetVethPair takes two link names and create a veth pair and return
-//both links.
+// both links.
 func GetVethPair(name1 string, name2 string) (link1 netlink.Link,
 	link2 netlink.Link, err error) {
 	link1, err = makeVethPair(name1, name2, 1500)
@@ -438,6 +439,13 @@ func (veth *VEth) SetVethLink(link netlink.Link) (err error) {
 		if err = netlink.LinkSetUp(link); err != nil {
 			return fmt.Errorf("failed to set %q up: %v",
 				veth.LinkName, err)
+		}
+
+		if veth.HardwareAddr != nil {
+			if err = netlink.LinkSetHardwareAddr(link, veth.HardwareAddr); err != nil {
+				return fmt.Errorf("failed to set %q hardware address: %v",
+					veth.LinkName, err)
+			}
 		}
 
 		// Conditionally set the IP address.
