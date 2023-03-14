@@ -786,10 +786,7 @@ func IsExistLinkInNS(nsName string, linkName string) (result bool, err error) {
 	defer vethNs.Close()
 	err = vethNs.Do(func(_ ns.NetNS) error {
 		link, err := netlink.LinkByName(linkName)
-		if link != nil {
-			result = true
-		}
-		result = false
+		result = link != nil
 		return err
 	})
 
