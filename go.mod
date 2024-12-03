@@ -4,13 +4,18 @@ go 1.12
 
 require (
 	github.com/MakeNowJust/heredoc v0.0.0-20171113091838-e9091a26100e
+	github.com/containerd/platforms v0.2.1 // indirect
 	github.com/containernetworking/plugins v0.9.1
+	github.com/distribution/reference v0.6.0 // indirect
+	github.com/docker/docker v27.3.1+incompatible // indirect
 	github.com/mattn/go-getopt v0.0.0-20150316012638-824dc755f216
-	github.com/moby/moby v20.10.20+incompatible
-	github.com/sirupsen/logrus v1.8.1
+	github.com/moby/docker-image-spec v1.3.1 // indirect
+	github.com/moby/moby v26.0.0+incompatible
+	github.com/sirupsen/logrus v1.9.3
 	github.com/vishvananda/netlink v1.1.1-0.20201029203352-d40f9887b852
-	golang.org/x/net v0.5.0
-	google.golang.org/grpc v1.53.0
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.32.0 // indirect
+	golang.org/x/net v0.30.0
+	google.golang.org/grpc v1.67.1
 	k8s.io/cri-api v0.20.6
 	k8s.io/kubernetes v1.24.4
 )
